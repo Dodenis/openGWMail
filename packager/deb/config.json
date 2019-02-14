@@ -1,0 +1,24 @@
+{
+  "icon": {
+    "48x48": "assets/icons/app_48.png",
+    "64x64": "assets/icons/app_64.png",
+    "128x128": "assets/icons/app_128.png",
+    "256x256": "assets/icons/app_256.png",
+    "scalable": "assets/icons/app.svg"
+  },
+  "categories": [
+    "Application",
+    "Network",
+    "Email"
+  ],
+  "mimeType": [
+    "x-scheme-handler/mailto"
+  ],
+  "depends": [
+    "lsb-base (>= 3.2)",
+    "libappindicator1 (>= 12.10.1)"
+  ],
+  "lintianOverrides": [
+    "changelog-file-missing-in-native-package"
+  ]
+}

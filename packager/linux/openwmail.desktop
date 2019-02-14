@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=openWMail
+Comment=The missing desktop client for Gmail and Google Inbox
+Exec=/opt/openwmail/openWMail --mailto=%u
+Icon=/opt/openwmail/icon.png
+MimeType=x-scheme-handler/mailto;
+Terminal=false
+Type=Application
+Categories=Application;Network;Email

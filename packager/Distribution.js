@@ -30,7 +30,7 @@ class Distribution {
 
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('OSX DMG')
-      const filename = `openWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
+      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
       const distPath = DIST_PATH
       const targetPath = path.join(distPath, filename)
       fs.mkdirsSync(distPath)
@@ -42,7 +42,7 @@ class Distribution {
         target: targetPath,
         basepath: ROOT_PATH,
         specification: {
-          title: `openWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
+          title: `openGWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
           format: 'UDBZ',
           icon: 'assets/icons/app.icns',
           'background-color': '#CCCCCC',
@@ -52,11 +52,11 @@ class Distribution {
             size: { width: 600, height: 500 }
           },
           contents: [
-            { x: 150, y: 100, type: 'file', path: 'openWMail-darwin-x64/openWMail.app' },
+            { x: 150, y: 100, type: 'file', path: 'openGWMail-darwin-x64/openGWMail.app' },
             { x: 450, y: 100, type: 'link', path: '/Applications' },
-            { x: 150, y: 400, type: 'file', path: 'openWMail-darwin-x64/First Run.html' },
-            { x: 300, y: 400, type: 'file', path: 'openWMail-darwin-x64/LICENSE' },
-            { x: 450, y: 400, type: 'file', path: 'openWMail-darwin-x64/vendor-licenses' }
+            { x: 150, y: 400, type: 'file', path: 'openGWMail-darwin-x64/First Run.html' },
+            { x: 300, y: 400, type: 'file', path: 'openGWMail-darwin-x64/LICENSE' },
+            { x: 450, y: 400, type: 'file', path: 'openGWMail-darwin-x64/vendor-licenses' }
           ]
         }
       })
@@ -80,8 +80,8 @@ class Distribution {
   static distributeWindows (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_PATH, 'openWMail-win32-ia32'),
-      x64: path.join(DIST_PATH, 'openWMail-win32-x64')
+      x86: path.join(DIST_PATH, 'openGWMail-win32-ia32'),
+      x64: path.join(DIST_PATH, 'openGWMail-win32-x64')
     }
 
     return new Promise((resolve, reject) => {
@@ -128,11 +128,11 @@ class Distribution {
       const task = TaskLogger.start(`Windows MSI Prep (${arch})`)
 
       // Pre-calc all the needed paths
-      const filename = `openWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
+      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
       const distPath = DIST_PATH
-      const builtPath = path.join(DIST_PATH, arch === ARCH.X64 ? 'openWMail-win32-x64' : 'openWMail-win32-ia32')
+      const builtPath = path.join(DIST_PATH, arch === ARCH.X64 ? 'openGWMail-win32-x64' : 'openGWMail-win32-ia32')
       const targetPath = path.join(distPath, filename)
-      const aipName = `openWMail_${ARCH_FILENAME[arch]}.aip`
+      const aipName = `openGWMail_${ARCH_FILENAME[arch]}.aip`
       const aipPath = path.join(__dirname, 'msi', aipName)
 
       // Clean-up old & Copy across
@@ -181,10 +181,10 @@ class Distribution {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start(`Windows MSI Finalise (${arch})`)
 
-      const filename = `openWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
+      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
       const distPath = DIST_PATH
       const prepPath = path.join(distPath, filename)
-      const setupFilesPath = `openWMail_${ARCH_FILENAME[arch]}-SetupFiles`
+      const setupFilesPath = `openGWMail_${ARCH_FILENAME[arch]}-SetupFiles`
 
       const msiPath = path.join(prepPath, setupFilesPath, filename + '.msi')
       const outputPath = path.join(distPath, filename + '.msi')
@@ -207,9 +207,9 @@ class Distribution {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start(`Linux tar (${arch})`)
 
-      const filename = `openWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_linux_${ARCH_FILENAME[arch]}.tar.gz`
+      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_linux_${ARCH_FILENAME[arch]}.tar.gz`
       const targetPath = path.join(DIST_PATH, filename)
-      const builtDirectory = arch === ARCH.X64 ? 'openWMail-linux-x64' : 'openWMail-linux-ia32'
+      const builtDirectory = arch === ARCH.X64 ? 'openGWMail-linux-x64' : 'openGWMail-linux-ia32'
 
       if (fs.existsSync(targetPath)) {
         fs.removeSync(targetPath)
@@ -238,8 +238,8 @@ class Distribution {
   static distributeLinuxDeb (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_PATH, 'openWMail-linux-ia32'),
-      x64: path.join(DIST_PATH, 'openWMail-linux-x64')
+      x86: path.join(DIST_PATH, 'openGWMail-linux-ia32'),
+      x64: path.join(DIST_PATH, 'openGWMail-linux-x64')
     }
 
     return new Promise((resolve, reject) => {

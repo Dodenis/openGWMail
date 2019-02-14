@@ -38,11 +38,11 @@ class ElectronBuilder {
       '/webpack.config.js',
 
       // Output folders
-      '/openWMail-linux-ia32',
-      '/openWMail-linux-x64',
-      '/openWMail-win32-ia32',
-      '/openWMail-win32-x64',
-      '/openWMail-darwin-x64'
+      '/openGWMail-linux-ia32',
+      '/openGWMail-linux-x64',
+      '/openGWMail-win32-ia32',
+      '/openGWMail-win32-x64',
+      '/openGWMail-darwin-x64'
     ]
 
     return '^(' + ignores.join('|') + ')'
@@ -60,11 +60,11 @@ class ElectronBuilder {
       const options = {
         dir: ROOT_PATH,
         out: DIST_PATH,
-        name: 'openWMail',
-        executableName: 'openwmail',
+        name: 'openGWMail',
+        executableName: 'opengwmail',
         platform: platform,
         arch: arch,
-        appBundleId: 'openwmail.openwmail',
+        appBundleId: 'opengwmail.opengwmail',
         appCopyright: 'Copyright ' + pkg.author + '(' + pkg.license + ' License)',
         icon: path.join(ROOT_PATH, 'assets/icons/app'),
         overwrite: true,
@@ -74,7 +74,7 @@ class ElectronBuilder {
           CompanyName: pkg.author,
           FileDescription: pkg.description,
           OriginalFilename: pkg.name,
-          ProductName: 'openWMail'
+          ProductName: 'openGWMail'
         },
         extendInfo: {
           'CFBundleURLSchemes': ['mailto']

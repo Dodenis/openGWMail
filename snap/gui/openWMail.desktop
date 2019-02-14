@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=openWMail
-Comment=openWMail Email
-Exec=openwmail
+Name=openGWMail
+Comment=openGWMail Email
+Exec=opengwmail
 Terminal=false
 Type=Application
 Icon=${SNAP}/meta/gui/app.png
 Categories=GNOME;GTK;Network
-StartupWMClass=openWMail
+StartupWMClass=openGWMail

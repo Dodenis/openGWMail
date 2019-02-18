@@ -9,6 +9,7 @@ const AdvancedSettings = require('./AdvancedSettings')
 const Colors = require('material-ui/styles/colors')
 const styles = require('./settingStyles')
 const { ipcRenderer } = window.nativeRequire('electron')
+const AppTheme = require('../appTheme')
 
 module.exports = React.createClass({
   /* **************************************************************************/
@@ -101,25 +102,7 @@ module.exports = React.createClass({
     ]
 
     const heading = (
-      <div style={styles.tabToggles}>
-        {tabHeadings.map(([label, value]) => {
-          return (
-            <FlatButton
-              key={value}
-              label={label}
-              style={Object.assign({}, styles.tabToggle, {
-                borderBottomColor: currentTab === value ? Colors.redA200 : 'transparent'
-              })}
-              labelStyle={{
-                color: currentTab === value ? Colors.white : Colors.lightBlue100
-              }}
-              backgroundColor={Colors.lightBlue600}
-              hoverColor={Colors.lightBlue600}
-              rippleColor={Colors.lightBlue900}
-              onClick={() => this.setState({ currentTab: value })} />
-          )
-        })}
-      </div>
+      <div style={{ height: 48 }}/>
     )
 
     return (
@@ -134,8 +117,8 @@ module.exports = React.createClass({
         autoScrollBodyContent
         onRequestClose={onRequestClose}>
         <Tabs
-          inkBarStyle={{ display: 'none' }}
-          tabItemContainerStyle={{ display: 'none' }}
+          tabItemContainerStyle={{ position: 'absolute', top: 0, zIndex: 10 }}
+          inkBarStyle={{ position: 'absolute', top: 48, zIndex: 15 }}
           value={currentTab}
           onChange={this.handleTabChange}
           contentContainerStyle={{ padding: 24 }}>

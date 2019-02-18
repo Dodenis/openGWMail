@@ -2,7 +2,7 @@ const TaskLogger = require('./TaskLogger')
 const nlf = require('nlf')
 const fs = require('fs-extra')
 const path = require('path')
-const { ROOT_PATH, DIST_PATH } = require('./constants')
+const { ROOT_DIR, DIST_DIR } = require('../constants')
 
 class Licenses {
 
@@ -13,7 +13,7 @@ class Licenses {
   static combineNPMLicenses () {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('Combine Licenses')
-      nlf.find({ directory: ROOT_PATH, production: true }, function (err, data) {
+      nlf.find({ directory: ROOT_DIR, production: true }, function (err, data) {
         if (err) {
           task.fail()
           reject(err)
@@ -61,7 +61,7 @@ class Licenses {
         const licenses = electronLicense + npmLicenseString
         fs.writeFile(J('vendor-licenses/LICENSES.vendor'), licenses)
         // fs.unlinkSync(J('LICENSE'))
-        fs.copySync(path.join(ROOT_PATH, 'LICENSE'), J('LICENSE'))
+        fs.copySync(path.join(ROOT_DIR, 'LICENSE'), J('LICENSE'))
 
         resolve()
       })
@@ -79,13 +79,13 @@ class Licenses {
       .then((npmLicenseString) => {
         return Promise.all(platforms.reduce((acc, platform) => {
           if (platform === 'darwin') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_PATH, 'openGWMail-darwin-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-darwin-x64/'), npmLicenseString))
           } else if (platform === 'linux') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_PATH, 'openGWMail-linux-ia32/'), npmLicenseString))
-            acc.push(Licenses.buildLicenses(path.join(DIST_PATH, 'openGWMail-linux-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-linux-ia32/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-linux-x64/'), npmLicenseString))
           } else if (platform === 'win32') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_PATH, 'openGWMail-win32-ia32/'), npmLicenseString))
-            acc.push(Licenses.buildLicenses(path.join(DIST_PATH, 'openGWMail-win32-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-win32-ia32/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-win32-x64/'), npmLicenseString))
           }
           return acc
         }, []))

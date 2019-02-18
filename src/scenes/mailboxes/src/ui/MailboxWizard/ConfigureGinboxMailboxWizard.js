@@ -62,7 +62,7 @@ module.exports = React.createClass({
     renderTitle () {
       return (
         <div style={styles.introduction}>
-          Pick the way that you normally use Google Inbox to configure openWMail
+          Pick the way that you normally use Google Inbox to configure openGWMail
           notifications and unread counters
         </div>
       )

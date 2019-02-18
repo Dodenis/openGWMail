@@ -1,7 +1,7 @@
 const {nativeImage} = window.nativeRequire('electron').remote
 const B64_SVG_PREFIX = 'data:image/svg+xml;base64,'
 const MAIL_SVG = window.atob(require('shared/b64Assets').MAIL_SVG.replace(B64_SVG_PREFIX, ''))
-
+const AppTheme = require('../ui/appTheme')
 class TrayRenderer {
   /* **************************************************************************/
   // Canvas Utils
@@ -46,12 +46,12 @@ class TrayRenderer {
         pixelRatio: window.devicePixelRatio,
         unreadCount: 0,
         showUnreadCount: true,
-        unreadColor: '#000000',
-        readColor: '#C82018',
-        unreadBackgroundColor: '#FFFFFF',
-        readBackgroundColor: '#FFFFFF',
-        readRadius: 5,
-        unreadRadius: 5,
+        readColor: AppTheme.palette.primary1Color,
+        readBackgroundColor: AppTheme.palette.alternateTextColor,
+        unreadColor: AppTheme.palette.alternateTextColor,
+        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        readRadius: 2,
+        unreadRadius: 2,
         size: 100,
         thick: process.platform === 'win32',
         __defaultMerged__: true
@@ -299,7 +299,7 @@ class TrayRenderer {
     return Promise.resolve()
       .then(() => TrayRenderer.renderCanvas(config))
       .then((canvas) => {
-        const pngData = nativeImage.createFromDataURL(canvas.toDataURL('image/png')).toPng()
+        const pngData = nativeImage.createFromDataURL(canvas.toDataURL('image/png')).toPNG()
         return Promise.resolve(nativeImage.createFromBuffer(pngData, config.pixelRatio))
       })
   }

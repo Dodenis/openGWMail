@@ -1,3 +1,4 @@
+const { ROOT_DIR, DIST_DIR, INSTALLERS_DIR } = require('../constants')
 const appdmg = process.platform === 'darwin' ? require('appdmg') : undefined
 const path = require('path')
 const fs = require('fs-extra')
@@ -9,15 +10,12 @@ const windowsInstaller = require('electron-installer-windows')
 const recursiveReaddir = require('recursive-readdir')
 const temp = require('temp')
 temp.track()
-
-const { ROOT_PATH, DIST_PATH, INSTALLERS_PATH } = require('./constants')
-const { WINDOWS_UPGRADE_CODE } = require('../src/shared/credentials')
+const { WINDOWS_UPGRADE_CODE } = require('../../src/shared/credentials')
 
 const ARCH = { X86: 'x86', X64: 'x64' }
 const ARCH_FILENAME = { 'x86': 'ia32', 'x64': 'x86_64' }
 
 class Distribution {
-
   /**
   * Distributes the darin version of the app
   * @param pkg: the package info
@@ -31,7 +29,7 @@ class Distribution {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('OSX DMG')
       const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
-      const distPath = DIST_PATH
+      const distPath = DIST_DIR
       const targetPath = path.join(distPath, filename)
       fs.mkdirsSync(distPath)
       if (fs.existsSync(targetPath)) {
@@ -40,7 +38,7 @@ class Distribution {
 
       const dmgCreate = appdmg({
         target: targetPath,
-        basepath: ROOT_PATH,
+        basepath: ROOT_DIR,
         specification: {
           title: `openGWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
           format: 'UDBZ',
@@ -80,8 +78,8 @@ class Distribution {
   static distributeWindows (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_PATH, 'openGWMail-win32-ia32'),
-      x64: path.join(DIST_PATH, 'openGWMail-win32-x64')
+      x86: path.join(DIST_DIR, 'openGWMail-win32-ia32'),
+      x64: path.join(DIST_DIR, 'openGWMail-win32-x64')
     }
 
     return new Promise((resolve, reject) => {
@@ -89,7 +87,7 @@ class Distribution {
 
       const options = {
         src: CWD_MAPPING[arch],
-        dest: INSTALLERS_PATH,
+        dest: INSTALLERS_DIR,
         arch: ARCH_MAPPING[arch],
         rename: function (dest, src) {
           const fileName = pkg.humanName
@@ -102,7 +100,7 @@ class Distribution {
 
           return path.join(dest, src)
         },
-        options: require(path.join(ROOT_PATH, 'packager/msi/config.json'))
+        options: require(path.join(__dirname, 'msi/config.json'))
       }
 
       windowsInstaller(options)
@@ -118,86 +116,6 @@ class Distribution {
   }
 
   /**
-  * Distributes the windows version of the app
-  * @param pkg: the package info
-  * @param arch: one of 'x86' or 'x64'
-  * @return promise
-  */
-  static distributeWindowsOld (pkg, arch) {
-    return new Promise((resolve, reject) => {
-      const task = TaskLogger.start(`Windows MSI Prep (${arch})`)
-
-      // Pre-calc all the needed paths
-      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
-      const distPath = DIST_PATH
-      const builtPath = path.join(DIST_PATH, arch === ARCH.X64 ? 'openGWMail-win32-x64' : 'openGWMail-win32-ia32')
-      const targetPath = path.join(distPath, filename)
-      const aipName = `openGWMail_${ARCH_FILENAME[arch]}.aip`
-      const aipPath = path.join(__dirname, 'msi', aipName)
-
-      // Clean-up old & Copy across
-      if (fs.existsSync(targetPath)) {
-        fs.removeSync(targetPath)
-      }
-      try {
-        fs.copySync(builtPath, targetPath)
-      } catch (ex) { task.fail(); reject(ex); return }
-
-      // Validate the installer file
-      recursiveReaddir(targetPath, (error, filePaths) => {
-        if (error) { task.fail(error); reject(error); return }
-        filePaths = filePaths.map((filePath) => path.relative(targetPath, filePath).split(path.sep).join('\\'))
-
-        const aipContent = fs.readFileSync(aipPath, 'utf8')
-        const missingAsset = filePaths.find((filePath) => aipContent.indexOf(filePath) === -1)
-        if (missingAsset) {
-          task.fail()
-          reject('Windows aip is missing the following asset: ' + missingAsset)
-          return
-        }
-
-        const patchedAipContent = aipContent
-          .replace('__WMAIL_OUTPUTFILENAME__', filename)
-          .replace('__WMAIL_VERSION__', pkg.version)
-          .replace('__WMAIL_UPGRADECODE__', WINDOWS_UPGRADE_CODE)
-          .replace('__WMAIL_PRODUCTCODE__', uuid.v4().toUpperCase())
-
-        fs.copySync(path.join(__dirname, 'msi/installer_icon.ico'), path.join(targetPath, 'installer_icon.ico'))
-        fs.writeFileSync(path.join(targetPath, aipName), patchedAipContent)
-
-        task.finish()
-        resolve()
-      })
-    })
-  }
-
-  /**
-  * Extracts the built windows MSI files
-  * @param pkg: the package info
-  * @param arch: one of 'x86' or 'x64'
-  * @return promise
-  */
-  static finaliseWindowsDistribution (pkg, arch) {
-    return new Promise((resolve, reject) => {
-      const task = TaskLogger.start(`Windows MSI Finalise (${arch})`)
-
-      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_windows_${ARCH_FILENAME[arch]}`
-      const distPath = DIST_PATH
-      const prepPath = path.join(distPath, filename)
-      const setupFilesPath = `openGWMail_${ARCH_FILENAME[arch]}-SetupFiles`
-
-      const msiPath = path.join(prepPath, setupFilesPath, filename + '.msi')
-      const outputPath = path.join(distPath, filename + '.msi')
-
-      fs.copySync(msiPath, outputPath)
-      fs.removeSync(prepPath)
-
-      task.finish()
-      resolve()
-    })
-  }
-
-  /**
   * Distributes the app for linux
   * @param pkg: the package info
   * @param arch: one of 'x86' or 'x64'
@@ -208,14 +126,14 @@ class Distribution {
       const task = TaskLogger.start(`Linux tar (${arch})`)
 
       const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_linux_${ARCH_FILENAME[arch]}.tar.gz`
-      const targetPath = path.join(DIST_PATH, filename)
+      const targetPath = path.join(DIST_DIR, filename)
       const builtDirectory = arch === ARCH.X64 ? 'openGWMail-linux-x64' : 'openGWMail-linux-ia32'
 
       if (fs.existsSync(targetPath)) {
         fs.removeSync(targetPath)
       }
 
-      const cmd = `cd ${DIST_PATH}; tar czf "${targetPath}" "${builtDirectory}"`
+      const cmd = `cd ${DIST_DIR}; tar czf "${targetPath}" "${builtDirectory}"`
       childProcess.exec(cmd, {}, (error, stdout, stderr) => {
         if (error) { console.error(error) }
         if (stdout) { console.log(`stdout: ${stdout}`) }
@@ -238,8 +156,8 @@ class Distribution {
   static distributeLinuxDeb (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_PATH, 'openGWMail-linux-ia32'),
-      x64: path.join(DIST_PATH, 'openGWMail-linux-x64')
+      x86: path.join(DIST_DIR, 'openGWMail-linux-ia32'),
+      x64: path.join(DIST_DIR, 'openGWMail-linux-x64')
     }
 
     return new Promise((resolve, reject) => {
@@ -247,7 +165,7 @@ class Distribution {
 
       const options = {
         src: CWD_MAPPING[arch],
-        dest: INSTALLERS_PATH,
+        dest: INSTALLERS_DIR,
         arch: ARCH_MAPPING[arch],
         rename: function (dest, src) {
           const fileName = pkg.humanName
@@ -258,7 +176,7 @@ class Distribution {
             fileName + '_' + fileVersion + fileRelease + '_<%= arch %>.deb'
           )
         },
-        options: require(path.join(ROOT_PATH, 'packager/deb/config.json'))
+        options: require(path.join(__dirname, 'deb/config.json'))
       }
 
       debianInstaller(options)
@@ -307,13 +225,7 @@ class Distribution {
   */
   static finaliseDistribute (platforms, pkg) {
     return platforms.reduce((acc, platform) => {
-      // if (platform === 'win32') {
-      //   return acc
-      //     .then(() => Distribution.finaliseWindowsDistribution(pkg, ARCH.X86))
-      //     .then(() => Distribution.finaliseWindowsDistribution(pkg, ARCH.X64))
-      // } else {
-        return acc
-      // }
+      return acc
     }, Promise.resolve())
   }
 }

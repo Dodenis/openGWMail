@@ -1,4 +1,4 @@
-const pkg = require('../package.json')
+const { PKG } = require('../constants')
 const Licenses = require('./Licenses')
 const JSBuilder = require('./JSBuilder')
 const ElectronBuilder = require('./ElectronBuilder')
@@ -14,7 +14,7 @@ const finalise = argv.finalise
 
 if (finalise) {
   Promise.resolve()
-    .then(() => Distribution.finaliseDistribute(platforms, pkg))
+    .then(() => Distribution.finaliseDistribute(platforms, PKG))
     .then(
       () => { },
       (err) => {
@@ -26,10 +26,10 @@ if (finalise) {
   Promise.resolve()
     .then(() => dist ? JSBuilder.pruneNPM() : Promise.resolve())
     .then(JSBuilder.runWebpack)
-    .then(() => ElectronBuilder.packageApp(platforms, pkg))
+    .then(() => ElectronBuilder.packageApp(platforms, PKG))
     .then(() => dist ? Licenses.buildLicensesIntoReleases(platforms) : Promise.resolve())
     .then(() => dist ? ReleaseAssets.copyAssetsIntoReleases(platforms) : Promise.resolve())
-    .then(() => dist ? Distribution.distribute(platforms, pkg) : Promise.resolve())
+    .then(() => dist ? Distribution.distribute(platforms, PKG) : Promise.resolve())
     .then(
       () => { },
       (err) => {

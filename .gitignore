@@ -2,12 +2,6 @@ credentials.js
 node_modules
 bin
 dist
-openWMail-darwin-x64
-openWMail-linux-ia32/
-openWMail-linux-x64/
-openWMail-win32-ia32/
-openWMail-win32-x64/
-openWMail-win32-ia32-Installer/
 parts
 prime
 stage

@@ -1,13 +1,13 @@
 module.exports = Object.freeze({
-  APP_ID: 'openwmail.openwmail',
+  APP_ID: 'opengwmail.opengwmail',
 
   MAILBOX_INDEX_KEY: '__index__',
   MAILBOX_SLEEP_WAIT: 1000 * 30, // 30 seconds
 
   WEB_URL: 'https://openwmail.github.io/',
-  GITHUB_URL: 'https://github.com/openwmail/openwmail/',
-  GITHUB_ISSUE_URL: 'https://github.com/openwmail/openwmail/issues',
-  UPDATE_DOWNLOAD_URL: 'https://github.com/openwmail/openwmail/releases',
+  GITHUB_URL: 'https://github.com/Dodenis/openGWMail/',
+  GITHUB_ISSUE_URL: 'https://github.com/Dodenis/openGWMail/issues',
+  UPDATE_DOWNLOAD_URL: 'https://github.com/Dodenis/openGWMail/releases',
   UPDATE_CHECK_URL: 'https://openwmail.github.io/version.json',
   PRIVACY_URL: 'https://openwmail.github.io/privacy',
   USER_SCRIPTS_WEB_URL: 'https://github.com/Thomas101/wmail-user-scripts',

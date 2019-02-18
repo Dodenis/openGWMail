@@ -7,7 +7,14 @@
   const {ipcMain, dialog, app, shell} = require('electron')
 
   let windowManager
-  const quitting = app.makeSingleInstance(function (commandLine, workingDirectory) {
+  const gotInstanceLock = app.requestSingleInstanceLock()
+
+  if (!gotInstanceLock) {
+    app.quit()
+    return
+  }
+
+  app.on('second-instance', function (event, commandLine, workingDirectory) {
     const argv = require('yargs').parse(commandLine)
     if (windowManager) {
       if (argv.hidden || argv.hide) {
@@ -27,10 +34,6 @@
     }
     return true
   })
-  if (quitting) {
-    app.quit()
-    return
-  }
 
   const argv = require('yargs').parse(process.argv)
   const MailboxesWindow = require('./windows/MailboxesWindow')
@@ -133,9 +136,9 @@
         message: pkg.humanName,
         detail: [
           'Version: ' + pkg.version + (pkg.prerelease ? ' prerelease' : ''),
-          'openWMail, like wmail before it, is licensed under the Mozilla Public License 2.0.',
+          'openGWMail, like openWMail before it, is licensed under the Mozilla Public License 2.0.',
           '\n',
-          'Made with ♥ by openWMail Community.'
+          'Made with ♥ by openGWMail Community.'
         ].join('\n'),
         buttons: [ 'Done', 'Website' ]
       }, (index) => {
@@ -149,7 +152,7 @@
         title: pkg.humanName,
         message: 'Credits',
         detail: [
-          'The community project known as openWMail would not be possible without the many years of tireless work by Thomas Beverley (Thomas101 on GitHub) on the original wmail. His hundreds of commits & thousands of lines of code, days and nights spent reproducing bugs, and commitment to this community are manifested in the polished product with which we were able to begin.',
+          'The project known as openGWMail would not be possible without the many years of tireless work by Thomas Beverley (Thomas101 on GitHub) on the original wmail. His hundreds of commits & thousands of lines of code, days and nights spent reproducing bugs, and commitment to this community are manifested in the polished product with which we were able to begin.',
           '\n',
           'Thanks again Thomas!'
         ].join('\n'),

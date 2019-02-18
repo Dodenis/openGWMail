@@ -7,6 +7,7 @@ const shallowCompare = require('react-addons-shallow-compare')
 const {mailboxDispatch} = require('../../../Dispatch')
 const { USER_SCRIPTS_WEB_URL } = require('shared/constants')
 const Colors = require('material-ui/styles/colors')
+const AppTheme = require('../../appTheme')
 const {
   remote: {shell}
 } = window.nativeRequire('electron')
@@ -84,7 +85,7 @@ module.exports = React.createClass({
         </div>
         <div style={styles.button}>
           <a
-            style={{color: Colors.blue700, fontSize: '85%', marginBottom: 10, display: 'block'}}
+            style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
             onClick={(evt) => { evt.preventDefault(); shell.openExternal(USER_SCRIPTS_WEB_URL) }}
             href={USER_SCRIPTS_WEB_URL}>Find custom userscripts</a>
         </div>

@@ -49,7 +49,7 @@ class WMailWindow extends EventEmitter {
     }
 
     return Object.assign({
-      title: 'openWMail',
+      title: 'openGWMail',
       icon: icon
     }, extraPreferences)
   }

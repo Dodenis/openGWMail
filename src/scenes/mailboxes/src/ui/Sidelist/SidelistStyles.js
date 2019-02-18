@@ -60,9 +60,9 @@ module.exports = {
     cursor: 'pointer'
   },
   mailboxBadge: {
-    backgroundColor: 'rgba(238, 54, 55, 0.95)',
-    color: Colors.red50,
-    fontWeight: '100',
+    backgroundColor: Colors.red800,
+    color: Colors.white,
+    fontWeight: '400',
     width: 'auto',
     minWidth: 24,
     paddingLeft: 4,

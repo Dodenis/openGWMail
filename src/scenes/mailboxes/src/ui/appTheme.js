@@ -10,10 +10,10 @@ module.exports = getMuiTheme({
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
   palette: {
-    primary1Color: Colors.lightBlue600,
-    primary2Color: Colors.lightBlue500,
+    primary1Color: Colors.blue600,
+    primary2Color: Colors.blue500,
     primary3Color: Colors.blueGrey100,
-    accent1Color: Colors.redA200,
+    accent1Color: Colors.redA400,
     accent2Color: Colors.grey100,
     accent3Color: Colors.grey600,
     textColor: Colors.darkBlack,
@@ -21,6 +21,7 @@ module.exports = getMuiTheme({
     canvasColor: Colors.white,
     borderColor: Colors.grey300,
     disabledColor: colorManipulator.fade(Colors.darkBlack, 0.3),
-    pickerHeaderColor: Colors.cyan500
+    pickerHeaderColor: Colors.lightBlue500,
+    linkColor: Colors.blue700
   }
 })

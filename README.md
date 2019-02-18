@@ -1,36 +1,24 @@
-# openWMail
+# openGWMail
 
 An always free, always open-source fork of [wmail](https://github.com/Thomas101/wmail) maintained by a volunteer community.
 
-[![Rocket.Chat](https://openwmail.rocket.chat/api/v1/shield.svg?type=channel&channel=general)](https://openwmail.rocket.chat/channel/general)
-[![Download](https://img.shields.io/github/downloads/openWMail/openWMail/total.svg)](https://github.com/openWMail/openWMail/releases)
+[![Download](https://img.shields.io/github/downloads/Dodenis/openGWMail/total.svg)](https://github.com/Dodenis/openGWMail/releases)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 The missing desktop client for Gmail & Google Inbox. Bringing the Gmail & Google Inbox experience to your desktop in a neatly packaged app
 
-[Raise an issue or request a feature](https://github.com/openWMail/openWMail/issues)
+[Raise an issue or request a feature](https://github.com/Dodenis/openGWMail/issues)
 
-![Screenshot](https://raw.githubusercontent.com/openWMail/openWMail/master/.github/screenshot.png "Screenshot")
+![Screenshot](https://raw.githubusercontent.com/Dodenis/openGWMail/master/.github/screenshot.png "Screenshot")
 
 ### Installing
-openWMail is available on Windows, Mac OSX, and Linux
+openGWMail is available on Windows, Mac OSX, and Linux
 
-[Download releases](https://github.com/openWMail/openWMail/releases)
-
-#### Snap Install
-```
-sudo snap install openwmail
-```
-
-#### Arch
-openWMail is also available in the [Arch AUR](https://aur.archlinux.org/packages/openwmail/).  Installable with your favorite aur package manager.
-```
-sudo yaourt -S openwmail
-```
+[Download releases](https://github.com/Dodenis/openGWMail/releases)
 
 ### License
 
-openWMail, like wmail before it, is licensed under the [Mozilla Public License 2.0](./LICENSE).
+openGWMail, like wmail before it, is licensed under the [Mozilla Public License 2.0](./LICENSE).
 
 ### Building from source
 
@@ -43,10 +31,10 @@ You'll need to [setup your OAuth Client ID](https://console.developers.google.co
 To create OAuth client ID & secret, under "API Manager", choose "Create Credentials", then "OAuth client ID".
 For "Application type", select "Other", and choose some name for the application, as described in these screenshots:
 
-![Create credentials](https://raw.githubusercontent.com/openWMail/openWMail/master/.github/gdc-create-credentials.png "Create Credentials")
+![Create credentials](https://raw.githubusercontent.com/Dodenis/openGWMail/master/.github/gdc-create-credentials.png "Create Credentials")
 <br />
 <br />
-![Create OAuth client ID](https://raw.githubusercontent.com/openWMail/openWMail/master/.github/gdc-oauth-client-id-creation.png "Create OAuth Client ID")
+![Create OAuth client ID](https://raw.githubusercontent.com/Dodenis/openGWMail/master/.github/gdc-oauth-client-id-creation.png "Create OAuth Client ID")
 
 Next create `src/shared/credentials.js` with your Google client ID and secret like so...
 

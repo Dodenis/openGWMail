@@ -1,10 +1,10 @@
 {
-  "name": "openwmail-app",
+  "name": "opengwmail-app",
   "keywords": [],
-  "author": "openWMail",
+  "author": "openGWMail",
   "license": "MPL-2.0",
-  "repository": "https://github.com/openwmail/openwmail",
-  "description": "The mail app code for the openWMail app",
+  "repository": "https://github.com/Dodenis/openGWMail",
+  "description": "The mail app code for the openGWMail app",
   "dependencies": {
     "appdirectory": "0.1.0",
     "dictionary-en-us": "1.2.0",
@@ -23,7 +23,7 @@
     "request": "2.88.0",
     "unused-filename": "0.1.0",
     "uuid": "3.0.1",
-    "windows-shortcuts": "openWMail/windows-shortcuts#0.1.4",
+    "windows-shortcuts": "https://github.com/openWMail/windows-shortcuts#0.1.4",
     "write-file-atomic": "https://github.com/geekgonecrazy/write-file-atomic.git#v1.3.4",
     "yargs": "6.6.0"
   },

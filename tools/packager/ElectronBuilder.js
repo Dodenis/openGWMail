@@ -1,7 +1,7 @@
 const packager = require('electron-packager')
 const TaskLogger = require('./TaskLogger')
 const path = require('path')
-const { ROOT_PATH, DIST_PATH} = require('./constants')
+const { ROOT_DIR, DIST_DIR, ASSETS_DIR } = require('../constants')
 const { rebuild } = require('electron-rebuild')
 const { serialHooks } = require('electron-packager/hooks')
 
@@ -24,7 +24,7 @@ class ElectronBuilder {
       '/node_modules',
       '/release',
       '/src',
-      '/packager',
+      '/tools',
       '/dist',
 
       // Files
@@ -58,15 +58,15 @@ class ElectronBuilder {
   static packageSinglePlatformArch (platform, arch, pkg) {
     return new Promise((resolve, reject) => {
       const options = {
-        dir: ROOT_PATH,
-        out: DIST_PATH,
+        dir: ROOT_DIR,
+        out: DIST_DIR,
         name: 'openGWMail',
         executableName: 'opengwmail',
         platform: platform,
         arch: arch,
         appBundleId: 'opengwmail.opengwmail',
         appCopyright: 'Copyright ' + pkg.author + '(' + pkg.license + ' License)',
-        icon: path.join(ROOT_PATH, 'assets/icons/app'),
+        icon: path.join(ASSETS_DIR, 'icons/app'),
         overwrite: true,
         asar: true,
         prune: false,

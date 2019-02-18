@@ -2,6 +2,8 @@ const React = require('react')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { RaisedButton, FontIcon } = require('material-ui')
 const Colors = require('material-ui/styles/colors')
+const colorManipulator = require('material-ui/utils/colorManipulator')
+const AppTheme = require('../appTheme')
 
 const styles = {
   icon: {
@@ -20,7 +22,7 @@ const styles = {
     overflow: 'auto'
   },
   heading: {
-    backgroundColor: Colors.red400,
+    backgroundColor: colorManipulator.lighten(AppTheme.palette.primary1Color, 0.3),
     color: 'white',
     paddingTop: 40,
     paddingBottom: 20
@@ -60,7 +62,7 @@ module.exports = React.createClass({
       <div style={styles.container}>
         <div style={styles.heading}>
           <div style={styles.icon} />
-          <h1 style={styles.headingTitle}>Welcome to openWMail</h1>
+          <h1 style={styles.headingTitle}>Welcome to openGWMail</h1>
           <h2 style={styles.headingSubtitle}>...the free and open-source desktop client for Gmail and Google Inbox</h2>
         </div>
         <div style={styles.setupItem}>

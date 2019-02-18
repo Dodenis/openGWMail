@@ -17,6 +17,7 @@ const migration = require('./migration')
 const homeDir = window.appNodeModulesRequire('home-dir') // pull this from main thread
 const {systemPreferences} = window.nativeRequire('electron').remote
 const fs = require('fs')
+const AppTheme = require('../../ui/appTheme')
 
 class SettingsStore {
   /* **************************************************************************/
@@ -30,42 +31,42 @@ class SettingsStore {
   static generateTrayThemedDefaults () {
     if (process.platform === 'darwin') {
       return {
-        readColor: systemPreferences.isDarkMode() ? '#FFFFFF' : '#000000',
-        readBackgroundColor: 'transparent',
-        unreadColor: '#FFFFFF',
-        unreadBackgroundColor: '#FF3F3F',
-        unreadRadius: 2,
-        readRadius: 2
+        readColor: AppTheme.palette.primary1Color,
+        readBackgroundColor: AppTheme.palette.alternateTextColor,
+        unreadColor: AppTheme.palette.alternateTextColor,
+        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        unreadRadius: 1,
+        readRadius: 1
       }
     } else if (process.platform === 'win32') {
       // Windows is predominantely dark themed, but with no way to check assume it is
       return {
-        readColor: '#FFFFFF',
-        readBackgroundColor: 'transparent',
-        unreadColor: '#FFFFFF',
-        unreadBackgroundColor: '#FF3F3F',
-        unreadRadius: 2,
-        readRadius: 2
+        readColor: AppTheme.palette.primary1Color,
+        readBackgroundColor: AppTheme.palette.alternateTextColor,
+        unreadColor: AppTheme.palette.alternateTextColor,
+        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        unreadRadius: 1,
+        readRadius: 1
       }
     } else if (process.platform === 'linux') {
       return {
-        readColor: '#FFFFFF',
-        readBackgroundColor: 'transparent',
-        unreadColor: '#FFFFFF',
-        unreadBackgroundColor: '#FF3F3F',
-        unreadRadius: 2,
-        readRadius: 2
+        readColor: AppTheme.palette.primary1Color,
+        readBackgroundColor: AppTheme.palette.alternateTextColor,
+        unreadColor: AppTheme.palette.alternateTextColor,
+        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        unreadRadius: 1,
+        readRadius: 1
       }
     }
 
     // Catch all
     return {
-      readColor: '#FFFFFF',
-      readBackgroundColor: 'transparent',
-      unreadColor: '#FFFFFF',
-      unreadBackgroundColor: '#FF3F3F',
-      unreadRadius: 2,
-      readRadius: 2
+      readColor: AppTheme.palette.primary1Color,
+      readBackgroundColor: AppTheme.palette.alternateTextColor,
+      unreadColor: AppTheme.palette.alternateTextColor,
+      unreadBackgroundColor: AppTheme.palette.primary1Color,
+      unreadRadius: 1,
+      readRadius: 1
     }
   }
 

@@ -9,6 +9,7 @@ const { WEB_URL, GITHUB_URL, GITHUB_ISSUE_URL } = require('shared/constants')
 const {mailboxDispatch} = require('../../../Dispatch')
 const mailboxStore = require('../../../stores/mailbox/mailboxStore')
 const pkg = window.appPackage()
+const AppTheme = require('../../appTheme')
 
 module.exports = React.createClass({
   /* **************************************************************************/
@@ -62,19 +63,19 @@ module.exports = React.createClass({
     return (
       <Paper zDepth={1} style={styles.paper} {...this.props}>
         <a
-          style={{color: Colors.blue700, fontSize: '85%', marginBottom: 10, display: 'block'}}
+          style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
           onClick={(evt) => { evt.preventDefault(); shell.openExternal(WEB_URL) }}
-          href={WEB_URL}>openWMail Website</a>
+          href={WEB_URL}>openGWMail Website</a>
         <a
-          style={{color: Colors.blue700, fontSize: '85%', marginBottom: 10, display: 'block'}}
+          style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
           onClick={(evt) => { evt.preventDefault(); shell.openExternal(GITHUB_URL) }}
-          href={GITHUB_URL}>openWMail GitHub</a>
+          href={GITHUB_URL}>openGWMail GitHub</a>
         <a
-          style={{color: Colors.blue700, fontSize: '85%', marginBottom: 10, display: 'block'}}
+          style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
           onClick={(evt) => { evt.preventDefault(); shell.openExternal(GITHUB_ISSUE_URL) }}
           href={GITHUB_ISSUE_URL}>Report a bug</a>
         <a
-          style={{color: Colors.blue700, fontSize: '85%', marginBottom: 10, display: 'block'}}
+          style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
           onClick={this.handleShowMemoryInfo}
           href='#'>Memory Info</a>
         <div style={{ fontSize: '85%' }}>
@@ -82,7 +83,7 @@ module.exports = React.createClass({
             {`Version ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`}
           </p>
           <p>
-            Made with ♥ by the openWMail Community
+            Made with ♥ by the openGWMail Community
           </p>
         </div>
       </Paper>

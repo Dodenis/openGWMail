@@ -66,7 +66,7 @@ class ElectronBuilder {
         arch: arch,
         appBundleId: 'opengwmail.opengwmail',
         appCopyright: 'Copyright ' + pkg.author + '(' + pkg.license + ' License)',
-        icon: path.join(ASSETS_DIR, 'icons'),
+        icon: path.join(ASSETS_DIR, 'icons/app'),
         overwrite: true,
         asar: true,
         prune: false,

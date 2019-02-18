@@ -38,25 +38,28 @@ class Distribution {
 
       const packagedPath = path.join(DIST_DIR, 'openGWMail-darwin-x64')
 
+      fs.copySync(path.join(ASSETS_DIR, 'icons/app.icns'), path.join(packagedPath, 'app.icns'))
+      fs.copySync(path.join(__dirname, 'dmg/background.png'), path.join(packagedPath, 'background.png'))
+
       const dmgCreate = appdmg({
         target: targetPath,
-        basepath: ROOT_DIR,
+        basepath: packagedPath,
         specification: {
           title: `openGWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
           format: 'UDBZ',
-          icon: path.join(ASSETS_DIR, 'icons/app.icns'),
+          icon: 'app.icns',
           'background-color': '#CCCCCC',
-          background: path.join(__dirname, 'dmg/background.png'),
+          background: 'background.png',
           'icon-size': 100,
           window: {
             size: { width: 600, height: 500 }
           },
           contents: [
-            { x: 150, y: 100, type: 'file', path: path.join(packagedPath, 'openGWMail.app') },
+            { x: 150, y: 100, type: 'file', path: 'openGWMail.app' },
             { x: 450, y: 100, type: 'link', path: '/Applications' },
-            { x: 150, y: 400, type: 'file', path: path.join(packagedPath, 'First Run.html') },
-            { x: 300, y: 400, type: 'file', path: path.join(packagedPath, 'LICENSE') },
-            { x: 450, y: 400, type: 'file', path: path.join(packagedPath, 'vendor-licenses') }
+            { x: 150, y: 400, type: 'file', path: 'First Run.html' },
+            { x: 300, y: 400, type: 'file', path: 'LICENSE' },
+            { x: 450, y: 400, type: 'file', path: 'vendor-licenses' }
           ]
         }
       })

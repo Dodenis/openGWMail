@@ -1,15 +1,13 @@
 const React = require('react')
 const {
-  Dialog, RaisedButton, FlatButton,
+  Dialog, RaisedButton,
   Tabs, Tab
 } = require('material-ui')
 const GeneralSettings = require('./GeneralSettings')
 const AccountSettings = require('./AccountSettings')
 const AdvancedSettings = require('./AdvancedSettings')
-const Colors = require('material-ui/styles/colors')
 const styles = require('./settingStyles')
 const { ipcRenderer } = window.nativeRequire('electron')
-const AppTheme = require('../appTheme')
 
 module.exports = React.createClass({
   /* **************************************************************************/
@@ -95,14 +93,8 @@ module.exports = React.createClass({
       </div>
     )
 
-    const tabHeadings = [
-      ['General', 'general'],
-      ['Accounts', 'accounts'],
-      ['Advanced', 'advanced']
-    ]
-
     const heading = (
-      <div style={{ height: 48 }}/>
+      <div style={{ height: 48 }} />
     )
 
     return (

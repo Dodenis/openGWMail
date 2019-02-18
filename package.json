@@ -57,7 +57,6 @@
     "css-loader": "0.26.1",
     "electron": "4.0.5",
     "electron-installer-debian": "^1.1.0",
-    "electron-installer-dmg": "^2.0.0",
     "electron-installer-windows": "^1.1.0",
     "electron-packager": "12.2.0",
     "electron-rebuild": "^1.8.4",

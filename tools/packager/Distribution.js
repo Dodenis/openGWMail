@@ -1,4 +1,4 @@
-const { ROOT_DIR, DIST_DIR, INSTALLERS_DIR } = require('../constants')
+const { ROOT_DIR, DIST_DIR, ASSETS_DIR, INSTALLERS_DIR } = require('../constants')
 const appdmg = process.platform === 'darwin' ? require('appdmg') : undefined
 const path = require('path')
 const fs = require('fs-extra')
@@ -28,13 +28,15 @@ class Distribution {
 
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('OSX DMG')
+
       const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
-      const distPath = DIST_DIR
-      const targetPath = path.join(distPath, filename)
-      fs.mkdirsSync(distPath)
+      const targetPath = path.join(INSTALLERS_DIR, filename)
+      fs.mkdirsSync(INSTALLERS_DIR)
       if (fs.existsSync(targetPath)) {
         fs.removeSync(targetPath)
       }
+
+      const packagedPath = path.join(DIST_DIR, 'openGWMail-darwin-x64')
 
       const dmgCreate = appdmg({
         target: targetPath,
@@ -42,7 +44,7 @@ class Distribution {
         specification: {
           title: `openGWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
           format: 'UDBZ',
-          icon: 'assets/icons/app.icns',
+          icon: path.join(ASSETS_DIR, 'icons/app.icns'),
           'background-color': '#CCCCCC',
           background: path.join(__dirname, 'dmg/background.png'),
           'icon-size': 100,
@@ -50,11 +52,11 @@ class Distribution {
             size: { width: 600, height: 500 }
           },
           contents: [
-            { x: 150, y: 100, type: 'file', path: 'openGWMail-darwin-x64/openGWMail.app' },
+            { x: 150, y: 100, type: 'file', path: path.join(packagedPath, 'openGWMail.app') },
             { x: 450, y: 100, type: 'link', path: '/Applications' },
-            { x: 150, y: 400, type: 'file', path: 'openGWMail-darwin-x64/First Run.html' },
-            { x: 300, y: 400, type: 'file', path: 'openGWMail-darwin-x64/LICENSE' },
-            { x: 450, y: 400, type: 'file', path: 'openGWMail-darwin-x64/vendor-licenses' }
+            { x: 150, y: 400, type: 'file', path: path.join(packagedPath, 'First Run.html') },
+            { x: 300, y: 400, type: 'file', path: path.join(packagedPath, 'LICENSE') },
+            { x: 450, y: 400, type: 'file', path: path.join(packagedPath, 'vendor-licenses') }
           ]
         }
       })

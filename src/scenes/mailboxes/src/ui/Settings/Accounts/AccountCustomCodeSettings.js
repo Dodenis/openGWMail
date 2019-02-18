@@ -6,7 +6,6 @@ const styles = require('../settingStyles')
 const shallowCompare = require('react-addons-shallow-compare')
 const {mailboxDispatch} = require('../../../Dispatch')
 const { USER_SCRIPTS_WEB_URL } = require('shared/constants')
-const Colors = require('material-ui/styles/colors')
 const AppTheme = require('../../appTheme')
 const {
   remote: {shell}

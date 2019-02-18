@@ -56,8 +56,21 @@ npm start
 ### Packaging Builds
 
 To package builds. (Note packaging osx builds can only be done from osx)
+
+MacOS requirement
 ```
-brew install msitools
+# Install brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# Install brew dependencies
+brew install fakeroot
+brew install dpkg
+brew cask install xquartz
+brew install wine
+brew install mono
+```
+
+Packagin
+```
 npm install
 npm rebuild
 npm run-script package

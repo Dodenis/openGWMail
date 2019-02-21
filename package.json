@@ -32,10 +32,7 @@
     "clean-all": "node tools/clean.js"
   },
   "keywords": [],
-  "author": {
-    "name": "OpenGWMail Community",
-    "url": "https://github.com/Dodenis/"
-  },
+  "author": "OpenGWMail Community (https://github.com/Dodenis/)",
   "homepage": "https://github.com/Dodenis/openGWMail",
   "license": "MPL-2.0",
   "repository": "https://github.com/Dodenis/openGWMail",

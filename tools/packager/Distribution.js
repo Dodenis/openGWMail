@@ -109,9 +109,7 @@ class Distribution {
           description: pkg.description,
           productDescription: pkg.description,
           version: pkg.version,
-          copyright: 'Copyright ' + pkg.author.name + '(' + pkg.license + ' License)',
-          authors: [pkg.author.name],
-          owners: [pkg.author.name],
+          copyright: 'Copyright ' + pkg.author + '(' + pkg.license + ' License)',
           homepage: pkg.homepage,
           animation: path.join(TOOL_DIR, 'packager', 'msi', 'loader.gif'),
           icon: path.join(ASSETS_DIR, 'icons', 'app.ico'),
@@ -217,6 +215,9 @@ class Distribution {
     return platforms.reduce((acc, platform) => {
       if (platform === 'darwin') {
         return acc.then(() => Distribution.distributeDarwin(pkg))
+          .catch(err => {
+            console.log(err)
+          })
       } else if (platform === 'win32') {
         return acc
           .then(() => Distribution.distributeWindows(pkg, ARCH.X86))

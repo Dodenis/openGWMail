@@ -2,7 +2,7 @@ const TaskLogger = require('./TaskLogger')
 const nlf = require('nlf')
 const fs = require('fs-extra')
 const path = require('path')
-const { ROOT_DIR, DIST_DIR } = require('../constants')
+const { ROOT_DIR, DIST_DIR, PLATFORM_ARCHES_FOLDERS } = require('../constants')
 
 class Licenses {
 
@@ -79,13 +79,13 @@ class Licenses {
       .then((npmLicenseString) => {
         return Promise.all(platforms.reduce((acc, platform) => {
           if (platform === 'darwin') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-darwin-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['darwin']['x64']), npmLicenseString))
           } else if (platform === 'linux') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-linux-ia32/'), npmLicenseString))
-            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-linux-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['linux']['x86']), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['linux']['x64']), npmLicenseString))
           } else if (platform === 'win32') {
-            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-win32-ia32/'), npmLicenseString))
-            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, 'openGWMail-win32-x64/'), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['win32']['x86']), npmLicenseString))
+            acc.push(Licenses.buildLicenses(path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['win32']['x64']), npmLicenseString))
           }
           return acc
         }, []))

@@ -12,7 +12,7 @@ class JSBuilder {
   static runWebpack () {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('Webpack')
-      const cmd = `node ${path.join(ROOT_DIR, 'node_modules/webpack/bin/webpack.js')} -p`
+      const cmd = `node ${path.join(ROOT_DIR, 'node_modules', 'webpack', 'bin', 'webpack.js')} -p`
       const args = {maxBuffer: 1024 * 1024} // Give ourselves a meg of buffer. Webpack can be very verbose
       childProcess.exec(cmd, args, (error, stdout, stderr) => {
         if (error) { console.error(error) }
@@ -37,7 +37,7 @@ class JSBuilder {
   static pruneNPM () {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('NPM Prune')
-      const cmd = `cd ${path.join(ROOT_DIR, 'src/app')}; npm prune --production`
+      const cmd = `cd ${path.join(ROOT_DIR, 'src', 'app')}; npm prune --production`
       const args = {maxBuffer: 1024 * 1024}
       childProcess.exec(cmd, args, (error, stdout, stderr) => {
         if (error) {

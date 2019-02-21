@@ -11,7 +11,7 @@ module.exports = Object.freeze({
   UPDATE_CHECK_URL: 'https://openwmail.github.io/version.json',
   PRIVACY_URL: 'https://openwmail.github.io/privacy',
   USER_SCRIPTS_WEB_URL: 'https://github.com/Thomas101/wmail-user-scripts',
-  UPDATE_CHECK_INTERVAL: 1000 * 60 * 60 * 24, // 24 hours
+  UPDATE_CHECK_INTERVAL: 1000 * 60 * 60 * 24, // 24 hours²
 
   GMAIL_PROFILE_SYNC_MS: 1000 * 60 * 60, // 60 mins
   GMAIL_UNREAD_SYNC_MS: 1000 * 60, // 60 seconds

@@ -2,9 +2,9 @@
   "name": "opengwmail",
   "productName": "openGWMail",
   "humanName": "openGWMail",
-  "version": "1.1.1",
-  "prerelease": false,
   "description": "The missing desktop client for Gmail and Google Inbox",
+  "version": "1.1.2",
+  "prerelease": false,
   "scripts": {
     "rebuild:electron": "node tools/rebuildElectron.js",
     "prestart": "webpack",
@@ -28,7 +28,8 @@
     "dev:mailboxes": "webpack --task=mailboxes && electron bin/app/index.js",
     "dev:assets": "webpack --task=assets && electron bin/app/index.js",
     "dev:run": "electron bin/app/index.js",
-    "clean": "rimraf \"node_modules/!(rimraf|.bin)\""
+    "clean": "rimraf \"node_modules/!(rimraf|.bin)\"",
+    "clean-all": "node tools/clean.js"
   },
   "keywords": [],
   "author": {
@@ -58,7 +59,7 @@
     "electron": "4.0.5",
     "electron-installer-debian": "^1.1.0",
     "electron-installer-windows": "^1.1.0",
-    "electron-packager": "12.2.0",
+    "electron-packager": "^13.1.0",
     "electron-rebuild": "^1.8.4",
     "extract-text-webpack-plugin": "1.0.1",
     "extract-zip": "=1.6.7",
@@ -69,7 +70,6 @@
     "less": "2.7.2",
     "less-loader": "2.2.3",
     "nlf": "1.4.2",
-    "nobin-debian-installer": "0.0.10",
     "recursive-readdir": "2.1.0",
     "standard": "8.6.0",
     "style-loader": "0.13.1",

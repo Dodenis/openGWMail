@@ -1,16 +1,13 @@
-const { ROOT_DIR, DIST_DIR, ASSETS_DIR, INSTALLERS_DIR } = require('../constants')
+const { DIST_DIR, ASSETS_DIR, INSTALLERS_DIR, TOOL_DIR, PLATFORM_ARCHES_FOLDERS } = require('../constants')
 const appdmg = process.platform === 'darwin' ? require('appdmg') : undefined
 const path = require('path')
 const fs = require('fs-extra')
 const childProcess = require('child_process')
 const TaskLogger = require('./TaskLogger')
-const uuid = require('uuid')
 const debianInstaller = require('electron-installer-debian')
 const windowsInstaller = require('electron-installer-windows')
-const recursiveReaddir = require('recursive-readdir')
 const temp = require('temp')
 temp.track()
-const { WINDOWS_UPGRADE_CODE } = require('../../src/shared/credentials')
 
 const ARCH = { X86: 'x86', X64: 'x64' }
 const ARCH_FILENAME = { 'x86': 'ia32', 'x64': 'x86_64' }
@@ -29,23 +26,23 @@ class Distribution {
     return new Promise((resolve, reject) => {
       const task = TaskLogger.start('OSX DMG')
 
-      const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
+      const filename = `${pkg.productName}_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_osx.dmg`
       const targetPath = path.join(INSTALLERS_DIR, filename)
       fs.mkdirsSync(INSTALLERS_DIR)
       if (fs.existsSync(targetPath)) {
         fs.removeSync(targetPath)
       }
 
-      const packagedPath = path.join(DIST_DIR, 'openGWMail-darwin-x64')
+      const packagedPath = path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['darwin'][ARCH.X64])
 
-      fs.copySync(path.join(ASSETS_DIR, 'icons/app.icns'), path.join(packagedPath, 'app.icns'))
-      fs.copySync(path.join(__dirname, 'dmg/background.png'), path.join(packagedPath, 'background.png'))
+      fs.copySync(path.join(ASSETS_DIR, 'icons', 'app.icns'), path.join(packagedPath, 'app.icns'))
+      fs.copySync(path.join(__dirname, 'dmg', 'background.png'), path.join(packagedPath, 'background.png'))
 
       const dmgCreate = appdmg({
         target: targetPath,
         basepath: packagedPath,
         specification: {
-          title: `openGWMail ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
+          title: `${pkg.productName} ${pkg.version} ${pkg.prerelease ? 'Prerelease' : ''}`,
           format: 'UDBZ',
           icon: 'app.icns',
           'background-color': '#CCCCCC',
@@ -55,7 +52,7 @@ class Distribution {
             size: { width: 600, height: 500 }
           },
           contents: [
-            { x: 150, y: 100, type: 'file', path: 'openGWMail.app' },
+            { x: 150, y: 100, type: 'file', path: pkg.productName + '.app' },
             { x: 450, y: 100, type: 'link', path: '/Applications' },
             { x: 150, y: 400, type: 'file', path: 'First Run.html' },
             { x: 300, y: 400, type: 'file', path: 'LICENSE' },
@@ -83,8 +80,8 @@ class Distribution {
   static distributeWindows (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_DIR, 'openGWMail-win32-ia32'),
-      x64: path.join(DIST_DIR, 'openGWMail-win32-x64')
+      x86: path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['win32'][ARCH.X86]),
+      x64: path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['win32'][ARCH.X64])
     }
 
     return new Promise((resolve, reject) => {
@@ -93,19 +90,33 @@ class Distribution {
       const options = {
         src: CWD_MAPPING[arch],
         dest: INSTALLERS_DIR,
-        arch: ARCH_MAPPING[arch],
         rename: function (dest, src) {
-          const fileName = pkg.humanName
-          const fileVersion = pkg.version.replace(/\./g, '_')
-          const fileRelease = `${pkg.prerelease ? '_prerelease' : ''}_win32`
           const ext = path.extname(src)
+
           if (ext === '.exe' || ext === '.msi') {
-            src = fileName + '_' + fileVersion + fileRelease + '_<%= arch %>' + ext
+            const fileName = pkg.productName
+            const fileVersion = pkg.version.replace(/\./g, '_')
+            const fileRelease = `${pkg.prerelease ? '_prerelease' : ''}_win32`
+
+            src = fileName + '_' + fileVersion + fileRelease + '_' + ARCH_MAPPING[arch] + ext
           }
 
           return path.join(dest, src)
         },
-        options: require(path.join(__dirname, 'msi/config.json'))
+        options: {
+          name: pkg.name,
+          productName: pkg.productName,
+          description: pkg.description,
+          productDescription: pkg.description,
+          version: pkg.version,
+          copyright: 'Copyright ' + pkg.author.name + '(' + pkg.license + ' License)',
+          authors: [pkg.author.name],
+          owners: [pkg.author.name],
+          homepage: pkg.homepage,
+          animation: path.join(TOOL_DIR, 'packager', 'msi', 'loader.gif'),
+          icon: path.join(ASSETS_DIR, 'icons', 'app.ico'),
+          iconUrl: 'https://github.com/Dodenis/openGWMail/raw/master/assets/icons/app.png'
+        }
       }
 
       windowsInstaller(options)
@@ -132,7 +143,7 @@ class Distribution {
 
       const filename = `openGWMail_${pkg.version.replace(/\./g, '_')}${pkg.prerelease ? '_prerelease' : ''}_linux_${ARCH_FILENAME[arch]}.tar.gz`
       const targetPath = path.join(DIST_DIR, filename)
-      const builtDirectory = arch === ARCH.X64 ? 'openGWMail-linux-x64' : 'openGWMail-linux-ia32'
+      const builtDirectory = PLATFORM_ARCHES_FOLDERS['linux'][arch]
 
       if (fs.existsSync(targetPath)) {
         fs.removeSync(targetPath)
@@ -161,8 +172,8 @@ class Distribution {
   static distributeLinuxDeb (pkg, arch) {
     const ARCH_MAPPING = { x86: 'i386', x64: 'amd64' }
     const CWD_MAPPING = {
-      x86: path.join(DIST_DIR, 'openGWMail-linux-ia32'),
-      x64: path.join(DIST_DIR, 'openGWMail-linux-x64')
+      x86: path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['linux'][ARCH.X86]),
+      x64: path.join(DIST_DIR, PLATFORM_ARCHES_FOLDERS['linux'][ARCH.X64])
     }
 
     return new Promise((resolve, reject) => {
@@ -181,7 +192,7 @@ class Distribution {
             fileName + '_' + fileVersion + fileRelease + '_<%= arch %>.deb'
           )
         },
-        options: require(path.join(__dirname, 'deb/config.json'))
+        options: require(path.join(__dirname, 'deb', 'config.json'))
       }
 
       debianInstaller(options)

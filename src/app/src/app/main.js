@@ -1,4 +1,7 @@
 ;(function () {
+  if (require('electron-squirrel-startup')) {
+    return
+  }
 
   var realFs = require('fs')
   var gracefulFs = require('graceful-fs')

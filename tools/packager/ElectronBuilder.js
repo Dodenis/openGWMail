@@ -35,14 +35,7 @@ class ElectronBuilder {
       '/.npm-debug.log',
       '/packager.js',
       '/README.md',
-      '/webpack.config.js',
-
-      // Output folders
-      '/openGWMail-linux-ia32',
-      '/openGWMail-linux-x64',
-      '/openGWMail-win32-ia32',
-      '/openGWMail-win32-x64',
-      '/openGWMail-darwin-x64'
+      '/webpack.config.js'
     ]
 
     return '^(' + ignores.join('|') + ')'
@@ -60,13 +53,13 @@ class ElectronBuilder {
       const options = {
         dir: ROOT_DIR,
         out: DIST_DIR,
-        name: 'openGWMail',
-        executableName: 'opengwmail',
+        name: pkg.productName,
+        executableName: pkg.name,
         platform: platform,
         arch: arch,
-        appBundleId: 'opengwmail.opengwmail',
+        appBundleId: pkg.name + '.' + pkg.name,
         appCopyright: 'Copyright ' + pkg.author + '(' + pkg.license + ' License)',
-        icon: path.join(ASSETS_DIR, 'icons/app'),
+        icon: path.join(ASSETS_DIR, 'icons', 'app'),
         overwrite: true,
         asar: true,
         prune: false,
@@ -74,7 +67,7 @@ class ElectronBuilder {
           CompanyName: pkg.author,
           FileDescription: pkg.description,
           OriginalFilename: pkg.name,
-          ProductName: 'openGWMail'
+          ProductName: pkg.productName
         },
         extendInfo: {
           'CFBundleURLSchemes': ['mailto']
@@ -82,7 +75,7 @@ class ElectronBuilder {
         ignore: ElectronBuilder.packagerIgnoreString(platform, arch),
         afterCopy: [serialHooks([
           (buildPath, electronVersion, platform, arch) => {
-            buildPath = path.join(buildPath, 'bin/app')
+            buildPath = path.join(buildPath, 'bin', 'app')
             rebuild({ buildPath, electronVersion, arch })
           }
         ])]

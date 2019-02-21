@@ -24,6 +24,19 @@ module.exports = {
   PACKAGE_DIRS: [
     ROOT_DIR,
     path.join(SRC_DIR, 'app'),
-    path.join(SRC_DIR, 'scenes/mailboxes')
-  ]
+    path.join(SRC_DIR, 'scenes', 'mailboxes')
+  ],
+  PLATFORM_ARCHES_FOLDERS: {
+    darwin: {
+      x64: PKG.productName + '-darwin-x64'
+    },
+    win32: {
+      x64: PKG.productName + '-win32-x64',
+      x86: PKG.productName + '-win32-ia32'
+    },
+    linux: {
+      x64: PKG.productName + '-linux-x64',
+      x86: PKG.productName + '-linux-ia32'
+    }
+  }
 }

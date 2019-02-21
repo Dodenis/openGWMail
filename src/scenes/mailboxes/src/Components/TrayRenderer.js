@@ -109,7 +109,14 @@ class TrayRenderer {
       ctx.fillStyle = BACKGROUND_COLOR
       ctx.strokeStyle = COLOR
       ctx.lineWidth = STROKE_WIDTH
-      this.roundRect(ctx, PADDING, PADDING, SIZE - (2 * PADDING), SIZE - (2 * PADDING), BORDER_RADIUS, true, true)
+
+      if (RADIUS === 5) {
+        ctx.arc(CENTER, CENTER, (SIZE / 2) - PADDING, 0, 2 * Math.PI, false)
+        ctx.fill()
+        ctx.stroke()
+      } else {
+        this.roundRect(ctx, PADDING, PADDING, SIZE - (2 * PADDING), SIZE - (2 * PADDING), BORDER_RADIUS, true, true)
+      }
 
       if (SHOW_COUNT) {
         ctx.fillStyle = COLOR
@@ -151,10 +158,13 @@ class TrayRenderer {
   static renderCanvasWin32 (config) {
     return new Promise((resolve, reject) => {
       const SIZE = config.size * config.pixelRatio
+      const PADDING = Math.floor(SIZE * 0.15)
       const REAL_CENTER = SIZE / 2
       const CENTER = Math.round(REAL_CENTER)
       const STROKE_WIDTH = Math.max(2, Math.round(SIZE * 0.15))
       const SHOW_COUNT = config.showUnreadCount && config.unreadCount
+      const RADIUS = config.unreadCount ? config.unreadRadius : config.readRadius
+      const BORDER_RADIUS = Math.round(SIZE * (RADIUS / 10))
       const COLOR = config.unreadCount ? config.unreadColor : config.readColor
       const BACKGROUND_COLOR = config.unreadCount ? config.unreadBackgroundColor : config.readBackgroundColor
 
@@ -167,8 +177,16 @@ class TrayRenderer {
       ctx.beginPath()
       ctx.fillStyle = BACKGROUND_COLOR
       ctx.strokeStyle = COLOR
-      ctx.lineWidth = STROKE_WIDTH
-      this.roundRect(ctx, STROKE_WIDTH, STROKE_WIDTH, SIZE - (2 * STROKE_WIDTH), SIZE - (2 * STROKE_WIDTH), 0, true, true)
+
+      if (RADIUS === 5) {
+        ctx.lineWidth = (STROKE_WIDTH / 2)
+        ctx.arc(CENTER, CENTER, (SIZE / 2) - PADDING + (STROKE_WIDTH / 2), 0, 2 * Math.PI, false)
+        ctx.fill()
+        ctx.stroke()
+      } else {
+        ctx.lineWidth = STROKE_WIDTH
+        this.roundRect(ctx, PADDING, PADDING, SIZE - (2 * PADDING), SIZE - (2 * PADDING), BORDER_RADIUS, true, true)
+      }
 
       if (SHOW_COUNT) {
         ctx.fillStyle = COLOR
@@ -191,7 +209,7 @@ class TrayRenderer {
         resolve(canvas)
       } else {
         const loader = new window.Image()
-        const ICON_SIZE = SIZE * (config.thick ? 1.0 : 0.5)
+        const ICON_SIZE = SIZE * (config.thick ? 0.5 : 0.25)
         const ICON_POS = (SIZE - ICON_SIZE) / 2
         loader.onload = function () {
           ctx.drawImage(loader, ICON_POS, ICON_POS, ICON_SIZE, ICON_SIZE)

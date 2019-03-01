@@ -129,7 +129,7 @@ class ContextMenu {
       click: () => { webContents.inspectElement(params.x, params.y) }
     })
     const menu = Menu.buildFromTemplate(menuTemplate)
-    menu.popup(remote.getCurrentWindow())
+    menu.popup({window: remote.getCurrentWindow()})
   }
 }
 

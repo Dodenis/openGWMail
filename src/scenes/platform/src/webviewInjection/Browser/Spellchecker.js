@@ -3,13 +3,7 @@ const DictionaryLoad = require('./DictionaryLoad')
 const dictionaryExcludes = require('../../../../app/shared/dictionaryExcludes')
 const elconsole = require('../elconsole')
 
-let Nodehun
-try {
-  Nodehun = require('../../../../app/node_modules/nodehun')
-} catch (ex) {
-  elconsole.error('Failed to initialize spellchecker', ex)
-  Nodehun = null
-}
+const { SpellCheckerProvider } = require('../../../../app/node_modules/electron-hunspell')
 
 class Spellchecker {
 
@@ -19,9 +13,11 @@ class Spellchecker {
 
   constructor () {
     this._spellcheckers_ = {
-      primary: { nodehun: null, language: null },
-      secondary: { nodehun: null, language: null }
+      provider: new SpellCheckerProvider(),
+      primary: null,
+      secondary: null
     }
+    this._spellcheckers_.provider.initialize()
 
     ipcRenderer.on('start-spellcheck', (evt, data) => {
       this.updateSpellchecker(data.language, data.secondaryLanguage)
@@ -32,8 +28,8 @@ class Spellchecker {
   // Properties
   /* **************************************************************************/
 
-  get hasPrimarySpellchecker () { return this._spellcheckers_.primary.nodehun !== null }
-  get hasSecondarySpellchecker () { return this._spellcheckers_.secondary.nodehun !== null }
+  get hasPrimarySpellchecker () { return this._spellcheckers_.primary !== null }
+  get hasSecondarySpellchecker () { return this._spellcheckers_.secondary !== null }
   get hasSpellchecker () { return this.hasPrimarySpellchecker || this.hasSecondarySpellchecker }
 
   /* **************************************************************************/
@@ -47,11 +43,13 @@ class Spellchecker {
   * @return true if the work is correct
   */
   checkSpellcheckerWord (spellchecker, text) {
-    if (spellchecker.language) {
-      if (dictionaryExcludes[spellchecker.language] && dictionaryExcludes[spellchecker.language].has(text)) {
+    if (spellchecker) {
+      if (dictionaryExcludes[spellchecker] && dictionaryExcludes[spellchecker].has(text)) {
         return true
       } else {
-        return spellchecker.nodehun.isCorrectSync(text)
+        this._spellcheckers_.provider.switchDictionary(spellchecker)
+
+        return this._spellcheckers_.provider.getSuggestion(text)
       }
     } else {
       return true
@@ -84,12 +82,12 @@ class Spellchecker {
   suggestions (text) {
     return {
       primary: this.hasPrimarySpellchecker ? {
-        language: this._spellcheckers_.primary.language,
-        suggestions: this._spellcheckers_.primary.nodehun.spellSuggestionsSync(text)
+        language: this._spellcheckers_.primary,
+        suggestions: this.checkSpellcheckerWord(this._spellcheckers_.primary, text)
       } : null,
       secondary: this.hasSecondarySpellchecker ? {
         language: this._spellcheckers_.secondary.language,
-        suggestions: this._spellcheckers_.secondary.nodehun.spellSuggestionsSync(text)
+        suggestions: this.checkSpellcheckerWord(this._spellcheckers_.secondary, text)
       } : null
     }
   }
@@ -102,7 +100,7 @@ class Spellchecker {
   * Updates the provider by giving the languages as the primary language
   */
   updateProvider () {
-    const language = this._spellcheckers_.primary.language || window.navigator.language
+    const language = this._spellcheckers_.primary || window.navigator.language
     webFrame.setSpellCheckProvider(language, true, {
       spellCheck: (text) => { return this.checkWord(text) }
     })
@@ -114,29 +112,33 @@ class Spellchecker {
   * @param secondaryLanguage: the secondary language to change the spellcheck to
   */
   updateSpellchecker (primaryLanguage, secondaryLanguage) {
-    if (!Nodehun) { return }
+    if (this._spellcheckers_.primary !== primaryLanguage) {
+      if (this._spellcheckers_.primary !== null) {
+        this._spellcheckers_.provider.unloadDictionary(this._spellcheckers_.primary)
+      }
 
-    if (this._spellcheckers_.primary.language !== primaryLanguage) {
       if (!primaryLanguage) {
-        this._spellcheckers_.primary.language = null
-        this._spellcheckers_.primary.nodehun = undefined
+        this._spellcheckers_.primary = null
       } else {
-        this._spellcheckers_.primary.language = primaryLanguage
+        this._spellcheckers_.primary = primaryLanguage
         DictionaryLoad.load(primaryLanguage).then((dic) => {
-          this._spellcheckers_.primary.nodehun = new Nodehun(dic.aff, dic.dic)
+          this._spellcheckers_.provider.loadDictionary(primaryLanguage, dic.dic, dic.aff)
           this.updateProvider()
         }, (err) => elconsole.error('Failed to load dictionary', err))
       }
     }
 
-    if (this._spellcheckers_.secondary.language !== secondaryLanguage) {
+    if (this._spellcheckers_.secondary !== secondaryLanguage) {
+      if (this._spellcheckers_.secondary !== null) {
+        this._spellcheckers_.provider.unloadDictionary(this._spellcheckers_.secondary)
+      }
+
       if (!secondaryLanguage) {
-        this._spellcheckers_.secondary.language = null
-        this._spellcheckers_.secondary.nodehun = undefined
+        this._spellcheckers_.secondary = null
       } else {
-        this._spellcheckers_.secondary.language = secondaryLanguage
+        this._spellcheckers_.secondary = secondaryLanguage
         DictionaryLoad.load(secondaryLanguage).then((dic) => {
-          this._spellcheckers_.secondary.nodehun = new Nodehun(dic.aff, dic.dic)
+          this._spellcheckers_.provider.loadDictionary(secondaryLanguage, dic.dic, dic.aff)
         }, (err) => elconsole.error('Failed to load dictionary', err))
       }
     }

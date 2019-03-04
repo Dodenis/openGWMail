@@ -30,7 +30,7 @@ class ContextMenu {
   */
   _renderSuggestionMenuItems_ (suggestions) {
     const menuItems = []
-    if (suggestions.length) {
+    if (Array.isArray(suggestions) && suggestions.length) {
       suggestions.forEach((suggestion) => {
         menuItems.push({
           label: suggestion,
@@ -112,6 +112,11 @@ class ContextMenu {
       canCopy ? { label: 'Copy', role: 'copy' } : null,
       canPaste ? { label: 'Paste', role: 'paste' } : null,
       canPaste ? { label: 'Paste and match style', role: 'pasteandmatchstyle' } : null,
+      canCopy ? {
+        label: 'Search "' + params.selectionText + '" with google',
+        click: () => {
+          shell.openExternal('https://www.google.com/search?q=' + encodeURIComponent(params.selectionText))
+        } } : null,
       canSelectAll ? { label: 'Select all', role: 'selectall' } : null
     ].filter((item) => item !== null)
     if (textEditingMenu.length) {

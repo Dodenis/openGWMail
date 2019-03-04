@@ -205,303 +205,282 @@ static const LocaleScript localeScriptList[] = {
 
 module.exports = {
   'bg_BG': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/bg_BG/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/bg_BG/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/bg_BG/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/bg-bg/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/bg-bg/bg-bg.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/bg-bg/bg-bg.dic',
     name: 'Български - Bulgarian',
     charset: 'USCRIPT_CYRILLIC'
   },
-  'ca_ES-valencia': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES-valencia/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES-valencia/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES-valencia/index.dic',
-    name: 'Català (València) - Catalan (Valencia)',
-    charset: 'USCRIPT_LATIN'
-  },
   'ca_ES': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ca_ES/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ca-es/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ca-es/ca-es.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ca-es/ca-es.dic',
     name: 'Català - Catalan',
     charset: 'USCRIPT_LATIN'
   },
   'cs_CZ': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/cs_CZ/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/cs_CZ/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/cs_CZ/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/cs-cz/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/cs-cz/cs-cz.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/cs-cz/cs-cz.dic',
     name: 'Česky - Czech',
     charset: 'USCRIPT_LATIN'
   },
   'da_DK': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/da_DK/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/da_DK/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/da_DK/index.dic',
+    license: 'https://opensource.org/licenses/gpl-2.0.php',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/da-dk/da-dk.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/da-dk/da-dk.dic',
     name: 'Dansk - Danish',
     charset: 'USCRIPT_LATIN'
   },
   'de_AT': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_AT/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_AT/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_AT/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/v/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-at/de-at.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-at/de-at.dic',
     name: 'Deutsch (Österreich) - German (Austria)',
     charset: 'USCRIPT_LATIN'
   },
   'de_CH': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_CH/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_CH/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_CH/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-ch/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-ch/de-ch.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-ch/de-ch.dic',
     name: 'Deutsch (Schweiz) - German (Switzerland)',
     charset: 'USCRIPT_LATIN'
   },
   'de_DE': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_DE/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_DE/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/de_DE/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-de/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-de/de-de.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/de-de/de-de.dic',
     name: 'Deutsch - German',
     charset: 'USCRIPT_LATIN'
   },
   'el_GR': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/el_GR/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/el_GR/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/el_GR/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/el-gr/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/el-gr/el-gr.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/el-gr/el-gr.dic',
     name: 'Ελληνικά - Greek',
     charset: 'USCRIPT_GREEK'
   },
   'en_AU': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_AU/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_AU/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_AU/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-au/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-au/en-au.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-au/en-au.dic',
     name: 'English (Australia) - English (Australia)',
     charset: 'USCRIPT_LATIN'
   },
   'en_CA': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_CA/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_CA/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_CA/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-ca/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-ca/en-ca.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-ca/en-ca.dic',
     name: 'English (Canada) - English (Canada)',
     charset: 'USCRIPT_LATIN'
   },
   'en_GB': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_GB/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_GB/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_GB/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-gb/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-gb/en-gb.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-gb/en-gb.dic',
     name: 'English (UK) - English (UK)',
     charset: 'USCRIPT_LATIN'
   },
   'en_US': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_US/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_US/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_US/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-us/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-us/en-us.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/en-us/en-us.dic',
     name: 'English (US) - English (US)',
     charset: 'USCRIPT_LATIN'
   },
-  'en_ZA': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_ZA/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_ZA/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/en_ZA/index.dic',
-    name: 'English (South Africa) - English (South Africa)',
-    charset: 'USCRIPT_LATIN'
-  },
   'es_ES': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/es_ES/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/es_ES/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/es_ES/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/es-es/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/es-es/es-es.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/es-es/es-es.dic',
     name: 'Español - Spanish',
     charset: 'USCRIPT_LATIN'
   },
   'et_EE': {
-    license: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Estonian.txt',
-    aff: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Estonian.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Estonian.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/et-ee/README_et_EE.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/et-ee/et-ee.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/et-ee/et-ee.dic',
     name: 'Eesti - Estonian',
     charset: 'USCRIPT_LATIN'
   },
-  'eu_ES': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/eu_ES/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/eu_ES/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/eu_ES/index.dic',
-    name: 'Euskara - Basque',
+  'fa_IR': {
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fa-ir/README_fa_IR.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fa-ir/fa-ir.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fa-ir/fa-ir.dic',
+    name: 'فارسی - Persian',
+    charset: 'USCRIPT_ARABIC'
+  },
+  'fo_FO': {
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fo-fo/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fo-fo/fo-fo.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fo-fo/fo-fo.dic',
+    name: 'føroyskt mál - Faroese',
     charset: 'USCRIPT_LATIN'
   },
   'fr_FR': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/fr_FR/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/fr_FR/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/fr_FR/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fr-fr/README_fr_FR.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fr-fr/fr-fr.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/fr-fr/fr-fr.dic',
     name: 'Français - French',
     charset: 'USCRIPT_LATIN'
   },
-  'gl_ES': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/gl_ES/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/gl_ES/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/gl_ES/index.dic',
-    name: 'Galego - Galician',
-    charset: 'USCRIPT_LATIN'
+  'he_IL': {
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/he-il/README_he_IL.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/he-il/he-il.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/he-il/he-il.dic',
+    name: 'עברית - Hebrew',
+    charset: 'USCRIPT_HEBREW'
   },
   'hr_HR': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/hr_HR/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/hr_HR/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/hr_HR/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hr-hr/README_hr_HR.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hr-hr/hr-hr.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hr-hr/hr-hr.dic',
     name: 'Hrvatski - Croatian',
     charset: 'USCRIPT_LATIN'
   },
   'hu_HU': {
-    license: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Hungarian.txt',
-    aff: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Hungarian.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Hungarian.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hu-hu/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hu-hu/hu-hu.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/hu-hu/hu-hu.dic',
     name: 'Magyar - Hungarian',
     charset: 'USCRIPT_LATIN'
   },
   'it_IT': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/it_IT/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/it_IT/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/it_IT/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/it-it/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/it-it/it-it.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/it-it/it-it.dic',
     name: 'Italiano - Italian',
     charset: 'USCRIPT_LATIN'
   },
-  'lb_LU': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/lb_LU/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/lb_LU/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/lb_LU/index.dic',
-    name: 'Lëtzebuergesch - Luxembourgish',
-    charset: 'USCRIPT_LATIN'
-  },
   'lt_LT': {
-    license: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Lithuanian.txt',
-    aff: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Lithuanian.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Lithuanian.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lt-lt/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lt-lt/lt-lt.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lt-lt/lt-lt.dic',
     name: 'Lietuvos - Lithuanian',
     charset: 'USCRIPT_LATIN'
   },
   'lv_LV': {
-    license: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Latvian.txt',
-    aff: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Latvian.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Latvian.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lv-lv/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lv-lv/lv-lv.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/lv-lv/lv-lv.dic',
     name: 'Latvijas - Latvian',
     charset: 'USCRIPT_LATIN'
   },
-  'mn_MN': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/mn_MN/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/mn_MN/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/mn_MN/index.dic',
-    name: 'Монгол - Mongolian',
-    charset: 'USCRIPT_CYRILLIC'
-  },
-  'ms_MY': {
-    license: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Malays.txt',
-    aff: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Malays.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/Dictionaries-1/master/Malays.dic',
-    name: 'Melayu - Malay',
-    charset: 'USCRIPT_LATIN'
-  },
   'nb_NO': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nb_NO/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nb_NO/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nb_NO/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nb-no/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nb-no/nb-no.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nb-no/nb-no.dic',
     name: 'Norsk (bokmål) - Norwegian',
     charset: 'USCRIPT_LATIN'
   },
   'nl_NL': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nl_NL/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nl_NL/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nl_NL/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nl-nl/README_nl_NL.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nl-nl/nl-nl.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/nl-nl/nl-nl.dic',
     name: 'Nederlands - Dutch',
     charset: 'USCRIPT_LATIN'
   },
-  'nn_NO': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nn_NO/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nn_NO/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/nn_NO/index.dic',
-    name: 'Norsk (nynorsk) - Norwegian Nynorsk',
-    charset: 'USCRIPT_LATIN'
-  },
   'pl_PL': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pl_PL/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pl_PL/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pl_PL/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pl-pl/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pl-pl/pl-pl.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pl-pl/pl-pl.dic',
     name: 'Polski - Polish',
     charset: 'USCRIPT_LATIN'
   },
   'pt_BR': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_BR/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_BR/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_BR/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-br/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-br/pt-br.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-br/pt-br.dic',
     name: 'Português (Brasil) - Portuguese (Brazil)',
     charset: 'USCRIPT_LATIN'
   },
   'pt_PT': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_PT/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_PT/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/pt_PT/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-pt/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-pt/pt-pt.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/pt-pt/pt-pt.dic',
     name: 'Português (Portugal) - Portuguese (Portugal)',
     charset: 'USCRIPT_LATIN'
   },
   'ro_RO': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ro_RO/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ro_RO/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ro_RO/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ro-ro/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ro-ro/ro-ro.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ro-ro/ro-ro.dic',
     name: 'Română - Romanian',
     charset: 'USCRIPT_LATIN'
   },
   'ru_RU': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ru_RU/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ru_RU/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/ru_RU/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ru-ru/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ru-ru/ru-ru.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ru-ru/ru-ru.dic',
     name: 'Русский - Russian',
     charset: 'USCRIPT_CYRILLIC'
   },
   'sk_SK': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sk_SK/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sk_SK/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sk_SK/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sk-sk/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sk-sk/sk-sk.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sk-sk/sk-sk.dic',
     name: 'Slovenčina - Slovak',
     charset: 'USCRIPT_LATIN'
   },
   'sl_SI': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sl_SI/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sl_SI/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sl_SI/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sl-si/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sl-si/sl-si.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sl-si/sl-si.dic',
     name: 'Slovenščina - Slovenian',
     charset: 'USCRIPT_LATIN'
   },
   'sr_RS-Latn': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS-Latn/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS-Latn/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS-Latn/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr-latn/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr-latn/sr-latn.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr-latn/sr-latn.dic',
     name: 'Српски (латински) - Serbian (Latin)',
     charset: 'USCRIPT_LATIN'
   },
   'sr_RS': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sr_RS/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr/sr.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sr/sr.dic',
     name: 'Српски - Serbian',
     charset: 'USCRIPT_CYRILLIC'
   },
   'sv_SE': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sv_SE/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sv_SE/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/sv_SE/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sv-se/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sv-se/sv-se.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/sv-se/sv-se.dic',
     name: 'Svenska - Swedish',
     charset: 'USCRIPT_LATIN'
   },
+  'ta_IN': {
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ta-in/README_ta_IN.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ta-in/ta-in.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/ta-in/ta-in.dic',
+    name: 'தமிழ் - Tamil',
+    charset: 'USCRIPT_TAMIL'
+  },
+  'tg_TG': {
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tg-tg/README_tg_TG.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tg-tg/tg-tg.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tg-tg/tg-tg.dic',
+    name: 'тоҷикӣ - Tajik',
+    charset: 'USCRIPT_CYRILLIC'
+  },
   'tr_TR': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/tr-TR/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/tr-TR/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/tr-TR/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tr/README_tr.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tr/tr.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/tr/tr.dic',
     name: 'Türkçe - Turkish',
     charset: 'USCRIPT_LATIN'
   },
   'uk_UA': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/uk_UA/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/uk_UA/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/uk_UA/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/uk-ua/LICENSE',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/uk-ua/uk-ua.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/uk-ua/uk-ua.dic',
     name: 'Українська - Ukrainian',
     charset: 'USCRIPT_CYRILLIC'
   },
   'vi_VN': {
-    license: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/vi_VN/LICENSE',
-    aff: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/vi_VN/index.aff',
-    dic: 'https://raw.githubusercontent.com/openWMail/dictionaries/master/dictionaries/vi_VN/index.dic',
+    license: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/vi/README-en.txt',
+    aff: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/vi/vi.aff',
+    dic: 'https://raw.githubusercontent.com/kwonoj/hunspell-dict/master/packages/vi/vi.dic',
     name: 'Tiếng Việt - Vietnamese',
     charset: 'USCRIPT_LATIN'
   }

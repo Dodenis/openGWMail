@@ -8,6 +8,7 @@
   "dependencies": {
     "appdirectory": "0.1.0",
     "dictionary-en-us": "1.2.0",
+    "electron-hunspell": "^0.1.1",
     "electron-squirrel-startup": "^1.0.0",
     "escape-html": "1.0.3",
     "fs-extra": "2.0.0",
@@ -19,7 +20,6 @@
     "minivents": "2.0.2",
     "mkdirp": "0.5.1",
     "node-fetch": "1.6.3",
-    "nodehun": "2.0.12",
     "os-locale": "2.0.0",
     "request": "2.88.0",
     "unused-filename": "0.1.0",

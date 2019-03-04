@@ -13,7 +13,7 @@ Promise.resolve()
         .then(() => {
           return rebuild({
             buildPath: dir,
-            electronVersion: PKG.devDependencies.electron,
+            electronVersion: PKG.devDependencies.electron.replace(/[\^]/g, ''),
             force: true,
             types: ['prod', 'optional']
           })

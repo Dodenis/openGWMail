@@ -9,6 +9,7 @@ if (getArg('-p') !== undefined) {
   process.env.NODE_ENV = 'production'
 } else {
   console.log('[DEVELOPMENT BUILD]')
+  process.env.NODE_ENV = 'development'
 }
 
 // Cheap / expensive source maps

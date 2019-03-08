@@ -8,17 +8,14 @@ const CleanWebpackPlugin = devRequire('clean-webpack-plugin')
 const CopyWebpackPlugin = devRequire('copy-webpack-plugin')
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   output: {
     path: OUT_DIR,
     filename: '__.js'
   },
   entry: path.join(__dirname, '__.js'),
   plugins: [
-    new CleanWebpackPlugin([path.relative(BIN_DIR, OUT_DIR)], {
-      root: BIN_DIR,
-      verbose: true,
-      dry: false
-    }),
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       { from: path.join(__dirname, 'src'), to: '', force: true }
     ], {

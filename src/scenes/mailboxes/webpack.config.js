@@ -11,6 +11,7 @@ const CleanWebpackPlugin = devRequire('clean-webpack-plugin')
 const isProduction = process.env.NODE_ENV === 'production'
 
 const options = {
+  mode: process.env.NODE_ENV,
   devtool: isProduction ? undefined : (process.env.WEBPACK_DEVTOOL || 'source-map'),
   entry: {
     mailboxes: [
@@ -22,18 +23,8 @@ const options = {
     filename: 'mailboxes.js'
   },
   plugins: [
-    !isProduction ? undefined : new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
-
     // Clean out our bin dir
-    new CleanWebpackPlugin([path.relative(BIN_DIR, OUT_DIR)], {
-      root: BIN_DIR,
-      verbose: true,
-      dry: false
-    }),
+    new CleanWebpackPlugin(),
 
     // Ignore electron modules and other modules we don't want to compile in
     new webpack.IgnorePlugin(new RegExp('^(electron)$')),
@@ -45,12 +36,7 @@ const options = {
       { from: path.join(__dirname, 'src/notification.html'), to: 'notification.html', force: true }
     ], {
       ignore: [ '.DS_Store' ]
-    }),
-
-    // Minify in production
-    isProduction ? new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
-    }) : undefined
+    })
   ].filter((p) => !!p),
   resolve: {
     extensions: ['.js', '.jsx', '.less', '.css'],

@@ -11,6 +11,7 @@ module.exports = {
     path: BIN_DIR,
     filename: '__.js'
   },
+  entry: path.join(__dirname, '__.js'),
   plugins: [
     new CleanWebpackPlugin(['fonts', 'icons'], {
       root: BIN_DIR,

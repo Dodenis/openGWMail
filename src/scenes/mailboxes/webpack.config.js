@@ -6,7 +6,6 @@ const devRequire = (n) => require(path.join(ROOT_DIR, 'node_modules', n))
 
 const webpack = devRequire('webpack')
 const CopyWebpackPlugin = devRequire('copy-webpack-plugin')
-const webpackTargetElectronRenderer = devRequire('webpack-target-electron-renderer')
 const CleanWebpackPlugin = devRequire('clean-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -54,41 +53,42 @@ const options = {
     }) : undefined
   ].filter((p) => !!p),
   resolve: {
-    extensions: ['', '.js', '.jsx', '.less', '.css'],
+    extensions: ['.js', '.jsx', '.less', '.css'],
     alias: {
       shared: path.resolve(path.join(__dirname, '../../shared'))
     },
-    root: [
+    modules: [
       __dirname,
-      path.resolve(path.join(__dirname, 'src'))
-    ],
-    modulesDirectories: [path.join(__dirname, 'node_modules')]
+      path.resolve(path.join(__dirname, 'src')),
+      path.join(__dirname, 'node_modules')
+    ]
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         include: [
           __dirname,
           path.resolve(path.join(__dirname, '../../shared'))
         ],
-        query: {
+        exclude: /node_modules/,
+        options: {
           cacheDirectory: true,
           presets: ['react', 'stage-0', 'env']
         }
       },
       {
         test: /(\.less|\.css)$/,
-        loaders: ['style', 'css', 'less']
-      },
-      {
-        test: /(\.json)$/,
-        loader: 'json'
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader'
+        ]
       }
     ]
-  }
+  },
+  target: 'electron-renderer'
 }
 
-options.target = webpackTargetElectronRenderer(options)
 module.exports = options

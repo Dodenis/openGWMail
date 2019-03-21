@@ -1,8 +1,5 @@
-const google = window.appNodeModulesRequire('googleapis')
-const gPlus = google.plus('v1')
-const gmail = google.gmail('v1')
+const {google} = window.appNodeModulesRequire('googleapis')
 const OAuth2 = google.auth.OAuth2
-const GoogleHTTPTransporter = require('./GoogleHTTPTransporter')
 const querystring = require('querystring')
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require('shared/credentials')
 
@@ -11,6 +8,24 @@ class GoogleHTTP {
   /* **************************************************************************/
   // Utils
   /* **************************************************************************/
+
+  /**
+   *
+   * @param auth: the auth to access google with
+   * @returns {*}
+   */
+  getGmailApi (auth) {
+    return google.gmail({ version: 'v1', auth })
+  }
+
+  /**
+   *
+   * @param auth: the auth to access google with
+   * @returns {*}
+   */
+  getPeopleApi (auth) {
+    return google.people({ version: 'v1', auth })
+  }
 
   /**
   * Rejects a call because the mailbox has no authentication info
@@ -42,7 +57,6 @@ class GoogleHTTP {
       refresh_token: refreshToken,
       expiry_date: expiryTime
     })
-    auth.transporter = new GoogleHTTPTransporter()
     return auth
   }
 
@@ -83,10 +97,12 @@ class GoogleHTTP {
   fetchMailboxProfile (auth) {
     if (!auth) { return this.rejectWithNoAuth() }
 
+    const gPeople = this.getPeopleApi(auth)
+
     return new Promise((resolve, reject) => {
-      gPlus.people.get({
-        userId: 'me',
-        auth: auth
+      gPeople.people.get({
+        resourceName: 'people/me',
+        personFields: 'emailAddresses,names,photos'
       }, (err, response) => {
         if (err) {
           reject({ err: err })
@@ -111,11 +127,12 @@ class GoogleHTTP {
   fetchMailboxLabel (auth, labelId) {
     if (!auth) { return this.rejectWithNoAuth() }
 
+    const gmail = this.getGmailApi(auth)
+
     return new Promise((resolve, reject) => {
       gmail.users.labels.get({
         userId: 'me',
-        id: labelId,
-        auth: auth
+        id: labelId
       }, (err, response) => {
         if (err) {
           reject({ err: err })
@@ -140,12 +157,13 @@ class GoogleHTTP {
   fetchThreadIds (auth, query, limit = 25) {
     if (!auth) { return this.rejectWithNoAuth() }
 
+    const gmail = this.getGmailApi(auth)
+
     return new Promise((resolve, reject) => {
       gmail.users.threads.list({
         userId: 'me',
         q: query,
-        maxResults: limit,
-        auth: auth
+        maxResults: limit
       }, (err, response) => {
         if (err) {
           reject({ err: err })
@@ -165,11 +183,12 @@ class GoogleHTTP {
   fetchThread (auth, threadId) {
     if (!auth) { return this.rejectWithNoAuth() }
 
+    const gmail = this.getGmailApi(auth)
+
     return new Promise((resolve, reject) => {
       gmail.users.threads.get({
         userId: 'me',
-        id: threadId,
-        auth: auth
+        id: threadId
       }, (err, response) => {
         if (err) {
           reject({ err: err })

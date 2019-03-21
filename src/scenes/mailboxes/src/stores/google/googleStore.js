@@ -141,9 +141,9 @@ class GoogleStore {
       .then((response) => {
         mailboxActions.setBasicProfileInfo(
           mailboxId,
-          (response.response.emails.find((a) => a.type === 'account') || {}).value,
-          response.response.displayName,
-          response.response.image.url
+          (response.response.data.emailAddresses.find((a) => a.metadata.primary === true) || {}).value,
+          (response.response.data.names.find((a) => a.metadata.primary === true) || {}).displayName,
+          (response.response.data.photos.find((a) => a.metadata.primary === true) || {}).url
         )
       })
       .then(

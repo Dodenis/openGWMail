@@ -107,7 +107,7 @@ class GoogleHTTP {
         if (err) {
           reject({ err: err })
         } else {
-          resolve({ response: response })
+          resolve(response.data)
         }
       })
     })
@@ -137,7 +137,7 @@ class GoogleHTTP {
         if (err) {
           reject({ err: err })
         } else {
-          resolve({ response: response })
+          resolve({ response: response.data })
         }
       })
     })
@@ -168,7 +168,7 @@ class GoogleHTTP {
         if (err) {
           reject({ err: err })
         } else {
-          resolve({ response: response })
+          resolve({ response: response.data })
         }
       })
     })
@@ -193,7 +193,7 @@ class GoogleHTTP {
         if (err) {
           reject({ err: err })
         } else {
-          resolve({ response: response })
+          resolve({ response: response.data })
         }
       })
     })

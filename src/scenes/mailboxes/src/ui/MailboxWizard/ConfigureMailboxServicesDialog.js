@@ -1,8 +1,8 @@
 const React = require('react')
 const {
-  Dialog, RaisedButton, Checkbox, Toggle,
+  Dialog, Button, Checkbox, Switch,
   Table, TableBody, TableRow, TableRowColumn
-} = require('material-ui')
+} = require('@material-ui/core')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
 
@@ -142,7 +142,8 @@ module.exports = React.createClass({
   render () {
     const { isOpen, enabledServices, mailboxType, availableServices, compactServices } = this.state
     const actions = (
-      <RaisedButton
+      <Button
+        variant='contained'
         label='Next'
         primary
         onClick={() => {
@@ -186,11 +187,11 @@ module.exports = React.createClass({
           </TableBody>
         </Table>
 
-        <Toggle
-          toggled={compactServices}
+        <Switch
+          checked={compactServices}
           label='Show sidebar services in compact mode'
           labelPosition='right'
-          onToggle={(evt, toggled) => this.setState({ compactServices: toggled })} />
+          onChange={(evt, toggled) => this.setState({ compactServices: toggled })} />
       </Dialog>
     )
   }

@@ -1,5 +1,5 @@
 const React = require('react')
-const {Paper} = require('material-ui')
+const {Paper} = require('@material-ui/core')
 const styles = require('../settingStyles')
 const shallowCompare = require('react-addons-shallow-compare')
 const { remote } = window.nativeRequire('electron')

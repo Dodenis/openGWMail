@@ -1,6 +1,6 @@
 const React = require('react')
-const { IconButton } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { IconButton } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 const {navigationDispatch} = require('../../Dispatch')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
@@ -31,7 +31,7 @@ module.exports = React.createClass({
         <IconButton
           iconClassName='material-icons'
           onClick={() => navigationDispatch.openSettings()}
-          iconStyle={{ color: Colors.blueGrey400 }}>
+          iconStyle={{ color: Colors.blueGrey['400'] }}>
           settings
         </IconButton>
         <ReactTooltip

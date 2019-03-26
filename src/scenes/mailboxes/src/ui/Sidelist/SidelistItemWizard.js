@@ -1,6 +1,6 @@
 const React = require('react')
-const { IconButton } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { IconButton } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 const { appWizardActions } = require('../../stores/appWizard')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
@@ -31,7 +31,7 @@ module.exports = React.createClass({
         <IconButton
           iconClassName='fa fa-fw fa-magic'
           onClick={() => appWizardActions.startWizard()}
-          iconStyle={{ color: Colors.yellow600 }} />
+          iconStyle={{ color: Colors.yellow }} />
         <ReactTooltip
           id='ReactComponent-Sidelist-Item-Wizard'
           place='right'

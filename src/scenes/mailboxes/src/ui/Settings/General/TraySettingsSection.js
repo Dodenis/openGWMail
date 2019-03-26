@@ -1,5 +1,5 @@
 const React = require('react')
-const { Toggle, Paper, SelectField, MenuItem } = require('material-ui')
+const { Switch, Paper, SelectField, MenuItem } = require('@material-ui/core')
 const { TrayIconEditor } = require('../../../Components')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
@@ -31,27 +31,27 @@ module.exports = React.createClass({
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>{process.platform === 'darwin' ? 'Menu Bar' : 'Tray'}</h1>
         <div>
-          <Toggle
-            toggled={tray.show}
+          <Switch
+            checked={tray.show}
             label='Show icon'
             labelPosition='right'
-            onToggle={(evt, toggled) => settingsActions.setShowTrayIcon(toggled)} />
-          <Toggle
-            toggled={tray.showUnreadCount}
+            onChange={(evt, toggled) => settingsActions.setShowTrayIcon(toggled)} />
+          <Switch
+            checked={tray.showUnreadCount}
             label='Show unread count'
             labelPosition='right'
             disabled={!tray.show}
-            onToggle={(evt, toggled) => settingsActions.setShowTrayUnreadCount(toggled)} />
+            onChange={(evt, toggled) => settingsActions.setShowTrayUnreadCount(toggled)} />
           {Tray.platformSupportsDpiMultiplier() ? (
             <SelectField
               floatingLabelText='DPI Multiplier'
               value={tray.dpiMultiplier}
               onChange={(evt, index, value) => settingsActions.setDpiMultiplier(value)}>
-              <MenuItem value={1} primaryText='1x' />
-              <MenuItem value={2} primaryText='2x' />
-              <MenuItem value={3} primaryText='3x' />
-              <MenuItem value={4} primaryText='4x' />
-              <MenuItem value={5} primaryText='5x' />
+              <MenuItem value={1}>1x</MenuItem>
+              <MenuItem value={2}>2x</MenuItem>
+              <MenuItem value={3}>3x</MenuItem>
+              <MenuItem value={4}>4x</MenuItem>
+              <MenuItem value={5}>5x</MenuItem>
             </SelectField>
           ) : undefined }
         </div>

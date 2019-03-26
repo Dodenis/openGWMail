@@ -1,7 +1,7 @@
 const React = require('react')
 const shallowCompare = require('react-addons-shallow-compare')
 const { Mailbox } = require('shared/Models/Mailbox')
-const { Avatar } = require('material-ui')
+const { Avatar } = require('@material-ui/core')
 const styles = require('../SidelistStyles')
 
 module.exports = React.createClass({

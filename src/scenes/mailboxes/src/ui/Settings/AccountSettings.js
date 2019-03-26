@@ -1,5 +1,5 @@
 const React = require('react')
-const {SelectField, MenuItem, Avatar, Paper} = require('material-ui')
+const {SelectField, MenuItem, Avatar, Paper} = require('@material-ui/core')
 const {
   Grid: { Container, Row, Col }
 } = require('../../Components')
@@ -125,8 +125,9 @@ module.exports = React.createClass({
                   return (
                     <MenuItem
                       value={m.id}
-                      key={m.id}
-                      primaryText={(m.email || m.name || m.id) + ' (' + m.typeName + ')'} />
+                      key={m.id}>
+                      {(m.email || m.name || m.id) + ' (' + m.typeName + ')'}
+                    </MenuItem>
                   )
                 })
               }

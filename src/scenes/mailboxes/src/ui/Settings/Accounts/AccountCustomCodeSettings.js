@@ -1,5 +1,5 @@
 const React = require('react')
-const { Paper, RaisedButton, FontIcon } = require('material-ui')
+const { Paper, Button, Icon } = require('@material-ui/core')
 const CustomCodeEditingModal = require('./CustomCodeEditingModal')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
@@ -71,15 +71,17 @@ module.exports = React.createClass({
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Custom Code</h1>
         <div style={styles.button}>
-          <RaisedButton
+          <Button
+            variant='contained'
             label='Custom CSS'
-            icon={<FontIcon className='material-icons'>code</FontIcon>}
+            icon={<Icon className='material-icons'>code</Icon>}
             onTouchTap={() => this.setState({ editingCSS: true, editingJS: false })} />
         </div>
         <div style={styles.button}>
-          <RaisedButton
+          <Button
+            variant='contained'
             label='Custom JavaScript'
-            icon={<FontIcon className='material-icons'>code</FontIcon>}
+            icon={<Icon className='material-icons'>code</Icon>}
             onTouchTap={() => this.setState({ editingCSS: false, editingJS: true })} />
         </div>
         <div style={styles.button}>

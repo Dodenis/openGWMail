@@ -1,5 +1,5 @@
 const React = require('react')
-const { Paper, Toggle } = require('material-ui')
+const { Paper, Switch } = require('@material-ui/core')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
 const shallowCompare = require('react-addons-shallow-compare')
@@ -29,11 +29,11 @@ module.exports = React.createClass({
     return (
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Advanced</h1>
-        <Toggle
-          toggled={mailbox.artificiallyPersistCookies}
+        <Switch
+          checked={mailbox.artificiallyPersistCookies}
           label='Artificially Persist Cookies. Use if you are signed out every restart. (Requires Restart)'
           labelPosition='right'
-          onToggle={(evt, toggled) => {
+          onChange={(evt, toggled) => {
             showRestart()
             mailboxActions.artificiallyPersistCookies(mailbox.id, toggled)
           }} />

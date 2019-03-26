@@ -2,7 +2,7 @@ const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { settingsStore } = require('../../stores/settings')
 const shallowCompare = require('react-addons-shallow-compare')
-const { Dialog, RaisedButton } = require('material-ui')
+const { Dialog, Button } = require('@material-ui/core')
 const { TrayIconEditor } = require('../../Components')
 
 module.exports = React.createClass({
@@ -55,11 +55,13 @@ module.exports = React.createClass({
 
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Cancel'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Next'
           primary
           onClick={() => appWizardActions.progressNextStep()} />

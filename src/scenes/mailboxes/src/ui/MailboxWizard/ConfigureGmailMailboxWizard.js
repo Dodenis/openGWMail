@@ -1,9 +1,9 @@
 const React = require('react')
-const { RaisedButton, Paper } = require('material-ui')
+const { Button, Paper } = require('@material-ui/core')
 const shallowCompare = require('react-addons-shallow-compare')
 const { Configurations } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
-const Colors = require('material-ui/styles/colors')
+const Colors = require('@material-ui/core/colors')
 
 const styles = {
   introduction: {
@@ -40,7 +40,7 @@ const styles = {
     backgroundRepeat: 'no-repeat'
   },
   configurationTechInfo: {
-    color: Colors.grey500,
+    color: Colors.grey,
     fontSize: '85%'
   }
 }
@@ -87,7 +87,7 @@ module.exports = React.createClass({
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].DEFAULT_INBOX)}>
             <div>
-              <RaisedButton primary label='Categories Inbox' style={styles.configurationButton} />
+              <Button variant='contained' primary label='Categories Inbox' style={styles.configurationButton} />
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_categories_small.png")`
               }, styles.configurationImage)} />
@@ -103,7 +103,7 @@ module.exports = React.createClass({
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].UNREAD_INBOX)}>
             <div>
-              <RaisedButton primary label='Unread Inbox' style={styles.configurationButton} />
+              <Button variant='contained' primary label='Unread Inbox' style={styles.configurationButton} />
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_unread_small.png")`
               }, styles.configurationImage)} />
@@ -119,7 +119,7 @@ module.exports = React.createClass({
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].PRIORIY_INBOX)}>
             <div>
-              <RaisedButton primary label='Priority Inbox' style={styles.configurationButton} />
+              <Button variant='contained' primary label='Priority Inbox' style={styles.configurationButton} />
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_priority_small.png")`
               }, styles.configurationImage)} />

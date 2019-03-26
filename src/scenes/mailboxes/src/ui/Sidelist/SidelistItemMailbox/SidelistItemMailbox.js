@@ -1,5 +1,5 @@
 const React = require('react')
-const { Badge, FontIcon } = require('material-ui')
+const { Badge, Icon } = require('@material-ui/core')
 const { navigationDispatch } = require('../../../Dispatch')
 const { mailboxStore, mailboxActions } = require('../../../stores/mailbox')
 const shallowCompare = require('react-addons-shallow-compare')
@@ -117,7 +117,7 @@ module.exports = React.createClass({
         <Badge
           onContextMenu={this.handleOpenPopover}
           onClick={this.handleClick}
-          badgeContent={(<FontIcon className='fa fa-exclamation' style={{ color: 'white', fontSize: 16 }} />)}
+          badgeContent={(<Icon className='fa fa-exclamation' style={{ color: 'white', fontSize: 16 }} />)}
           badgeStyle={styles.mailboxBadge}
           style={styles.mailboxBadgeContainer} />
       )

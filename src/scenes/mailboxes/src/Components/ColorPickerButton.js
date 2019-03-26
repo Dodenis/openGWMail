@@ -1,5 +1,5 @@
 const React = require('react')
-const { RaisedButton, Popover } = require('material-ui')
+const { Button, Popover } = require('@material-ui/core')
 const { ChromePicker } = require('react-color')
 
 module.exports = React.createClass({
@@ -46,7 +46,8 @@ module.exports = React.createClass({
     const { label, disabled, onChange, anchorOrigin, targetOrigin, icon, ...passProps } = this.props
     return (
       <div {...passProps}>
-        <RaisedButton
+        <Button
+          variant='contained'
           icon={icon}
           label={label}
           disabled={disabled}

@@ -1,5 +1,5 @@
 const React = require('react')
-const { FontIcon, Slider } = require('material-ui')
+const { Icon, Slider } = require('@material-ui/core')
 const {Row, Col} = require('./Grid')
 const ColorPickerButton = require('./ColorPickerButton')
 const TrayPreview = require('./TrayPreview')
@@ -54,7 +54,7 @@ module.exports = React.createClass({
             <div style={styles.button}>
               <ColorPickerButton
                 label='Border'
-                icon={<FontIcon className='material-icons'>border_color</FontIcon>}
+                icon={<Icon className='material-icons'>border_color</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
@@ -64,7 +64,7 @@ module.exports = React.createClass({
             <div style={styles.button}>
               <ColorPickerButton
                 label='Background'
-                icon={<FontIcon className='material-icons'>format_color_fill</FontIcon>}
+                icon={<Icon className='material-icons'>format_color_fill</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
@@ -99,7 +99,7 @@ module.exports = React.createClass({
             <div style={styles.button}>
               <ColorPickerButton
                 label='Border'
-                icon={<FontIcon className='material-icons'>border_color</FontIcon>}
+                icon={<Icon className='material-icons'>border_color</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
@@ -109,7 +109,7 @@ module.exports = React.createClass({
             <div style={styles.button}>
               <ColorPickerButton
                 label='Background'
-                icon={<FontIcon className='material-icons'>format_color_fill</FontIcon>}
+                icon={<Icon className='material-icons'>format_color_fill</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}

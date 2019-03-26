@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, RaisedButton, List, ListItem, Avatar } = require('material-ui')
+const { Dialog, Button, List, ListItem, Avatar } = require('@material-ui/core')
 const { composeStore, composeActions } = require('../../stores/compose')
 const { mailboxStore, mailboxActions } = require('../../stores/mailbox')
 const shallowCompare = require('react-addons-shallow-compare')
@@ -99,7 +99,7 @@ module.exports = React.createClass({
     const { mailboxes } = this.state
     const mailboxState = mailboxStore.getState()
     const actions = (
-      <RaisedButton label='Cancel' onClick={this.handleCancel} />
+      <Button variant='contained' label='Cancel' onClick={this.handleCancel} />
     )
 
     return (

@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, RaisedButton, Avatar } = require('material-ui')
+const { Dialog, Button, Avatar } = require('@material-ui/core')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const shallowCompare = require('react-addons-shallow-compare')
 
@@ -68,7 +68,7 @@ module.exports = React.createClass({
   render () {
     const { isOpen } = this.state
     const actions = (
-      <RaisedButton label='Cancel' onClick={() => mailboxWizardActions.cancelAddMailbox()} />
+      <Button variant='contained' label='Cancel' onClick={() => mailboxWizardActions.cancelAddMailbox()} />
     )
 
     return (
@@ -86,7 +86,8 @@ module.exports = React.createClass({
               style={styles.mailboxAvatar}
               onClick={() => mailboxWizardActions.authenticateGmailMailbox()} />
             <p>Add your Gmail account</p>
-            <RaisedButton
+            <Button
+              variant='contained'
               label='Add Gmail'
               primary
               onClick={() => mailboxWizardActions.authenticateGmailMailbox()} />
@@ -98,7 +99,8 @@ module.exports = React.createClass({
               style={styles.mailboxAvatar}
               onClick={() => mailboxWizardActions.authenticateGinboxMailbox()} />
             <p>Add your Google Inbox account</p>
-            <RaisedButton
+            <Button
+              variant='contained'
               label='Add Google Inbox'
               primary
               onClick={() => mailboxWizardActions.authenticateGinboxMailbox()} />

@@ -1,5 +1,5 @@
 const React = require('react')
-const { Avatar } = require('material-ui')
+const { Avatar } = require('@material-ui/core')
 const { mailboxStore } = require('../../../stores/mailbox')
 const shallowCompare = require('react-addons-shallow-compare')
 const styles = require('../SidelistStyles')

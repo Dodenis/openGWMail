@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog } = require('material-ui')
+const { Dialog } = require('@material-ui/core')
 const dictionariesStore = require('../../stores/dictionaries/dictionariesStore')
 const DictionaryInstallStepper = require('./DictionaryInstallStepper')
 

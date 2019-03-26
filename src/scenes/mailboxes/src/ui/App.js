@@ -18,7 +18,7 @@ const shallowCompare = require('react-addons-shallow-compare')
 const Tray = require('./Tray')
 const AppBadge = require('./AppBadge')
 const appTheme = require('./appTheme')
-const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
+const MuiThemeProvider = require('@material-ui/core/styles/MuiThemeProvider').default
 
 const injectTapEventPlugin = require('react-tap-event-plugin')
 injectTapEventPlugin()
@@ -171,7 +171,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <MuiThemeProvider muiTheme={appTheme}>
+        <MuiThemeProvider theme={appTheme}>
           <AppContent />
         </MuiThemeProvider>
         {!traySettings.show ? undefined : (

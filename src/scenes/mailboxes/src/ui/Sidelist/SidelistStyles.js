@@ -1,5 +1,5 @@
 import './SidelistStyles.less'
-const Colors = require('material-ui/styles/colors')
+const Colors = require('@material-ui/core/colors')
 const FOOTER_ITEM_HEIGHT = 50
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
   * Layout
   */
   container: {
-    backgroundColor: Colors.blueGrey900,
+    backgroundColor: Colors.blueGrey['900'],
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -60,8 +60,8 @@ module.exports = {
     cursor: 'pointer'
   },
   mailboxBadge: {
-    backgroundColor: Colors.red800,
-    color: Colors.white,
+    backgroundColor: Colors.red['800'],
+    color: Colors.red['50'],
     fontWeight: '400',
     width: 'auto',
     minWidth: 24,

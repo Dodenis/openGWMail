@@ -2,7 +2,7 @@ const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { platformActions } = require('../../stores/platform')
 const shallowCompare = require('react-addons-shallow-compare')
-const { Dialog, RaisedButton } = require('material-ui')
+const { Dialog, Button } = require('@material-ui/core')
 
 module.exports = React.createClass({
   /* **************************************************************************/
@@ -26,14 +26,17 @@ module.exports = React.createClass({
     const { isOpen } = this.props
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Cancel'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Later'
           onClick={() => appWizardActions.progressNextStep()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Make default mail client'
           style={{ marginLeft: 8 }}
           primary

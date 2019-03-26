@@ -1,5 +1,5 @@
 const React = require('react')
-const { Toggle, Paper, SelectField, MenuItem, RaisedButton, FontIcon } = require('material-ui')
+const { Switch, Paper, SelectField, MenuItem, Button, Icon } = require('@material-ui/core')
 const flux = {
   settings: require('../../../stores/settings'),
   dictionaries: require('../../../stores/dictionaries')
@@ -63,11 +63,11 @@ module.exports = React.createClass({
     return (
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Language</h1>
-        <Toggle
-          toggled={language.spellcheckerEnabled}
+        <Switch
+          checked={language.spellcheckerEnabled}
           labelPosition='right'
           label='Spell-checker (Requires Restart)'
-          onToggle={(evt, toggled) => {
+          onChange={(evt, toggled) => {
             showRestart()
             flux.settings.A.setEnableSpellchecker(toggled)
           }} />
@@ -77,7 +77,7 @@ module.exports = React.createClass({
           fullWidth
           onChange={(evt, index, value) => { flux.settings.A.setSpellcheckerLanguage(value) }}>
           {installedDictionaries.map((info) => {
-            return (<MenuItem key={info.lang} value={info.lang} primaryText={info.name} />)
+            return (<MenuItem key={info.lang} value={info.lang}>{info.name}</MenuItem>)
           })}
         </SelectField>
         <SelectField
@@ -89,16 +89,17 @@ module.exports = React.createClass({
           }}>
           {[undefined].concat(installedDictionaries).map((info) => {
             if (info === undefined) {
-              return (<MenuItem key='__none__' value='__none__' primaryText='None' />)
+              return (<MenuItem key='__none__' value='__none__'>None</MenuItem>)
             } else {
               const disabled = primaryDictionaryInfo.charset !== info.charset
-              return (<MenuItem key={info.lang} value={info.lang} primaryText={info.name} disabled={disabled} />)
+              return (<MenuItem key={info.lang} value={info.lang} disabled={disabled}>{info.name}</MenuItem>)
             }
           })}
         </SelectField>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Install more Dictionaries'
-          icon={<FontIcon className='material-icons'>language</FontIcon>}
+          icon={<Icon className='material-icons'>language</Icon>}
           onTouchTap={() => { flux.dictionaries.A.startDictionaryInstall() }} />
       </Paper>
     )

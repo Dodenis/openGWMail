@@ -1,45 +1,38 @@
+const PropTypes = require('prop-types');
 const React = require('react')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Mailbox } = require('shared/Models/Mailbox')
 const { Avatar } = require('material-ui')
 const styles = require('../SidelistStyles')
 
-module.exports = React.createClass({
+module.exports = class SidelistItemMailboxServices extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SidelistItemMailboxServices',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired,
-    isActiveMailbox: React.PropTypes.bool.isRequired,
-    isActiveService: React.PropTypes.bool.isRequired,
-    onOpenService: React.PropTypes.func.isRequired,
-    service: React.PropTypes.string.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired,
+    isActiveMailbox: PropTypes.bool.isRequired,
+    isActiveService: PropTypes.bool.isRequired,
+    onOpenService: PropTypes.func.isRequired,
+    service: PropTypes.string.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return { isHovering: false }
-  },
+  state = { isHovering: false };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
 
   /**
   * @param mailboxType: the type of mailbox
   * @param service: the service type
   * @return the url of the service icon
   */
-  getServiceIconUrl (mailboxType, service) {
+  getServiceIconUrl = (mailboxType, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.STORAGE: return '../../images/google_services/logo_drive_128px.png'
@@ -54,9 +47,9 @@ module.exports = React.createClass({
     }
 
     return ''
-  },
+  };
 
-  render () {
+  render() {
     const { mailbox, isActiveMailbox, isActiveService, service, onOpenService, ...passProps } = this.props
     const { isHovering } = this.state
     const isActive = isActiveMailbox && isActiveService
@@ -91,4 +84,4 @@ module.exports = React.createClass({
       )
     }
   }
-})
+}

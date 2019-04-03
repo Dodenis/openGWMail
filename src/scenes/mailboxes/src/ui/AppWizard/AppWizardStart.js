@@ -1,28 +1,23 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Dialog, RaisedButton, FontIcon, Avatar } = require('material-ui')
 const Colors = require('material-ui/styles/colors')
 
-module.exports = React.createClass({
+module.exports = class AppWizardStart extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AppWizardStart',
-  propTypes: {
-    isOpen: React.PropTypes.bool.isRequired
-  },
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isOpen } = this.props
     const actions = (
       <div>
@@ -65,4 +60,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

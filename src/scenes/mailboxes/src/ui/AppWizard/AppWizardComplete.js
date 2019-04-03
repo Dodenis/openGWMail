@@ -1,8 +1,8 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { mailboxStore } = require('../../stores/mailbox')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Dialog, RaisedButton, FontIcon } = require('material-ui')
 const Colors = require('material-ui/styles/colors')
 
@@ -16,53 +16,46 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class AppWizardComplete extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AppWizardComplete',
-  propTypes: {
-    isOpen: React.PropTypes.bool.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    mailboxStore.listen(this.mailboxesUpdated)
-  },
-
-  componentWillUnmount () {
-    mailboxStore.unlisten(this.mailboxesUpdated)
-  },
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired
+  };
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      mailboxCount: mailboxStore.getState().mailboxCount()
-    }
-  },
+  state = {
+    mailboxCount: mailboxStore.getState().mailboxCount()
+  };
 
-  mailboxesUpdated (mailboxState) {
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    mailboxStore.listen(this.mailboxesUpdated)
+  }
+
+  componentWillUnmount() {
+    mailboxStore.unlisten(this.mailboxesUpdated)
+  }
+
+  mailboxesUpdated = (mailboxState) => {
     this.setState({
       mailboxCount: mailboxState.mailboxCount()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isOpen } = this.props
     const { mailboxCount } = this.state
     const actions = (
@@ -105,4 +98,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

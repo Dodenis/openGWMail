@@ -1,30 +1,25 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, Paper, SelectField, MenuItem } = require('material-ui')
 const { TrayIconEditor } = require('../../../Components')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 const Tray = require('../../Tray')
 
-module.exports = React.createClass({
+module.exports = class TraySettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'TraySettingsSection',
-  propTypes: {
-    tray: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    tray: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {tray, ...passProps} = this.props
 
     return (
@@ -60,4 +55,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

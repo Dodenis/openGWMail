@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const MailboxTabSleepable = require('../MailboxTabSleepable')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
@@ -8,42 +9,39 @@ const {
 
 const REF = 'mailbox_tab'
 
-module.exports = React.createClass({
+module.exports = class GoogleMailboxContactsTab extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'GoogleMailboxContactsTab',
-  propTypes: {
-    mailboxId: React.PropTypes.string.isRequired
-  },
+  static propTypes = {
+    mailboxId: PropTypes.string.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    const settingsState = settingsStore.getState()
+
+    this.state = {
+      os: settingsState.os
+    };
+  }
 
   /* **************************************************************************/
   // Component lifecylce
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     settingsStore.listen(this.settingsChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     settingsStore.unlisten(this.settingsChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecylce
-  /* **************************************************************************/
-
-  getInitialState () {
-    const settingsState = settingsStore.getState()
-    return {
-      os: settingsState.os
-    }
-  },
-
-  settingsChanged (settingsState) {
+  settingsChanged = (settingsState) => {
     this.setState({ os: settingsState.os })
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events
@@ -53,15 +51,15 @@ module.exports = React.createClass({
   * Opens a new url in the correct way
   * @param url: the url to open
   */
-  handleOpenNewWindow (url) {
+  handleOpenNewWindow = (url) => {
     shell.openExternal(url, { activate: !this.state.os.openLinksInBackground })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { mailboxId } = this.props
 
     return (
@@ -73,4 +71,4 @@ module.exports = React.createClass({
         newWindow={(evt) => { this.handleOpenNewWindow(evt.url) }} />
     )
   }
-})
+}

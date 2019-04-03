@@ -45,19 +45,16 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
-
+module.exports = class Welcome extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'Welcome',
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     return (
       <div style={styles.container}>
         <div style={styles.heading}>
@@ -78,4 +75,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

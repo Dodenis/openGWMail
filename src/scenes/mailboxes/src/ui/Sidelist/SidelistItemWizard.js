@@ -5,13 +5,10 @@ const { appWizardActions } = require('../../stores/appWizard')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
 
-module.exports = React.createClass({
-
+module.exports = class SidelistItemWizard extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'SidelistItemWizard',
 
   /* **************************************************************************/
   // Rendering
@@ -20,7 +17,7 @@ module.exports = React.createClass({
   /**
   * Renders the app
   */
-  render () {
+  render() {
     const { style, ...passProps } = this.props
     return (
       <div
@@ -40,4 +37,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

@@ -5,42 +5,47 @@ const { MAILBOX_SLEEP_WAIT } = require('shared/constants')
 
 const REF = 'mailboxTab'
 
-module.exports = React.createClass({
+module.exports = class MailboxTabSleepable extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'MailboxTabSleepable',
-  propTypes: Object.assign({}, MailboxTab.propTypes),
+  static propTypes = Object.assign({}, MailboxTab.propTypes);
+
+  constructor (props) {
+    super(props)
+
+    this.state = this.getInitialPropState()
+  }
 
   /* **************************************************************************/
   // Component lifecylce
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     this.sleepWait = null
 
     mailboxStore.listen(this.mailboxUpdated)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.sleepWait)
 
     mailboxStore.unlisten(this.mailboxUpdated)
-  },
+  }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.mailboxId !== nextProps.mailboxId || this.props.service !== nextProps.service) {
       clearTimeout(this.sleepWait)
-      this.setState(this.getInitialState(nextProps))
+      this.setState(this.getInitialPropState(nextProps))
     }
-  },
+  }
 
   /* **************************************************************************/
   // Data lifecylce
   /* **************************************************************************/
 
-  getInitialState (props = this.props) {
+  getInitialPropState = (props = this.props) => {
     const mailboxState = mailboxStore.getState()
     const isActive = mailboxState.isActive(props.mailboxId, props.service)
     const mailbox = mailboxState.getMailbox(props.mailboxId)
@@ -49,9 +54,9 @@ module.exports = React.createClass({
       isSleeping: !isActive,
       allowsSleeping: mailbox ? (new Set(mailbox.sleepableServices)).has(props.service) : true
     }
-  },
+  };
 
-  mailboxUpdated (mailboxState) {
+  mailboxUpdated = (mailboxState) => {
     this.setState((prevState) => {
       const mailbox = mailboxState.getMailbox(this.props.mailboxId)
       const update = {
@@ -70,36 +75,37 @@ module.exports = React.createClass({
       }
       return update
     })
-  },
+  };
 
   /* **************************************************************************/
   // Webview pass throughs
   /* **************************************************************************/
 
-  send () {
+  send = (...args) => {
     if (this.refs[REF]) {
-      return this.refs[REF].send.apply(this, Array.from(arguments))
+      return this.refs[REF].send.apply(this, Array.from(args))
     } else {
       throw new Error('MailboxTab is sleeping')
     }
-  },
-  sendWithResponse () {
+  };
+
+  sendWithResponse = (...args) => {
     if (this.refs[REF]) {
-      return this.refs[REF].sendWithResponse.apply(this, Array.from(arguments))
+      return this.refs[REF].sendWithResponse.apply(this, Array.from(args))
     } else {
       throw new Error('MailboxTab is sleeping')
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     if (this.state.allowsSleeping && this.state.isSleeping) {
       return false
     } else {
       return (<MailboxTab ref={REF} {...this.props} />)
     }
   }
-})
+}

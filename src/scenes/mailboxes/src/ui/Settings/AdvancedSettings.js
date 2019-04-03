@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, TextField, Paper } = require('material-ui')
 const { Container, Row, Col } = require('../../Components/Grid')
@@ -5,29 +6,27 @@ const flux = {
   settings: require('../../stores/settings')
 }
 const styles = require('./settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class AdvancedSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AdvancedSettings',
-  propTypes: {
-    showRestart: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    showRestart: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     flux.settings.S.listen(this.settingsChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     flux.settings.S.unlisten(this.settingsChanged)
-  },
+  }
 
   /* **************************************************************************/
   // Data lifecycle
@@ -37,22 +36,18 @@ module.exports = React.createClass({
   * Generates the state from the settings
   * @param store=settingsStore: the store to use
   */
-  generateState (store = flux.settings.S.getState()) {
+  generateState = (store = flux.settings.S.getState()) => {
     return {
       proxyEnabled: store.proxy.enabled,
       proxyHost: store.proxy.host || '',
       proxyPort: store.proxy.port || '',
       app: store.app
     }
-  },
+  };
 
-  getInitialState () {
-    return this.generateState()
-  },
-
-  settingsChanged (store) {
+  settingsChanged = (store) => {
     this.setState(this.generateState(store))
-  },
+  };
 
   /* **************************************************************************/
   // User Interaction
@@ -61,26 +56,24 @@ module.exports = React.createClass({
   /**
   * Enables / disables the proxy server
   */
-  handleProxyToggle (evt, toggled) {
+  handleProxyToggle = (evt, toggled) => {
     flux.settings.A[toggled ? 'enableProxyServer' : 'disableProxyServer']()
-  },
+  };
 
-  handleProxyValueChanged (event) {
+  handleProxyValueChanged = (event) => {
     flux.settings.A.enableProxyServer(
       this.refs.proxy_host.getValue(),
       this.refs.proxy_port.getValue()
     )
-  },
+  };
+
+  state = this.generateState();
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { proxyEnabled, proxyPort, proxyHost, app } = this.state
     const { showRestart, ...passProps } = this.props
 
@@ -154,4 +147,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

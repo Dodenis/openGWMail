@@ -1,30 +1,25 @@
+const PropTypes = require('prop-types');
 const React = require('react')
-const shallowCompare = require('react-addons-shallow-compare')
 const styles = require('../SidelistStyles')
 const SidelistItemMailboxService = require('./SidelistItemMailboxService')
 
-module.exports = React.createClass({
+module.exports = class SidelistItemMailboxServices extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SidelistItemMailboxServices',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired,
-    isActiveMailbox: React.PropTypes.bool.isRequired,
-    activeService: React.PropTypes.string.isRequired,
-    onOpenService: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired,
+    isActiveMailbox: PropTypes.bool.isRequired,
+    activeService: PropTypes.string.isRequired,
+    onOpenService: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { mailbox, isActiveMailbox, activeService, onOpenService, onContextMenu } = this.props
     if (!mailbox.hasEnabledServices) { return null }
 
@@ -45,4 +40,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

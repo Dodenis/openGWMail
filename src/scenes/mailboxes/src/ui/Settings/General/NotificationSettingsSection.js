@@ -1,28 +1,23 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, Paper } = require('material-ui')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class NotificationSettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  displayName: 'NotificationSettingsSection',
-  propTypes: {
-    os: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    os: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { os, ...passProps } = this.props
 
     return (
@@ -42,4 +37,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const {
   Grid: { Container, Row, Col }
@@ -13,29 +14,28 @@ const UISettingsSection = require('./General/UISettingsSection')
 const InfoSettingsSection = require('./General/InfoSettingsSection')
 const PlatformSettingsSection = require('./General/PlatformSettingsSection')
 
-module.exports = React.createClass({
+module.exports = class GeneralSettings extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'GeneralSettings',
-  propTypes: {
-    showRestart: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    showRestart: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     settingsStore.listen(this.settingsChanged)
     platformStore.listen(this.platformChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     settingsStore.unlisten(this.settingsChanged)
     platformStore.unlisten(this.platformChanged)
-  },
+  }
 
   /* **************************************************************************/
   // Data lifecycle
@@ -45,20 +45,20 @@ module.exports = React.createClass({
   * Generates the settings state from the settings
   * @param store=settingsStore: the store to use
   */
-  generateSettingsState (store = settingsStore.getState()) {
+  generateSettingsState = (store = settingsStore.getState()) => {
     return {
       ui: store.ui,
       os: store.os,
       language: store.language,
       tray: store.tray
     }
-  },
+  };
 
   /**
   * Generates the platform state from the settings
   * @param store=platformStore: the store to use
   */
-  generatePlatformState (store = platformStore.getState()) {
+  generatePlatformState = (store = platformStore.getState()) => {
     const loginPref = store.loginPrefAssumed()
     return {
       openAtLoginSupported: store.loginPrefSupported(),
@@ -67,19 +67,17 @@ module.exports = React.createClass({
       mailtoLinkHandlerSupported: store.mailtoLinkHandlerSupported(),
       isMailtoLinkHandler: store.isMailtoLinkHandler()
     }
-  },
+  };
 
-  getInitialState () {
-    return Object.assign({}, this.generateSettingsState(), this.generatePlatformState())
-  },
-
-  settingsChanged (store) {
+  settingsChanged = (store) => {
     this.setState(this.generateSettingsState(store))
-  },
+  };
 
-  platformChanged (store) {
+  platformChanged = (store) => {
     this.setState(this.generatePlatformState(store))
-  },
+  };
+
+  state = Object.assign({}, this.generateSettingsState(), this.generatePlatformState());
 
   /* **************************************************************************/
   // Rendering
@@ -88,7 +86,7 @@ module.exports = React.createClass({
   /**
   * Renders the app
   */
-  render () {
+  render() {
     const {
       ui,
       os,
@@ -130,4 +128,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

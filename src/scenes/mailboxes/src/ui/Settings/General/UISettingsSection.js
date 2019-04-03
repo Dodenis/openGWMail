@@ -1,30 +1,25 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, Paper } = require('material-ui')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class UISettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'UISettingsSection',
-  propTypes: {
-    ui: React.PropTypes.object.isRequired,
-    os: React.PropTypes.object.isRequired,
-    showRestart: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    ui: PropTypes.object.isRequired,
+    os: PropTypes.object.isRequired,
+    showRestart: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {
       ui,
       os,
@@ -84,4 +79,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

@@ -1,57 +1,52 @@
+const PropTypes = require('prop-types');
 const React = require('react')
-const shallowCompare = require('react-addons-shallow-compare')
 const { remote } = window.nativeRequire('electron')
 const {nativeImage, app} = remote
 
-const AppBadge = React.createClass({
-  displayName: 'AppBadge',
+class AppBadge extends React.PureComponent {
 
-  propTypes: {
-    unreadCount: React.PropTypes.number.isRequired
-  },
-  statics: {
-    /**
-    * @return true if the current platform supports app badges
-    */
-    supportsAppBadge () {
-      if (process.platform === 'darwin') {
-        return true
-      } else if (process.platform === 'linux' && app.isUnityRunning()) {
-        return true
-      } else {
-        return false
-      }
-    },
-    /**
-    * @return true if this platform supports overlay icons
-    */
-    supportsAppOverlayIcon () {
-      return process.platform === 'win32'
+  static propTypes = {
+    unreadCount: PropTypes.number.isRequired
+  };
+
+  /**
+  * @return true if the current platform supports app badges
+  */
+  static supportsAppBadge() {
+    if (process.platform === 'darwin') {
+      return true
+    } else if (process.platform === 'linux' && app.isUnityRunning()) {
+      return true
+    } else {
+      return false
     }
-  },
+  }
+
+  /**
+  * @return true if this platform supports overlay icons
+  */
+  static supportsAppOverlayIcon() {
+    return process.platform === 'win32'
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (AppBadge.supportsAppBadge()) {
       app.setBadgeCount(0)
     } else if (AppBadge.supportsAppOverlayIcon()) {
       const win = remote.getCurrentWindow()
       win.setOverlayIcon(null, '')
     }
-  },
+  }
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { unreadCount } = this.props
 
     if (AppBadge.supportsAppBadge()) {
@@ -93,6 +88,6 @@ const AppBadge = React.createClass({
 
     return (<div />)
   }
-})
+}
 
 module.exports = AppBadge

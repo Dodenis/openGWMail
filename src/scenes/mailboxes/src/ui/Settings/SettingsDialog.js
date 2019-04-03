@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const {
   Dialog, RaisedButton,
@@ -9,23 +10,31 @@ const AdvancedSettings = require('./AdvancedSettings')
 const styles = require('./settingStyles')
 const { ipcRenderer } = window.nativeRequire('electron')
 
-module.exports = React.createClass({
+module.exports = class SettingsDialog extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SettingsDialog',
-  propTypes: {
-    open: React.PropTypes.bool.isRequired,
-    onRequestClose: React.PropTypes.func.isRequired,
-    initialRoute: React.PropTypes.object
-  },
+  static propTypes = {
+    open: PropTypes.bool.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
+    initialRoute: PropTypes.object
+  };
+
+  /* **************************************************************************/
+  // Data lifecycle
+  /* **************************************************************************/
+
+  state = {
+    currentTab: (this.props.initialRoute || {}).tab || 'general',
+    showRestart: false
+  };
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       const updates = { showRestart: false }
       if (nextProps.open) {
@@ -33,18 +42,7 @@ module.exports = React.createClass({
       }
       this.setState(updates)
     }
-  },
-
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    return {
-      currentTab: (this.props.initialRoute || {}).tab || 'general',
-      showRestart: false
-    }
-  },
+  }
 
   /* **************************************************************************/
   // User Interaction
@@ -53,32 +51,32 @@ module.exports = React.createClass({
   /**
   * Changes the tab
   */
-  handleTabChange (value) {
+  handleTabChange = (value) => {
     if (typeof (value) === 'string') {
       this.setState({ currentTab: value })
     }
-  },
+  };
 
   /**
   * Shows the option to restart
   */
-  handleShowRestart () {
+  handleShowRestart = () => {
     this.setState({ showRestart: true })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.state.currentTab !== nextState.currentTab) { return true }
     if (this.state.showRestart !== nextState.showRestart) { return true }
     if (nextProps.open !== this.props.open) { return true }
 
     return false
-  },
+  }
 
-  render () {
+  render() {
     const { showRestart, currentTab } = this.state
     const { onRequestClose, initialRoute, open } = this.props
 
@@ -135,4 +133,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

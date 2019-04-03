@@ -5,55 +5,45 @@ const SidelistItemSettings = require('./SidelistItemSettings')
 const SidelistItemWizard = require('./SidelistItemWizard')
 const { settingsStore } = require('../../stores/settings')
 const styles = require('./SidelistStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
-
+module.exports = class Sidelist extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'Sidelist',
+  constructor(props) {
+    super(props);
+    const settingsState = settingsStore.getState()
+
+    this.state = {
+      showTitlebar: settingsState.ui.showTitlebar, // purposely don't update this, because effects are only seen after restart
+      showWizard: !settingsState.app.hasSeenAppWizard
+    };
+  }
 
   /* **************************************************************************/
   // Component lifecyle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     settingsStore.listen(this.settingsUpdated)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     settingsStore.unlisten(this.settingsUpdated)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecyle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const settingsState = settingsStore.getState()
-    return {
-      showTitlebar: settingsState.ui.showTitlebar, // purposely don't update this, because effects are only seen after restart
-      showWizard: !settingsState.app.hasSeenAppWizard
-    }
-  },
-
-  settingsUpdated (settingsState) {
+  settingsUpdated = (settingsState) => {
     this.setState({
       showWizard: !settingsState.app.hasSeenAppWizard
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { showTitlebar, showWizard, hasUpdateInfo } = this.state
     const isDarwin = process.platform === 'darwin'
     const { style, ...passProps } = this.props
@@ -89,4 +79,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

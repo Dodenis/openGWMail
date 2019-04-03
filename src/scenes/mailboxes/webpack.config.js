@@ -61,7 +61,7 @@ const options = {
         exclude: /node_modules/,
         options: {
           cacheDirectory: true,
-          presets: ['react', 'stage-0', 'env']
+          presets: ['env', 'react', 'stage-0']
         }
       },
       {

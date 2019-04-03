@@ -12,9 +12,10 @@ const {
 } = require('../Dispatch')
 const AppContent = require('./AppContent')
 const TimerMixin = require('react-timer-mixin')
+const reactMixin = require('react-mixin')
+const toUnsafe = require('react-mixin/toUnsafe')
 const constants = require('shared/constants')
 const UnreadNotifications = require('../Notifications/UnreadNotifications')
-const shallowCompare = require('react-addons-shallow-compare')
 const Tray = require('./Tray')
 const AppBadge = require('./AppBadge')
 const appTheme = require('./appTheme')
@@ -25,15 +26,26 @@ injectTapEventPlugin()
 
 navigationDispatch.bindIPCListeners()
 
-module.exports = React.createClass({
-  displayName: 'App',
-  mixins: [TimerMixin],
+class App extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    const settingsStore = flux.settings.S.getState()
+    const mailboxStore = flux.mailbox.S.getState()
+
+    this.state = {
+      activeMailboxId: mailboxStore.activeMailboxId(),
+      messagesUnreadCount: mailboxStore.totalUnreadCountForAppBadge(),
+      uiSettings: settingsStore.ui,
+      traySettings: settingsStore.tray
+    };
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     this.forceFocusTO = null
 
     this.unreadNotifications = new UnreadNotifications()
@@ -46,9 +58,9 @@ module.exports = React.createClass({
     mailboxDispatch.on('blurred', this.mailboxBlurred)
 
     ipcRenderer.on('download-completed', this.downloadCompleted)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unreadNotifications.stop()
 
     flux.mailbox.S.unlisten(this.mailboxesChanged)
@@ -58,24 +70,9 @@ module.exports = React.createClass({
     ipcRenderer.removeListener('download-completed', this.downloadCompleted)
 
     mailboxDispatch.off('blurred', this.mailboxBlurred)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const settingsStore = flux.settings.S.getState()
-    const mailboxStore = flux.mailbox.S.getState()
-    return {
-      activeMailboxId: mailboxStore.activeMailboxId(),
-      messagesUnreadCount: mailboxStore.totalUnreadCountForAppBadge(),
-      uiSettings: settingsStore.ui,
-      traySettings: settingsStore.tray
-    }
-  },
-
-  mailboxesChanged (store) {
+  mailboxesChanged = (store) => {
     this.setState({
       activeMailboxId: store.activeMailboxId(),
       messagesUnreadCount: store.totalUnreadCountForAppBadge()
@@ -85,14 +82,14 @@ module.exports = React.createClass({
         return { id: mailbox.id, name: mailbox.name, email: mailbox.email }
       })
     })
-  },
+  };
 
-  settingsChanged (store) {
+  settingsChanged = (store) => {
     this.setState({
       uiSettings: store.ui,
       traySettings: store.tray
     })
-  },
+  };
 
   /* **************************************************************************/
   // IPC Events
@@ -103,14 +100,14 @@ module.exports = React.createClass({
   * @param evt: the event that fired
   * @param req: the request that came through
   */
-  downloadCompleted (evt, req) {
+  downloadCompleted = (evt, req) => {
     const notification = new window.Notification('Download Completed', {
       body: req.filename
     })
     notification.onclick = function () {
       shell.openItem(req.path) || shell.showItemInFolder(req.path)
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering Events
@@ -120,7 +117,7 @@ module.exports = React.createClass({
   * Handles a mailbox bluring by trying to refocus the mailbox
   * @param evt: the event that fired
   */
-  mailboxBlurred (evt) {
+  mailboxBlurred = (evt) => {
     // Requeue the event to run on the end of the render cycle
     this.setTimeout(() => {
       const active = document.activeElement
@@ -141,17 +138,13 @@ module.exports = React.createClass({
         }, constants.REFOCUS_MAILBOX_INTERVAL_MS)
       }
     }, constants.REFOCUS_MAILBOX_INTERVAL_MS)
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {
       traySettings,
       uiSettings,
@@ -185,4 +178,10 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}
+
+let fixedTimerMixin = toUnsafe(TimerMixin)
+
+reactMixin(App.prototype, fixedTimerMixin)
+
+module.exports = App

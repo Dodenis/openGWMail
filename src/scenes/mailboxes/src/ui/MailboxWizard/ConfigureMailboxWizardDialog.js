@@ -1,98 +1,89 @@
 const React = require('react')
 const { Dialog, RaisedButton } = require('material-ui')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Mailbox } = require('shared/Models/Mailbox')
 
 const ConfigureGinboxMailboxWizard = require('./ConfigureGinboxMailboxWizard')
 const ConfigureGmailMailboxWizard = require('./ConfigureGmailMailboxWizard')
 
-module.exports = React.createClass({
+module.exports = class ConfigureMailboxWizardDialog extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'ConfigureMailboxWizardDialog',
+  constructor(props) {
+    super(props);
+    const wizardState = mailboxWizardStore.getState()
+
+    this.state = {
+      isOpen: wizardState.configurationOpen,
+      mailboxType: wizardState.provisonaMailboxType()
+    };
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxWizardStore.listen(this.wizardChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxWizardStore.unlisten(this.wizardChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const wizardState = mailboxWizardStore.getState()
-    return {
-      isOpen: wizardState.configurationOpen,
-      mailboxType: wizardState.provisonaMailboxType()
-    }
-  },
-
-  wizardChanged (wizardState) {
+  wizardChanged = (wizardState) => {
     this.setState({
       isOpen: wizardState.addMailboxOpen,
       mailboxType: wizardState.provisonaMailboxType()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
   /**
   * @param mailboxType: the type of mailbox
   * @return the configurator class for this mailbox type or undefined
   */
-  getConfiguratorClass (mailboxType) {
+  getConfiguratorClass = (mailboxType) => {
     switch (mailboxType) {
       case Mailbox.TYPE_GINBOX: return ConfigureGinboxMailboxWizard
       case Mailbox.TYPE_GMAIL: return ConfigureGmailMailboxWizard
       default: return undefined
     }
-  },
+  };
 
   /**
   * Renders the mailbox configurator for the given type
   * @param mailboxType: the type of mailbox
   * @return jsx
   */
-  renderMailboxConfigurator (mailboxType) {
+  renderMailboxConfigurator = (mailboxType) => {
     const Configurator = this.getConfiguratorClass(mailboxType)
     return Configurator ? (
       <Configurator
         onPickedConfiguration={(cfg) => mailboxWizardActions.configureMailbox(cfg)} />
       ) : undefined
-  },
+  };
 
   /**
   * Renders the mailbox configurator title for the given type
   * @param mailboxType: the type of mailbox
   * @return jsx
   */
-  renderMailboxConfiguratorTitle (mailboxType) {
+  renderMailboxConfiguratorTitle = (mailboxType) => {
     const Configurator = this.getConfiguratorClass(mailboxType)
     return Configurator && Configurator.renderTitle ? Configurator.renderTitle() : undefined
-  },
+  };
 
   /**
   * Renders the action buttons based on if there is a configuration or not
   * @return jsx
   */
-  renderActions () {
+  renderActions = () => {
     return (
       <div style={{ textAlign: 'left' }}>
         <RaisedButton
@@ -100,9 +91,9 @@ module.exports = React.createClass({
           onClick={() => mailboxWizardActions.configureMailbox({})} />
       </div>
     )
-  },
+  };
 
-  render () {
+  render() {
     const { isOpen, mailboxType } = this.state
 
     return (
@@ -119,4 +110,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

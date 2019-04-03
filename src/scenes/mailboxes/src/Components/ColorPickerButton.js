@@ -1,48 +1,44 @@
+const PropTypes = require('prop-types')
 const React = require('react')
 const { RaisedButton, Popover } = require('material-ui')
 const { ChromePicker } = require('react-color')
 
-module.exports = React.createClass({
+module.exports = class ColorPickerButton extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'ColorPickerButton',
-  propTypes: {
-    value: React.PropTypes.string,
-    label: React.PropTypes.string.isRequired,
-    disabled: React.PropTypes.bool.isRequired,
-    anchorOrigin: React.PropTypes.object.isRequired,
-    targetOrigin: React.PropTypes.object.isRequired,
-    icon: React.PropTypes.node,
-    onChange: React.PropTypes.func
-  },
+  static propTypes = {
+    value: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    anchorOrigin: PropTypes.object.isRequired,
+    targetOrigin: PropTypes.object.isRequired,
+    icon: PropTypes.node,
+    onChange: PropTypes.func
+  };
+
+  static defaultProps = {
+    label: 'Pick Colour',
+    disabled: false,
+    anchorOrigin: {horizontal: 'left', vertical: 'bottom'},
+    targetOrigin: {horizontal: 'left', vertical: 'top'}
+  };
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      open: false,
-      anchor: null
-    }
-  },
-
-  getDefaultProps () {
-    return {
-      label: 'Pick Colour',
-      disabled: false,
-      anchorOrigin: {horizontal: 'left', vertical: 'bottom'},
-      targetOrigin: {horizontal: 'left', vertical: 'top'}
-    }
-  },
+  state = {
+    open: false,
+    anchor: null
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { label, disabled, onChange, anchorOrigin, targetOrigin, icon, ...passProps } = this.props
     return (
       <div {...passProps}>
@@ -70,4 +66,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

@@ -1,10 +1,10 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const {
   Paper, IconButton, FontIcon, FlatButton, Popover, Menu, MenuItem, Checkbox, Toggle,
   Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn
 } = require('material-ui')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
-const shallowCompare = require('react-addons-shallow-compare')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
 const Colors = require('material-ui/styles/colors')
 
@@ -32,34 +32,27 @@ const serviceStyles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class AccountServiceSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AccountServiceSettings',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      addPopoverOpen: false,
-      addPopoverAnchor: null
-    }
-  },
+  state = {
+    addPopoverOpen: false,
+    addPopoverAnchor: null
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
 
   /**
   * Renders the service name
@@ -67,7 +60,7 @@ module.exports = React.createClass({
   * @param service: the service type
   * @return the human name for the service
   */
-  getServiceName (mailboxType, service) {
+  getServiceName = (mailboxType, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.STORAGE: return 'Google Drive'
@@ -82,14 +75,14 @@ module.exports = React.createClass({
     }
 
     return ''
-  },
+  };
 
   /**
   * @param mailboxType: the type of mailbox
   * @param service: the service type
   * @return the url of the service icon
   */
-  getServiceIconUrl (mailboxType, service) {
+  getServiceIconUrl = (mailboxType, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.STORAGE: return '../../images/google_services/logo_drive_128px.png'
@@ -104,7 +97,7 @@ module.exports = React.createClass({
     }
 
     return ''
-  },
+  };
 
   /**
   * Renders the services
@@ -113,7 +106,7 @@ module.exports = React.createClass({
   * @param sleepableServices: the list of services that are able to sleep
   * @return jsx
   */
-  renderServices (mailbox, services, sleepableServices) {
+  renderServices = (mailbox, services, sleepableServices) => {
     if (services.length) {
       const sleepableServicesSet = new Set(sleepableServices)
 
@@ -189,7 +182,7 @@ module.exports = React.createClass({
         </Table>
       )
     }
-  },
+  };
 
   /**
   * Renders the add popover
@@ -197,7 +190,7 @@ module.exports = React.createClass({
   * @param disabledServices: the list of disabled services
   * @return jsx
   */
-  renderAddPopover (mailbox, disabledServices) {
+  renderAddPopover = (mailbox, disabledServices) => {
     if (disabledServices.length) {
       const { addPopoverOpen, addPopoverAnchor } = this.state
       return (
@@ -229,9 +222,9 @@ module.exports = React.createClass({
     } else {
       return undefined
     }
-  },
+  };
 
-  render () {
+  render() {
     const { mailbox, ...passProps } = this.props
 
     const enabledServicesSet = new Set(mailbox.enabledServies)
@@ -251,4 +244,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

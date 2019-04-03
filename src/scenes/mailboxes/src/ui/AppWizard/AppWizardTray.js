@@ -1,55 +1,48 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { settingsStore } = require('../../stores/settings')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Dialog, RaisedButton } = require('material-ui')
 const { TrayIconEditor } = require('../../Components')
 
-module.exports = React.createClass({
+module.exports = class AppWizardTray extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AppWizardTray',
-  propTypes: {
-    isOpen: React.PropTypes.bool.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    settingsStore.listen(this.settingsUpdated)
-  },
-
-  componentWillUnmount () {
-    settingsStore.unlisten(this.settingsUpdated)
-  },
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      tray: settingsStore.getState().tray
-    }
-  },
+  state = {
+    tray: settingsStore.getState().tray
+  };
 
-  settingsUpdated (settingsState) {
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    settingsStore.listen(this.settingsUpdated)
+  }
+
+  componentWillUnmount() {
+    settingsStore.unlisten(this.settingsUpdated)
+  }
+
+  settingsUpdated = (settingsState) => {
     this.setState({ tray: settingsState.tray })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isOpen } = this.props
     const { tray } = this.state
 
@@ -86,4 +79,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

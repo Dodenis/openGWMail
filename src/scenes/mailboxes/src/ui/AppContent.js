@@ -5,7 +5,6 @@ const React = require('react')
 const MailboxWindows = require('./Mailbox/MailboxWindows')
 const MailboxComposePicker = require('./Mailbox/MailboxComposePicker')
 const Sidelist = require('./Sidelist')
-const shallowCompare = require('react-addons-shallow-compare')
 const SettingsDialog = require('./Settings/SettingsDialog')
 const DictionaryInstallHandler = require('./DictionaryInstaller/DictionaryInstallHandler')
 const {navigationDispatch} = require('../Dispatch')
@@ -14,43 +13,40 @@ const { settingsStore } = require('../stores/settings')
 const MailboxWizard = require('./MailboxWizard')
 const AppWizard = require('./AppWizard')
 
-module.exports = React.createClass({
-  displayName: 'AppContent',
+module.exports = class AppContent extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    const settingsState = settingsStore.getState()
+
+    this.state = {
+      sidebar: settingsState.ui.sidebarEnabled,
+      titlebar: settingsState.ui.showTitlebar,
+      settingsDialog: false,
+      settingsRoute: null
+    };
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     settingsStore.listen(this.settingsDidUpdate)
     navigationDispatch.on('opensettings', this.handleOpenSettings)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     settingsStore.unlisten(this.settingsDidUpdate)
     navigationDispatch.off('opensettings', this.handleOpenSettings)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data Lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const settingsState = settingsStore.getState()
-    return {
-      sidebar: settingsState.ui.sidebarEnabled,
-      titlebar: settingsState.ui.showTitlebar,
-      settingsDialog: false,
-      settingsRoute: null
-    }
-  },
-
-  settingsDidUpdate (settingsStatee) {
+  settingsDidUpdate = (settingsStatee) => {
     this.setState({
       sidebar: settingsStatee.ui.sidebarEnabled,
       titlebar: settingsStatee.ui.showTitlebar
     })
-  },
+  };
 
   /* **************************************************************************/
   // Settings Interaction
@@ -60,26 +56,22 @@ module.exports = React.createClass({
   * Opens the settings dialog
   * @param evt: the event that fired if any
   */
-  handleOpenSettings (evt) {
+  handleOpenSettings = (evt) => {
     this.setState({
       settingsDialog: true,
       settingsRoute: evt && evt.route ? evt.route : null
     })
-  },
+  };
 
-  handleCloseSettings () {
+  handleCloseSettings = () => {
     this.setState({ settingsDialog: false, settingsRoute: null })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     return (
       <div>
         {!this.state.titlebar ? (<div className='titlebar' />) : undefined}
@@ -101,4 +93,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

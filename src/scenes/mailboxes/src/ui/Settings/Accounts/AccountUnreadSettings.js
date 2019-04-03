@@ -1,31 +1,26 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const {Paper, Toggle, SelectField, MenuItem} = require('material-ui')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
 const Google = require('shared/Models/Mailbox/Google')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 const Colors = require('material-ui/styles/colors')
 
-module.exports = React.createClass({
+module.exports = class AccountUnreadSettings extends React.PureComponent {
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  displayName: 'AccountUnreadSettings',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { mailbox, ...passProps } = this.props
 
     return (
@@ -112,4 +107,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

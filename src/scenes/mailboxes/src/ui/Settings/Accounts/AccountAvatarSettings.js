@@ -1,25 +1,24 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper, RaisedButton, FontIcon } = require('material-ui')
 const { ColorPickerButton } = require('../../../Components')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class AccountAvatarSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AccountAvatarSettings',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // User Interaction
   /* **************************************************************************/
 
-  handleCustomAvatarChange (evt) {
+  handleCustomAvatarChange = (evt) => {
     if (!evt.target.files[0]) { return }
 
     // Load the image
@@ -46,17 +45,13 @@ module.exports = React.createClass({
       image.src = reader.result
     }, false)
     reader.readAsDataURL(evt.target.files[0])
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { mailbox, ...passProps } = this.props
 
     return (
@@ -91,4 +86,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

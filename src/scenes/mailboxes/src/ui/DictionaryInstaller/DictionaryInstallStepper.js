@@ -17,30 +17,34 @@ const STEPS = {
   FINISH: 3
 }
 
-module.exports = React.createClass({
+module.exports = class DictionaryInstallStepper extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'DictionaryInstallStepper',
+  constructor (props) {
+    super(props)
+
+    this.state = this.getInitialStoreState()
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     dictionariesStore.listen(this.dictionariesChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     dictionariesStore.unlisten(this.dictionariesChanged)
-  },
+  }
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
+  getInitialStoreState = () => {
     const store = dictionariesStore.getState()
     return {
       stepIndex: STEPS.PICK,
@@ -50,11 +54,11 @@ module.exports = React.createClass({
       installInflight: store.installInflight(),
       uninstallDictionaries: store.sortedUninstalledDictionaryInfos()
     }
-  },
+  };
 
-  dictionariesChanged (store) {
+  dictionariesChanged = (store) => {
     if (store.installId() !== this.state.installId) {
-      this.setState(this.getInitialState())
+      this.setState(this.getInitialStoreState())
     } else {
       if (!this.state.installLanguage && store.installLanguage()) {
         this.setState({
@@ -74,7 +78,7 @@ module.exports = React.createClass({
         })
       }
     }
-  },
+  };
 
   /* **************************************************************************/
   // UI Events
@@ -83,31 +87,31 @@ module.exports = React.createClass({
   /**
   * Progress the user when they pick their language
   */
-  handlePickLanguage (evt, index, value) {
+  handlePickLanguage = (evt, index, value) => {
     if (value !== null) {
       dictionariesActions.pickDictionaryInstallLanguage(this.state.installId, value)
     }
-  },
+  };
 
   /**
   * Handles the user agreeing to the license
   */
-  handleAgreeLicense () {
+  handleAgreeLicense = () => {
     dictionariesActions.installDictionary(this.state.installId)
-  },
+  };
 
   /**
   * Handles cancelling the install
   */
-  handleCancel () {
+  handleCancel = () => {
     dictionariesActions.stopDictionaryInstall()
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { stepIndex, installLanguageInfo, uninstallDictionaries } = this.state
 
     return (
@@ -182,4 +186,4 @@ module.exports = React.createClass({
       </Stepper>
     )
   }
-})
+}

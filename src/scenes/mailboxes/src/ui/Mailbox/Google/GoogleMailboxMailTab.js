@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const MailboxTab = require('../MailboxTab')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
@@ -13,21 +14,31 @@ const {
 
 const REF = 'mailbox_tab'
 
-module.exports = React.createClass({
+module.exports = class GoogleMailboxMailTab extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'GoogleMailboxMailTab',
-  propTypes: {
-    mailboxId: React.PropTypes.string.isRequired
-  },
+  static propTypes = {
+    mailboxId: PropTypes.string.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    const settingsState = settingsStore.getState()
+
+    this.state = {
+      mailboxCount: mailboxStore.getState().mailboxCount(),
+      ui: settingsState.ui,
+      os: settingsState.os
+    };
+  }
 
   /* **************************************************************************/
   // Component lifecylce
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     // Stores
     composeStore.listen(this.composeChanged)
     mailboxStore.listen(this.mailboxChanged)
@@ -39,9 +50,9 @@ module.exports = React.createClass({
 
     // Fire an artifical compose change in case the compose event is waiting
     this.composeChanged(composeStore.getState())
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // Stores
     composeStore.unlisten(this.composeChanged)
     mailboxStore.unlisten(this.mailboxChanged)
@@ -50,35 +61,22 @@ module.exports = React.createClass({
     // Handle dispatch events
     mailboxDispatch.off('openMessage', this.handleOpenMessage)
     mailboxDispatch.unrespond('get-google-unread-count:' + this.props.mailboxId, this.handleGetGoogleUnreadCount)
-  },
+  }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.mailboxId !== nextProps.mailboxId) {
       mailboxDispatch.unrespond('get-google-unread-count:' + this.props.mailboxId, this.handleGetGoogleUnreadCount)
       mailboxDispatch.respond('get-google-unread-count:' + nextProps.mailboxId, this.handleGetGoogleUnreadCount)
     }
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecylce
-  /* **************************************************************************/
-
-  getInitialState () {
-    const settingsState = settingsStore.getState()
-    return {
-      mailboxCount: mailboxStore.getState().mailboxCount(),
-      ui: settingsState.ui,
-      os: settingsState.os
-    }
-  },
-
-  mailboxChanged (mailboxState) {
+  mailboxChanged = (mailboxState) => {
     this.setState({
       mailboxCount: mailboxState.mailboxCount()
     })
-  },
+  };
 
-  composeChanged (composeState) {
+  composeChanged = (composeState) => {
     // Look to see if we should dispatch a compose event down to the UI
     // We clear this directly here rather resetting state
     if (composeState.composing) {
@@ -87,9 +85,9 @@ module.exports = React.createClass({
         composeActions.clearCompose.defer()
       }
     }
-  },
+  };
 
-  settingsChanged (settingsState) {
+  settingsChanged = (settingsState) => {
     this.setState((prevState) => {
       const update = { os: settingsState.os }
       if (settingsState.ui !== prevState.ui) {
@@ -100,7 +98,7 @@ module.exports = React.createClass({
       }
       return update
     })
-  },
+  };
 
   /* **************************************************************************/
   // Dispatcher Events
@@ -110,19 +108,19 @@ module.exports = React.createClass({
   * Handles opening a new message
   * @param evt: the event that fired
   */
-  handleOpenMessage (evt) {
+  handleOpenMessage = (evt) => {
     if (evt.mailboxId === this.props.mailboxId) {
       this.refs[REF].send('open-message', { messageId: evt.messageId, threadId: evt.threadId })
     }
-  },
+  };
 
   /**
   * Fetches the gmail unread count
   * @return promise
   */
-  handleGetGoogleUnreadCount () {
+  handleGetGoogleUnreadCount = () => {
     return this.refs[REF].sendWithResponse('get-google-unread-count', {}, 1000)
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events
@@ -132,30 +130,30 @@ module.exports = React.createClass({
   * Dispatches browser IPC messages to the correct call
   * @param evt: the event that fired
   */
-  dispatchBrowserIPCMessage (evt) {
+  dispatchBrowserIPCMessage = (evt) => {
     switch (evt.channel.type) {
       case 'unread-count-changed': googleActions.suggestSyncMailboxUnreadCount(this.props.mailboxId); break
       case 'js-new-window': this.handleBrowserJSNewWindow(evt); break
       default: break
     }
-  },
+  };
 
   /**
   * Handles the Browser DOM becoming ready
   */
-  handleBrowserDomReady () {
+  handleBrowserDomReady = () => {
     // UI Fixes
     const ui = this.state.ui
     this.refs[REF].send('window-icons-in-screen', {
       inscreen: !ui.sidebarEnabled && !ui.showTitlebar && process.platform === 'darwin'
     })
-  },
+  };
 
   /**
   * Opens a new url in the correct way
   * @param url: the url to open
   */
-  handleOpenNewWindow (url) {
+  handleOpenNewWindow = (url) => {
     const purl = URL.parse(url, true)
     let mode = 'external'
     if (purl.host === 'inbox.google.com') {
@@ -179,13 +177,13 @@ module.exports = React.createClass({
         ipcRenderer.send('new-window', { partition: 'persist:' + this.props.mailboxId, url: url })
         break
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     return (
       <MailboxTab
         ref={REF}
@@ -197,4 +195,4 @@ module.exports = React.createClass({
         ipcMessage={this.dispatchBrowserIPCMessage} />
     )
   }
-})
+}

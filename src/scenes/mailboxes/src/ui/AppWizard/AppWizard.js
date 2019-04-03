@@ -1,50 +1,45 @@
 const React = require('react')
 const { appWizardStore } = require('../../stores/appWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 const AppWizardStart = require('./AppWizardStart')
 const AppWizardComplete = require('./AppWizardComplete')
 const AppWizardMailto = require('./AppWizardMailto')
 const AppWizardTray = require('./AppWizardTray')
 
-module.exports = React.createClass({
+module.exports = class AppWizard extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AppWizard',
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    this.renderTO = null
-    appWizardStore.listen(this.wizardChanged)
-  },
-
-  componentWillUnmount () {
-    clearTimeout(this.renderTO)
-    appWizardStore.unlisten(this.wizardChanged)
-  },
-
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
+  constructor(props) {
+    super(props);
     const wizardState = appWizardStore.getState()
     const itemsOpen = wizardState.hasAnyItemsOpen()
-    return {
+
+    this.state = {
       itemsOpen: itemsOpen,
       render: itemsOpen,
       trayConfiguratorOpen: wizardState.trayConfiguratorOpen,
       mailtoHandlerOpen: wizardState.mailtoHandlerOpen,
       completeOpen: wizardState.completeOpen,
       startOpen: wizardState.startOpen
-    }
-  },
+    };
+  }
 
-  wizardChanged (wizardState) {
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    this.renderTO = null
+    appWizardStore.listen(this.wizardChanged)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.renderTO)
+    appWizardStore.unlisten(this.wizardChanged)
+  }
+
+  wizardChanged = (wizardState) => {
     this.setState((prevState) => {
       const itemsOpen = wizardState.hasAnyItemsOpen()
       const update = {
@@ -67,17 +62,13 @@ module.exports = React.createClass({
       }
       return update
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { render, startOpen, trayConfiguratorOpen, mailtoHandlerOpen, completeOpen } = this.state
     if (render) {
       return (
@@ -92,4 +83,4 @@ module.exports = React.createClass({
       return null
     }
   }
-})
+}

@@ -1,51 +1,44 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { RaisedButton, FlatButton, Dialog, TextField } = require('material-ui')
-const shallowCompare = require('react-addons-shallow-compare')
 const uuid = require('uuid')
 
-module.exports = React.createClass({
+module.exports = class CustomCodeEditingModal extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'CustomCodeEditingModal',
-  propTypes: {
-    title: React.PropTypes.string,
-    open: React.PropTypes.bool.isRequired,
-    code: React.PropTypes.string,
-    onCancel: React.PropTypes.func.isRequired,
-    onSave: React.PropTypes.func.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.open !== nextProps.open) {
-      this.setState({ editingKey: uuid.v4() })
-    }
-  },
+  static propTypes = {
+    title: PropTypes.string,
+    open: PropTypes.bool.isRequired,
+    code: PropTypes.string,
+    onCancel: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      editingKey: uuid.v4()
+  state = {
+    editingKey: uuid.v4()
+  };
+
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.open !== nextProps.open) {
+      this.setState({ editingKey: uuid.v4() })
     }
-  },
+  }
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const actions = [
       (<FlatButton
         key='cancel'
@@ -86,4 +79,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

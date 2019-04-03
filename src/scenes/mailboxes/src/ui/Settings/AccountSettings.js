@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const {SelectField, MenuItem, Avatar, Paper} = require('material-ui')
 const {
@@ -13,49 +14,47 @@ const AccountAdvancedSettings = require('./Accounts/AccountAdvancedSettings')
 const AccountManagementSettings = require('./Accounts/AccountManagementSettings')
 const AccountServiceSettings = require('./Accounts/AccountServiceSettings')
 
-module.exports = React.createClass({
-  displayName: 'AccountSettings',
-  propTypes: {
-    showRestart: React.PropTypes.func.isRequired,
-    initialMailboxId: React.PropTypes.string
-  },
+module.exports = class AccountSettings extends React.Component {
+
+  static propTypes = {
+    showRestart: PropTypes.func.isRequired,
+    initialMailboxId: PropTypes.string
+  };
+
+  constructor(props) {
+    super(props);
+    const { initialMailboxId } = props
+    const store = mailboxStore.getState()
+    const all = store.allMailboxes()
+
+    this.state = {
+      mailboxes: all,
+      selected: (initialMailboxId ? store.getMailbox(initialMailboxId) : all[0]) || all[0]
+    };
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxStore.listen(this.mailboxesChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxStore.unlisten(this.mailboxesChanged)
-  },
+  }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.initialMailboxId !== nextProps.initialMailboxId) {
       const mailbox = mailboxStore.getState().getMailbox(nextProps.initialMailboxId)
       if (mailbox) {
         this.setState({ selected: mailbox })
       }
     }
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const { initialMailboxId } = this.props
-    const store = mailboxStore.getState()
-    const all = store.allMailboxes()
-    return {
-      mailboxes: all,
-      selected: (initialMailboxId ? store.getMailbox(initialMailboxId) : all[0]) || all[0]
-    }
-  },
-
-  mailboxesChanged (store) {
+  mailboxesChanged = (store) => {
     const all = store.allMailboxes()
     if (this.state.selected) {
       this.setState({
@@ -65,21 +64,21 @@ module.exports = React.createClass({
     } else {
       this.setState({ mailboxes: all, selected: all[0] })
     }
-  },
+  };
 
   /* **************************************************************************/
   // User Interaction
   /* **************************************************************************/
 
-  handleAccountChange (evt, index, mailboxId) {
+  handleAccountChange = (evt, index, mailboxId) => {
     this.setState({ selected: mailboxStore.getState().getMailbox(mailboxId) })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  renderNoMailboxes () {
+  renderNoMailboxes = () => {
     const passProps = Object.assign({}, this.props)
     delete passProps.showRestart
     delete passProps.initialMailboxId
@@ -91,9 +90,9 @@ module.exports = React.createClass({
         </Paper>
       </div>
     )
-  },
+  };
 
-  renderMailboxes () {
+  renderMailboxes = () => {
     const {selected} = this.state
     const {showRestart, ...passProps} = this.props
     delete passProps.initialMailboxId
@@ -149,13 +148,13 @@ module.exports = React.createClass({
         </Container>
       </div>
     )
-  },
+  };
 
-  render () {
+  render() {
     if (this.state.mailboxes.length) {
       return this.renderMailboxes()
     } else {
       return this.renderNoMailboxes()
     }
   }
-})
+}

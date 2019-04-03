@@ -1,41 +1,36 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const ReactDOM = require('react-dom')
 const { Toggle, Paper, RaisedButton, FontIcon } = require('material-ui')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class DownloadSettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'DownloadSettingsSection',
-  propTypes: {
-    os: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    os: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     ReactDOM.findDOMNode(this.refs.defaultDownloadInput).setAttribute('webkitdirectory', 'webkitdirectory')
-  },
+  }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     ReactDOM.findDOMNode(this.refs.defaultDownloadInput).setAttribute('webkitdirectory', 'webkitdirectory')
-  },
+  }
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {os, ...passProps} = this.props
 
     return (
@@ -67,4 +62,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

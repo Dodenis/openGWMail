@@ -1,24 +1,23 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Popover, Menu, MenuItem, Divider, FontIcon } = require('material-ui')
 const { mailboxDispatch, navigationDispatch } = require('../../../Dispatch')
 const { mailboxActions } = require('../../../stores/mailbox')
 const { mailboxWizardActions } = require('../../../stores/mailboxWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SidelistItemMailboxPopover',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired,
-    isFirst: React.PropTypes.bool.isRequired,
-    isLast: React.PropTypes.bool.isRequired,
-    isOpen: React.PropTypes.bool.isRequired,
-    anchor: React.PropTypes.any,
-    onRequestClose: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired,
+    isFirst: PropTypes.bool.isRequired,
+    isLast: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    anchor: PropTypes.any,
+    onRequestClose: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // User Interaction
@@ -28,80 +27,76 @@ module.exports = React.createClass({
   * Closes the popover
   * @param evtOrFn: the fired event or a function to call on closed
   */
-  handleClosePopover (evtOrFn) {
+  handleClosePopover = (evtOrFn) => {
     this.props.onRequestClose()
     if (typeof (evtOrFn) === 'function') {
       setTimeout(() => { evtOrFn() }, 200)
     }
-  },
+  };
 
   /**
   * Deletes this mailbox
   */
-  handleDelete () {
+  handleDelete = () => {
     this.handleClosePopover(() => {
       mailboxActions.remove(this.props.mailbox.id)
     })
-  },
+  };
 
   /**
   * Opens the inspector window for this mailbox
   */
-  handleInspect () {
+  handleInspect = () => {
     mailboxDispatch.openDevTools(this.props.mailbox.id)
     this.handleClosePopover()
-  },
+  };
 
   /**
   * Reloads this mailbox
   */
-  handleReload () {
+  handleReload = () => {
     mailboxDispatch.reload(this.props.mailbox.id)
     this.handleClosePopover()
-  },
+  };
 
   /**
   * Moves this item up
   */
-  handleMoveUp () {
+  handleMoveUp = () => {
     this.handleClosePopover(() => {
       mailboxActions.moveUp(this.props.mailbox.id)
     })
-  },
+  };
 
   /**
   * Moves this item down
   */
-  handleMoveDown () {
+  handleMoveDown = () => {
     this.handleClosePopover(() => {
       mailboxActions.moveDown(this.props.mailbox.id)
     })
-  },
+  };
 
   /**
   * Handles the user requesting an account reauthentication
   */
-  handeReAuthenticate () {
+  handeReAuthenticate = () => {
     mailboxActions.reauthenticateBrowserSession(this.props.mailbox.id)
     this.handleClosePopover()
-  },
+  };
 
   /**
   * Handles opening the account settings
   */
-  handleAccountSettings () {
+  handleAccountSettings = () => {
     this.handleClosePopover(() => {
       navigationDispatch.openMailboxSettings(this.props.mailbox.id)
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
 
   /**
   * Renders the menu items
@@ -110,7 +105,7 @@ module.exports = React.createClass({
   * @Param isLast: true if this is the last item
   * @return array of jsx elements
   */
-  renderMenuItems (mailbox, isFirst, isLast) {
+  renderMenuItems = (mailbox, isFirst, isLast) => {
     const menuItems = [
       // Mailbox Info
       mailbox.email ? (
@@ -180,9 +175,9 @@ module.exports = React.createClass({
     ].filter((item) => !!item)
 
     return menuItems
-  },
+  };
 
-  render () {
+  render() {
     const { mailbox, isFirst, isLast, isOpen, anchor } = this.props
 
     return (
@@ -198,4 +193,4 @@ module.exports = React.createClass({
       </Popover>
     )
   }
-})
+}

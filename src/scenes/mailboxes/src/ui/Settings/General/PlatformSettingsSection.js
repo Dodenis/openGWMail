@@ -1,8 +1,8 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, Paper, SelectField, MenuItem } = require('material-ui')
 const platformActions = require('../../../stores/platform/platformActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
 const LOGIN_OPEN_MODES = {
   OFF: 'false|false',
@@ -10,19 +10,18 @@ const LOGIN_OPEN_MODES = {
   ON_BACKGROUND: 'true|true'
 }
 
-module.exports = React.createClass({
+module.exports = class PlatformSettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  displayName: 'PlatformSettingsSection',
-  propTypes: {
-    mailtoLinkHandlerSupported: React.PropTypes.bool.isRequired,
-    isMailtoLinkHandler: React.PropTypes.bool.isRequired,
-    openAtLoginSupported: React.PropTypes.bool.isRequired,
-    openAtLogin: React.PropTypes.bool.isRequired,
-    openAsHiddenAtLogin: React.PropTypes.bool.isRequired
-  },
+  static propTypes = {
+    mailtoLinkHandlerSupported: PropTypes.bool.isRequired,
+    isMailtoLinkHandler: PropTypes.bool.isRequired,
+    openAtLoginSupported: PropTypes.bool.isRequired,
+    openAtLogin: PropTypes.bool.isRequired,
+    openAsHiddenAtLogin: PropTypes.bool.isRequired
+  };
 
   /* **************************************************************************/
   // UI Events
@@ -31,7 +30,7 @@ module.exports = React.createClass({
   /**
   * Handles the open at login state chaning
   */
-  handleOpenAtLoginChanged (evt, index, value) {
+  handleOpenAtLoginChanged = (evt, index, value) => {
     switch (value) {
       case LOGIN_OPEN_MODES.OFF:
         platformActions.changeLoginPref(false, false)
@@ -43,17 +42,13 @@ module.exports = React.createClass({
         platformActions.changeLoginPref(true, true)
         break
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {
       mailtoLinkHandlerSupported,
       isMailtoLinkHandler,
@@ -89,4 +84,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

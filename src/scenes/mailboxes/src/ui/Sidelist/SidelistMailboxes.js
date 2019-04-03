@@ -2,52 +2,47 @@ const React = require('react')
 const { mailboxStore } = require('../../stores/mailbox')
 const SidelistItemMailbox = require('./SidelistItemMailbox')
 
-module.exports = React.createClass({
-
+module.exports = class SidelistMailboxes extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'SidelistMailboxes',
-
-  /* **************************************************************************/
-  // Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    mailboxStore.listen(this.mailboxesChanged)
-  },
-
-  componentWillUnmount () {
-    mailboxStore.unlisten(this.mailboxesChanged)
-  },
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      mailboxIds: mailboxStore.getState().mailboxIds()
-    }
-  },
+  state = {
+    mailboxIds: mailboxStore.getState().mailboxIds()
+  };
 
-  mailboxesChanged (store) {
+  /* **************************************************************************/
+  // Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    mailboxStore.listen(this.mailboxesChanged)
+  }
+
+  componentWillUnmount() {
+    mailboxStore.unlisten(this.mailboxesChanged)
+  }
+
+  mailboxesChanged = (store) => {
     this.setState({
       mailboxIds: store.mailboxIds()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (JSON.stringify(this.state.mailboxIds) !== JSON.stringify(nextState.mailboxIds)) { return true }
     return false
-  },
+  }
 
-  render () {
+  render() {
     const { styles, ...passProps } = this.props
     const { mailboxIds } = this.state
     return (
@@ -64,4 +59,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

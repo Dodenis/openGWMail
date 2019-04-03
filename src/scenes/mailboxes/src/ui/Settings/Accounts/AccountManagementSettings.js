@@ -1,46 +1,44 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const Colors = require('material-ui/styles/colors')
 const { Paper, FlatButton, FontIcon } = require('material-ui')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 const TimerMixin = require('react-timer-mixin')
+const reactMixin = require('react-mixin');
+const toUnsafe = require('react-mixin/toUnsafe');
 
-module.exports = React.createClass({
+class AccountManagementSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AccountManagementSettings',
-  mixins: [TimerMixin],
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentWillMount () {
-    this.confirmingDeleteTO = null
-  },
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.mailbox.id !== nextProps.mailbox.id) {
-      this.setState({ confirmingDelete: false })
-      this.clearTimeout(this.confirmingDeleteTO)
-    }
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      confirmingDelete: false
+  state = {
+    confirmingDelete: false
+  };
+
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentWillMount() {
+    this.confirmingDeleteTO = null
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.mailbox.id !== nextProps.mailbox.id) {
+      this.setState({ confirmingDelete: false })
+      this.clearTimeout(this.confirmingDeleteTO)
     }
-  },
+  }
 
   /* **************************************************************************/
   // UI Events
@@ -49,7 +47,7 @@ module.exports = React.createClass({
   /**
   * Handles the delete button being tapped
   */
-  handleDeleteTapped (evt) {
+  handleDeleteTapped = (evt) => {
     if (this.state.confirmingDelete) {
       mailboxActions.remove(this.props.mailbox.id)
     } else {
@@ -58,17 +56,13 @@ module.exports = React.createClass({
         this.setState({ confirmingDelete: false })
       }, 4000)
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const passProps = Object.assign({}, this.props)
     delete passProps.mailbox
 
@@ -82,4 +76,10 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}
+
+let fixedTimerMixin = toUnsafe(TimerMixin)
+
+reactMixin(AccountManagementSettings.prototype, fixedTimerMixin)
+
+module.exports = AccountManagementSettings

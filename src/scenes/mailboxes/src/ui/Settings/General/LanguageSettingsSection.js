@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Toggle, Paper, SelectField, MenuItem, RaisedButton, FontIcon } = require('material-ui')
 const flux = {
@@ -5,56 +6,48 @@ const flux = {
   dictionaries: require('../../../stores/dictionaries')
 }
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class LanguageSettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'LanguageSettingsSection',
-  propTypes: {
-    language: React.PropTypes.object.isRequired,
-    showRestart: React.PropTypes.func.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    flux.dictionaries.S.listen(this.dictionariesChanged)
-  },
-
-  componentWillUnmount () {
-    flux.dictionaries.S.unlisten(this.dictionariesChanged)
-  },
+  static propTypes = {
+    language: PropTypes.object.isRequired,
+    showRestart: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      installedDictionaries: flux.dictionaries.S.getState().sortedInstalledDictionaryInfos()
-    }
-  },
+  state = {
+    installedDictionaries: flux.dictionaries.S.getState().sortedInstalledDictionaryInfos()
+  };
 
-  dictionariesChanged (store) {
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    flux.dictionaries.S.listen(this.dictionariesChanged)
+  }
+
+  componentWillUnmount() {
+    flux.dictionaries.S.unlisten(this.dictionariesChanged)
+  }
+
+  dictionariesChanged = (store) => {
     this.setState({
       installedDictionaries: flux.dictionaries.S.getState().sortedInstalledDictionaryInfos()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const {language, showRestart, ...passProps} = this.props
     const { installedDictionaries } = this.state
     const dictionaryState = flux.dictionaries.S.getState()
@@ -103,4 +96,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

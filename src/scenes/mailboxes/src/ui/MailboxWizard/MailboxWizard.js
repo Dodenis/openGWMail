@@ -1,45 +1,40 @@
 const React = require('react')
 const { mailboxWizardStore } = require('../../stores/mailboxWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 const AddMailboxWizardDialog = require('./AddMailboxWizardDialog')
 const ConfigureMailboxWizardDialog = require('./ConfigureMailboxWizardDialog')
 const ConfigureMailboxServicesDialog = require('./ConfigureMailboxServicesDialog')
 const ConfigureCompleteWizardDialog = require('./ConfigureCompleteWizardDialog')
 
-module.exports = React.createClass({
+module.exports = class MailboxWizard extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'MailboxWizard',
+  constructor(props) {
+    super(props);
+    const itemsOpen = mailboxWizardStore.getState().hasAnyItemsOpen()
+
+    this.state = {
+      itemsOpen: itemsOpen,
+      render: itemsOpen
+    };
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     this.renderTO = null
     mailboxWizardStore.listen(this.wizardChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.renderTO)
     mailboxWizardStore.unlisten(this.wizardChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const itemsOpen = mailboxWizardStore.getState().hasAnyItemsOpen()
-    return {
-      itemsOpen: itemsOpen,
-      render: itemsOpen
-    }
-  },
-
-  wizardChanged (wizardState) {
+  wizardChanged = (wizardState) => {
     this.setState((prevState) => {
       const itemsOpen = wizardState.hasAnyItemsOpen()
       const update = { itemsOpen: itemsOpen }
@@ -55,17 +50,13 @@ module.exports = React.createClass({
       }
       return update
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     if (this.state.render) {
       return (
         <div>
@@ -79,4 +70,4 @@ module.exports = React.createClass({
       return null
     }
   }
-})
+}

@@ -15,39 +15,35 @@ const GoogleMailboxMeetTab = require('./Google/GoogleMailboxMeetTab')
 const GoogleMailboxChatTab = require('./Google/GoogleMailboxChatTab')
 const GoogleMailboxMapsTab = require('./Google/GoogleMailboxMapsTab')
 
-module.exports = React.createClass({
-  displayName: 'MailboxWindows',
+module.exports = class MailboxWindows extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    const mailboxState = mailboxStore.getState()
+
+    this.state = {
+      tabIds: this.generateMailboxList(mailboxState),
+      activeMailboxId: mailboxState.activeMailboxId() // doesn't cause re-render
+    };
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxStore.listen(this.mailboxesChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxStore.unlisten(this.mailboxesChanged)
-  },
-
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const mailboxState = mailboxStore.getState()
-    return {
-      tabIds: this.generateMailboxList(mailboxState),
-      activeMailboxId: mailboxState.activeMailboxId() // doesn't cause re-render
-    }
-  },
+  }
 
   /**
   * Generates the mailbox list from the state
   * @param mailboxState: the state of the mailbox
   * @return a list of mailboxIds + service types
   */
-  generateMailboxList (mailboxState) {
+  generateMailboxList = (mailboxState) => {
     return mailboxState.allMailboxes().reduce((acc, mailbox) => {
       return acc.concat(
         [`${mailbox.type}:${mailbox.id}:${Mailbox.SERVICES.DEFAULT}`],
@@ -56,23 +52,23 @@ module.exports = React.createClass({
         })
       )
     }, [])
-  },
+  };
 
-  mailboxesChanged (mailboxState) {
+  mailboxesChanged = (mailboxState) => {
     this.setState({
       tabIds: this.generateMailboxList(mailboxState),
       activeMailboxId: mailboxState.activeMailboxId()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (JSON.stringify(this.state.tabIds) !== JSON.stringify(nextState.tabIds)) { return true }
     return false
-  },
+  }
 
   /**
   * Renders an individual tab
@@ -82,7 +78,7 @@ module.exports = React.createClass({
   * @param service: the service of the tab
   * @return jsx
   */
-  renderTab (key, mailboxType, mailboxId, service) {
+  renderTab = (key, mailboxType, mailboxId, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.DEFAULT: return (<GoogleMailboxMailTab mailboxId={mailboxId} key={key} />)
@@ -98,9 +94,9 @@ module.exports = React.createClass({
     }
 
     return undefined
-  },
+  };
 
-  render () {
+  render() {
     const { tabIds } = this.state
 
     if (tabIds.length) {
@@ -120,4 +116,4 @@ module.exports = React.createClass({
       )
     }
   }
-})
+}

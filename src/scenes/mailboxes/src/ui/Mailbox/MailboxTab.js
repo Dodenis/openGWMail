@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { mailboxStore, mailboxActions } = require('../../stores/mailbox')
 const { settingsStore } = require('../../stores/settings')
@@ -6,33 +7,36 @@ const {mailboxDispatch, navigationDispatch} = require('../../Dispatch')
 const { WebView } = require('../../Components')
 const MailboxSearch = require('./MailboxSearch')
 const MailboxTargetUrl = require('./MailboxTargetUrl')
-const shallowCompare = require('react-addons-shallow-compare')
 
 const BROWSER_REF = 'browser'
 const SEARCH_REF = 'search'
 
-module.exports = React.createClass({
-
+module.exports = class MailboxTab extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'MailboxTab',
-  propTypes: Object.assign({
-    mailboxId: React.PropTypes.string.isRequired,
-    service: React.PropTypes.string.isRequired,
-    preload: React.PropTypes.string,
-    src: React.PropTypes.string
+  static propTypes = Object.assign({
+    mailboxId: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
+    preload: PropTypes.string,
+    src: PropTypes.string
   }, WebView.REACT_WEBVIEW_EVENTS.reduce((acc, name) => {
-    acc[name] = React.PropTypes.func
+    acc[name] = PropTypes.func
     return acc
-  }, {})),
+  }, {}));
+
+  constructor (props) {
+    super(props)
+
+    this.state = this.getInitialPropState()
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     // Stores
     mailboxStore.listen(this.mailboxesChanged)
     settingsStore.listen(this.settingsChanged)
@@ -51,9 +55,9 @@ module.exports = React.createClass({
     if (this.state.isActive) {
       setTimeout(() => { this.refs[BROWSER_REF].focus() })
     }
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // Stores
     mailboxStore.unlisten(this.mailboxesChanged)
     settingsStore.unlisten(this.settingsChanged)
@@ -67,19 +71,19 @@ module.exports = React.createClass({
     ipcRenderer.removeListener('mailbox-window-find-next', this.handleIPCSearchNext)
     ipcRenderer.removeListener('mailbox-window-navigate-back', this.handleIPCNavigateBack)
     ipcRenderer.removeListener('mailbox-window-navigate-forward', this.handleIPCNavigateForward)
-  },
+  }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.mailboxId !== nextProps.mailboxId || this.props.service !== nextProps.service || this.props.src !== nextProps.src) {
-      this.setState(this.getInitialState(nextProps))
+      this.setState(this.getInitialPropState(nextProps))
     }
-  },
+  }
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState (props = this.props) {
+  getInitialPropState = (props = this.props) => {
     const mailboxState = mailboxStore.getState()
     const mailbox = mailboxState.getMailbox(props.mailboxId)
     const settingState = settingsStore.getState()
@@ -93,9 +97,9 @@ module.exports = React.createClass({
       language: settingState.language,
       focusedUrl: null
     }
-  },
+  };
 
-  mailboxesChanged (mailboxState) {
+  mailboxesChanged = (mailboxState) => {
     const { mailboxId, service } = this.props
     const mailbox = mailboxState.getMailbox(mailboxId)
     if (mailbox) {
@@ -118,9 +122,9 @@ module.exports = React.createClass({
     } else {
       this.setState({ mailbox: null })
     }
-  },
+  };
 
-  settingsChanged (settingsState) {
+  settingsChanged = (settingsState) => {
     this.setState((prevState) => {
       if (settingsState.language !== prevState.language) {
         const prevLanguage = prevState.language
@@ -138,14 +142,15 @@ module.exports = React.createClass({
         return undefined
       }
     })
-  },
+  };
 
   /* **************************************************************************/
   // Webview pass throughs
   /* **************************************************************************/
 
-  send () { return this.refs[BROWSER_REF].send.apply(this, Array.from(arguments)) },
-  sendWithResponse () { return this.refs[BROWSER_REF].sendWithResponse.apply(this, Array.from(arguments)) },
+  send = (...args) => { return this.refs[BROWSER_REF].send.apply(this, Array.from(args)) };
+
+  sendWithResponse = (...args) => { return this.refs[BROWSER_REF].sendWithResponse.apply(this, Array.from(args)) };
 
   /* **************************************************************************/
   // Dispatcher Events
@@ -155,7 +160,7 @@ module.exports = React.createClass({
   * Handles the inspector dispatch event
   * @param evt: the event that fired
   */
-  handleOpenDevTools (evt) {
+  handleOpenDevTools = (evt) => {
     if (evt.mailboxId === this.props.mailboxId) {
       if (!evt.service && this.state.isActive) {
         this.refs[BROWSER_REF].openDevTools()
@@ -163,23 +168,23 @@ module.exports = React.createClass({
         this.refs[BROWSER_REF].openDevTools()
       }
     }
-  },
+  };
 
   /**
   * Handles refocusing the mailbox
   * @param evt: the event that fired
   */
-  handleRefocus (evt) {
+  handleRefocus = (evt) => {
     if (!evt.mailboxId || !evt.service || (evt.mailboxId === this.props.mailboxId && evt.service === this.props.service)) {
       setTimeout(() => { this.refs[BROWSER_REF].focus() })
     }
-  },
+  };
 
   /**
   * Handles reloading the mailbox
   * @param evt: the event that fired
   */
-  handleReload (evt) {
+  handleReload = (evt) => {
     if (evt.mailboxId === this.props.mailboxId) {
       if (evt.allServices) {
         this.refs[BROWSER_REF].reload()
@@ -189,20 +194,20 @@ module.exports = React.createClass({
         this.refs[BROWSER_REF].reload()
       }
     }
-  },
+  };
 
   /**
   * Fetches the webviews process memory info
   * @return promise
   */
-  handleFetchProcessMemoryInfo () {
+  handleFetchProcessMemoryInfo = () => {
     return this.refs[BROWSER_REF].getProcessMemoryInfo().then((memoryInfo) => {
       return Promise.resolve({
         mailboxId: this.props.mailboxId,
         memoryInfo: memoryInfo
       })
     })
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events
@@ -213,13 +218,13 @@ module.exports = React.createClass({
   * @param callers: a list of callers to execute
   * @param args: the arguments to supply them with
   */
-  multiCallBrowserEvent (callers, args) {
+  multiCallBrowserEvent = (callers, args) => {
     callers.forEach((caller) => {
       if (caller) {
         caller.apply(this, args)
       }
     })
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events : Dispatcher
@@ -229,12 +234,12 @@ module.exports = React.createClass({
   * Dispatches browser IPC messages to the correct call
   * @param evt: the event that fired
   */
-  dispatchBrowserIPCMessage (evt) {
+  dispatchBrowserIPCMessage = (evt) => {
     switch (evt.channel.type) {
       case 'open-settings': navigationDispatch.openSettings(); break
       default: break
     }
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events
@@ -243,7 +248,7 @@ module.exports = React.createClass({
   /**
   * Handles the Browser DOM becoming ready
   */
-  handleBrowserDomReady () {
+  handleBrowserDomReady = () => {
     // Push the settings across
     this.refs[BROWSER_REF].setZoomLevel(this.state.mailbox.zoomFactor)
 
@@ -263,23 +268,23 @@ module.exports = React.createClass({
         js: this.state.mailbox.customJS
       })
     }
-  },
+  };
 
   /**
   * Until https://github.com/electron/electron/issues/6958 is fixed we need to
   * be really agressive about setting zoom levels
   */
-  handleZoomFixEvent () {
+  handleZoomFixEvent = () => {
     this.refs[BROWSER_REF].setZoomLevel(this.state.mailbox.zoomFactor)
-  },
+  };
 
   /**
   * Updates the target url that the user is hovering over
   * @param evt: the event that fired
   */
-  handleBrowserUpdateTargetUrl (evt) {
+  handleBrowserUpdateTargetUrl = (evt) => {
     this.setState({ focusedUrl: evt.url !== '' ? evt.url : null })
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events : Navigation
@@ -289,13 +294,13 @@ module.exports = React.createClass({
   * Handles a browser preparing to navigate
   * @param evt: the event that fired
   */
-  handleBrowserWillNavigate (evt) {
+  handleBrowserWillNavigate = (evt) => {
     // the lamest protection again dragging files into the window
     // but this is the only thing I could find that leaves file drag working
     if (evt.url.indexOf('file://') === 0) {
       this.setState({ browserSrc: this.state.mailbox.resolveServiceUrl(this.props.service) })
     }
-  },
+  };
 
   /* **************************************************************************/
   // Browser Events : Focus
@@ -304,16 +309,16 @@ module.exports = React.createClass({
   /**
   * Handles a browser focusing
   */
-  handleBrowserFocused () {
+  handleBrowserFocused = () => {
     mailboxDispatch.focused(this.props.mailboxId, this.props.service)
-  },
+  };
 
   /**
   * Handles a browser un-focusing
   */
-  handleBrowserBlurred () {
+  handleBrowserBlurred = () => {
     mailboxDispatch.blurred(this.props.mailboxId, this.props.service)
-  },
+  };
 
   /* **************************************************************************/
   // UI Events : Search
@@ -323,30 +328,30 @@ module.exports = React.createClass({
   * Handles the search text changing
   * @param str: the search string
   */
-  handleSearchChanged (str) {
+  handleSearchChanged = (str) => {
     if (str.length) {
       this.refs[BROWSER_REF].findInPage(str)
     } else {
       this.refs[BROWSER_REF].stopFindInPage('clearSelection')
     }
-  },
+  };
 
   /**
   * Handles searching for the next occurance
   */
-  handleSearchNext (str) {
+  handleSearchNext = (str) => {
     if (str.length) {
       this.refs[BROWSER_REF].findInPage(str, { findNext: true })
     }
-  },
+  };
 
   /**
   * Handles cancelling searching
   */
-  handleSearchCancel () {
+  handleSearchCancel = () => {
     mailboxActions.stopSearchingMailbox(this.props.mailboxId, this.props.service)
     this.refs[BROWSER_REF].stopFindInPage('clearSelection')
-  },
+  };
 
   /* **************************************************************************/
   // IPC Events
@@ -355,51 +360,47 @@ module.exports = React.createClass({
   /**
   * Handles an ipc search start event coming in
   */
-  handleIPCSearchStart () {
+  handleIPCSearchStart = () => {
     if (this.state.isActive) {
       setTimeout(() => { this.refs[SEARCH_REF].focus() })
     }
-  },
+  };
 
   /**
   * Handles an ipc search next event coming in
   */
-  handleIPCSearchNext () {
+  handleIPCSearchNext = () => {
     if (this.state.isActive) {
       this.handleSearchNext(this.refs[SEARCH_REF].searchQuery())
     }
-  },
+  };
 
   /**
   * Handles navigating the mailbox back
   */
-  handleIPCNavigateBack () {
+  handleIPCNavigateBack = () => {
     if (this.state.isActive) {
       this.refs[BROWSER_REF].navigateBack()
     }
-  },
+  };
 
   /**
   * Handles navigating the mailbox forward
   */
-  handleIPCNavigateForward () {
+  handleIPCNavigateForward = () => {
     if (this.state.isActive) {
       this.refs[BROWSER_REF].navigateForward()
     }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
   /**
   * Renders the app
   */
-  render () {
+  render() {
     // Extract our props and pass props
     const { isActive, browserSrc, focusedUrl, isSearching, mailbox } = this.state
     const { mailboxId, className, preload, ...passProps } = this.props
@@ -474,4 +475,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

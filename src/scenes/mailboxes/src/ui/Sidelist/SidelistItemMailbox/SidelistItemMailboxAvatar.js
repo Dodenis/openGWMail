@@ -1,32 +1,27 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Avatar } = require('material-ui')
 const { mailboxStore } = require('../../../stores/mailbox')
-const shallowCompare = require('react-addons-shallow-compare')
 const styles = require('../SidelistStyles')
 
-module.exports = React.createClass({
+module.exports = class SidelistItemMailboxAvatar extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SidelistItemMailboxAvatar',
-  propTypes: {
-    isActive: React.PropTypes.bool.isRequired,
-    isHovering: React.PropTypes.bool.isRequired,
-    mailbox: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number.isRequired,
-    onClick: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    isActive: PropTypes.bool.isRequired,
+    isHovering: PropTypes.bool.isRequired,
+    mailbox: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isActive, isHovering, mailbox, index, ...passProps } = this.props
 
     let url
@@ -57,4 +52,4 @@ module.exports = React.createClass({
       </Avatar>
     )
   }
-})
+}

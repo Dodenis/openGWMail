@@ -1,6 +1,7 @@
 const electron = window.nativeRequire('electron')
 const { ipcRenderer, remote } = electron
-const { Tray, Menu, nativeImage } = remote
+const { Tray: TrayRemote, Menu, nativeImage } = remote
+const PropTypes = require('prop-types');
 const React = require('react')
 const { mailboxDispatch } = require('../Dispatch')
 const { mailboxActions, mailboxStore } = require('../stores/mailbox')
@@ -10,31 +11,29 @@ const { TrayRenderer } = require('../Components')
 const navigationDispatch = require('../Dispatch/navigationDispatch')
 const uuid = require('uuid')
 
-module.exports = React.createClass({
+module.exports = class Tray extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-  displayName: 'Tray',
 
   // Pretty strict on updating. If you're changing these, change shouldComponentUpdate :)
-  propTypes: {
-    unreadCount: React.PropTypes.number.isRequired,
-    traySettings: React.PropTypes.object.isRequired
-  },
-  statics: {
-    platformSupportsDpiMultiplier: () => {
-      return process.platform === 'darwin' || process.platform === 'linux'
-    }
-  },
+  static propTypes = {
+    unreadCount: PropTypes.number.isRequired,
+    traySettings: PropTypes.object.isRequired
+  };
+
+  static platformSupportsDpiMultiplier = () => {
+    return process.platform === 'darwin' || process.platform === 'linux'
+  };
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxStore.listen(this.mailboxesChanged)
 
-    this.appTray = new Tray(nativeImage.createFromDataURL(BLANK_PNG))
+    this.appTray = new TrayRemote(nativeImage.createFromDataURL(BLANK_PNG))
     if (process.platform === 'win32') {
       this.appTray.on('double-click', () => {
         ipcRenderer.send('toggle-mailbox-visibility-from-tray')
@@ -51,28 +50,20 @@ module.exports = React.createClass({
         ipcRenderer.send('toggle-mailbox-visibility-from-tray')
       })
     }
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxStore.unlisten(this.mailboxesChanged)
 
     if (this.appTray) {
       this.appTray.destroy()
       this.appTray = null
     }
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    return Object.assign({}, this.generateMenuUnreadMessages())
-  },
-
-  mailboxesChanged (store) {
+  mailboxesChanged = (store) => {
     this.setState(this.generateMenuUnreadMessages(store))
-  },
+  };
 
   /**
   * Generates the unread messages from the mailboxes store
@@ -81,7 +72,7 @@ module.exports = React.createClass({
   * being an array of mailboxes with menu items prepped to display and menuUnreadMessagesSig
   * being a string hash of these to compare
   */
-  generateMenuUnreadMessages (store = mailboxStore.getState()) {
+  generateMenuUnreadMessages = (store = mailboxStore.getState()) => {
     const menuItems = store.mailboxIds().map((mailboxId) => {
       const mailbox = store.getMailbox(mailboxId)
       const menuItems = mailbox.google.latestUnreadMessages.map((message) => {
@@ -121,13 +112,13 @@ module.exports = React.createClass({
       .join('|')
 
     return { menuUnreadMessages: menuItems, menuUnreadMessagesSig: sig }
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.unreadCount !== nextProps.unreadCount) { return true }
     if (this.state.menuUnreadMessagesSig !== nextState.menuUnreadMessagesSig) { return true }
 
@@ -146,19 +137,19 @@ module.exports = React.createClass({
     if (trayDiff) { return true }
 
     return false
-  },
+  }
 
   /**
   * @return the tooltip string for the tray icon
   */
-  renderTooltip () {
+  renderTooltip = () => {
     return this.props.unreadCount ? this.props.unreadCount + ' unread mail' : 'No unread mail'
-  },
+  };
 
   /**
   * @return the context menu for the tray icon
   */
-  renderContextMenu () {
+  renderContextMenu = () => {
     let unreadItems = []
     if (this.state.menuUnreadMessages.length === 1) { // Only one account
       unreadItems = this.state.menuUnreadMessages[0].submenu
@@ -201,31 +192,37 @@ module.exports = React.createClass({
     ])
 
     return Menu.buildFromTemplate(template)
-  },
+  };
 
   /**
   * @return the tray icon size
   */
-  trayIconSize () {
+  trayIconSize = () => {
     switch (process.platform) {
       case 'darwin': return 22
       case 'win32': return 16
       case 'linux': return 32 * this.props.traySettings.dpiMultiplier
       default: return 32
     }
-  },
+  };
 
   /**
   * @return the pixel ratio
   */
-  trayIconPixelRatio () {
+  trayIconPixelRatio = () => {
     switch (process.platform) {
       case 'darwin': return this.props.traySettings.dpiMultiplier
       default: return 1
     }
-  },
+  };
 
-  render () {
+  /* **************************************************************************/
+  // Data lifecycle
+  /* **************************************************************************/
+
+  state = Object.assign({}, this.generateMenuUnreadMessages());
+
+  render() {
     const { unreadCount, traySettings } = this.props
 
     const renderId = uuid.v4()
@@ -250,4 +247,4 @@ module.exports = React.createClass({
 
     return (<div />)
   }
-})
+}

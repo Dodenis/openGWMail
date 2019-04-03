@@ -1,47 +1,42 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const TrayRenderer = require('./TrayRenderer')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class TrayPreview extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'TrayPreview',
-  propTypes: {
-    config: React.PropTypes.object.isRequired,
-    size: React.PropTypes.number.isRequired
-  },
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentWillMount () {
-    TrayRenderer.renderPNGDataImage(this.props.config)
-      .then((png) => this.setState({ image: png }))
-  },
-
-  componentWillReceiveProps (nextProps) {
-    if (shallowCompare(this, nextProps, this.state)) {
-      TrayRenderer.renderPNGDataImage(nextProps.config)
-        .then((png) => this.setState({ image: png }))
-    }
-  },
+  static propTypes = {
+    config: PropTypes.object.isRequired,
+    size: PropTypes.number.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return { image: null }
-  },
+  state = { image: null };
+
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentWillMount() {
+    TrayRenderer.renderPNGDataImage(this.props.config)
+      .then((png) => this.setState({ image: png }))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    TrayRenderer.renderPNGDataImage(nextProps.config)
+      .then((png) => this.setState({ image: png }))
+  }
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { size, style, ...passProps } = this.props
     delete passProps.config
 
@@ -63,4 +58,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

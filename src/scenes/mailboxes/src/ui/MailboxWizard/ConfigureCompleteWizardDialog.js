@@ -18,51 +18,47 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class ConfigureCompleteWizardDialog extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'ConfigureCompleteWizardDialog',
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    mailboxWizardStore.listen(this.mailboxWizardChanged)
-    settingsStore.listen(this.settingsChanged)
-  },
-
-  componentWillUnmount () {
-    mailboxWizardStore.unlisten(this.mailboxWizardChanged)
-    settingsStore.unlisten(this.settingsChanged)
-  },
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      isOpen: mailboxWizardStore.getState().configurationCompleteOpen,
-      hasSeenAppWizard: settingsStore.getState().app.hasSeenAppWizard
-    }
-  },
+  state = {
+    isOpen: mailboxWizardStore.getState().configurationCompleteOpen,
+    hasSeenAppWizard: settingsStore.getState().app.hasSeenAppWizard
+  };
 
-  mailboxWizardChanged (wizardState) {
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    mailboxWizardStore.listen(this.mailboxWizardChanged)
+    settingsStore.listen(this.settingsChanged)
+  }
+
+  componentWillUnmount() {
+    mailboxWizardStore.unlisten(this.mailboxWizardChanged)
+    settingsStore.unlisten(this.settingsChanged)
+  }
+
+  mailboxWizardChanged = (wizardState) => {
     this.setState({ isOpen: wizardState.configurationCompleteOpen })
-  },
+  };
 
-  settingsChanged (settingsState) {
+  settingsChanged = (settingsState) => {
     this.setState({ hasSeenAppWizard: settingsStore.getState().app.hasSeenAppWizard })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { isOpen, hasSeenAppWizard } = this.state
     const actions = (
       <RaisedButton
@@ -95,4 +91,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

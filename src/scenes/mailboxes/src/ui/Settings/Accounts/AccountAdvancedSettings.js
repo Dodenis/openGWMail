@@ -1,29 +1,24 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper, Toggle } = require('material-ui')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class AccountAdvancedSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AccountAdvancedSettings',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired,
-    showRestart: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired,
+    showRestart: PropTypes.func.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { mailbox, showRestart, ...passProps } = this.props
 
     return (
@@ -40,4 +35,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

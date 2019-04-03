@@ -1,21 +1,21 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper } = require('material-ui')
 
-module.exports = React.createClass({
+module.exports = class MailboxTargetUrl extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'MailboxTargetUrl',
-  propTypes: {
-    url: React.PropTypes.string
-  },
+  static propTypes = {
+    url: PropTypes.string
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { url, ...passProps } = this.props
 
     const className = [
@@ -28,4 +28,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

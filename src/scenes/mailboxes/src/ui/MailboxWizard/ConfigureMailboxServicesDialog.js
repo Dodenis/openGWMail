@@ -30,30 +30,33 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class ConfigureMailboxServicesDialog extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
+  constructor (props) {
+    super(props)
 
-  displayName: 'ConfigureMailboxServicesDialog',
+    this.state = this.getInitialWizardState()
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxWizardStore.listen(this.mailboxWizardChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxWizardStore.unlisten(this.mailboxWizardChanged)
-  },
+  }
 
   /* **************************************************************************/
   // Data lifecycle
   /* **************************************************************************/
 
-  getInitialState (wizardState = mailboxWizardStore.getState()) {
+  getInitialWizardState = (wizardState = mailboxWizardStore.getState()) => {
     return {
       isOpen: wizardState.configureServicesOpen,
       mailboxType: wizardState.provisonaMailboxType(),
@@ -61,17 +64,17 @@ module.exports = React.createClass({
       enabledServices: new Set(wizardState.provisionalDefaultMailboxServices()),
       compactServices: false
     }
-  },
+  };
 
-  mailboxWizardChanged (wizardState) {
+  mailboxWizardChanged = (wizardState) => {
     this.setState((prevState) => {
       if (!prevState.isOpen && wizardState.configureServicesOpen) {
-        return this.getInitialState(wizardState)
+        return this.getInitialWizardState(wizardState)
       } else {
         return { isOpen: wizardState.configureServicesOpen }
       }
     })
-  },
+  };
 
   /* **************************************************************************/
   // UI Events
@@ -82,13 +85,13 @@ module.exports = React.createClass({
   * @param service: the service type
   * @param toggled: true if its enabled, false otherwise
   */
-  handleToggleService (service, toggled) {
+  handleToggleService = (service, toggled) => {
     this.setState((prevState) => {
       const enabledServices = new Set(Array.from(prevState.enabledServices))
       enabledServices[toggled ? 'add' : 'delete'](service)
       return { enabledServices: enabledServices }
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
@@ -100,7 +103,7 @@ module.exports = React.createClass({
   * @param service: the service type
   * @return the human name for the service
   */
-  getServiceName (mailboxType, service) {
+  getServiceName = (mailboxType, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.STORAGE: return 'Google Drive'
@@ -115,14 +118,14 @@ module.exports = React.createClass({
     }
 
     return ''
-  },
+  };
 
   /**
   * @param mailboxType: the type of mailbox
   * @param service: the service type
   * @return the url of the service icon
   */
-  getServiceIconUrl (mailboxType, service) {
+  getServiceIconUrl = (mailboxType, service) => {
     if (mailboxType === Mailbox.TYPE_GMAIL || mailboxType === Mailbox.TYPE_GINBOX) {
       switch (service) {
         case Mailbox.SERVICES.STORAGE: return '../../images/google_services/logo_drive_128px.png'
@@ -137,9 +140,9 @@ module.exports = React.createClass({
     }
 
     return ''
-  },
+  };
 
-  render () {
+  render() {
     const { isOpen, enabledServices, mailboxType, availableServices, compactServices } = this.state
     const actions = (
       <RaisedButton
@@ -194,4 +197,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

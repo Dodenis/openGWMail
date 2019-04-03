@@ -1,7 +1,6 @@
 const React = require('react')
 const {Paper} = require('material-ui')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 const { remote } = window.nativeRequire('electron')
 const { shell } = remote
 const { WEB_URL, GITHUB_URL, GITHUB_ISSUE_URL } = require('shared/constants')
@@ -10,12 +9,10 @@ const mailboxStore = require('../../../stores/mailbox/mailboxStore')
 const pkg = window.appPackage()
 const AppTheme = require('../../appTheme')
 
-module.exports = React.createClass({
+module.exports = class InfoSettingsSection extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'InfoSettingsSection',
 
   /* **************************************************************************/
   // UI Event
@@ -24,7 +21,7 @@ module.exports = React.createClass({
   /**
   * Shows a snapshot of the current memory consumed
   */
-  handleShowMemoryInfo (evt) {
+  handleShowMemoryInfo = (evt) => {
     evt.preventDefault()
 
     const sizeToMb = (size) => { return Math.round(size / 1024) }
@@ -48,17 +45,13 @@ module.exports = React.createClass({
         ''
       ].concat(mailboxes).join('\n'))
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     return (
       <Paper zDepth={1} style={styles.paper} {...this.props}>
         <a
@@ -88,4 +81,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

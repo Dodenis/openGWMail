@@ -3,49 +3,45 @@ const { Dialog } = require('material-ui')
 const dictionariesStore = require('../../stores/dictionaries/dictionariesStore')
 const DictionaryInstallStepper = require('./DictionaryInstallStepper')
 
-module.exports = React.createClass({
+module.exports = class DictionaryInstallHandler extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'DictionaryInstallHandler',
+  constructor(props) {
+    super(props);
+    const store = dictionariesStore.getState()
+
+    this.state = {
+      isInstalling: store.isInstalling(),
+      installId: store.installId()
+    };
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentWillMount () {
+  componentWillMount() {
     dictionariesStore.listen(this.dictionariesChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     dictionariesStore.unlisten(this.dictionariesChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const store = dictionariesStore.getState()
-    return {
-      isInstalling: store.isInstalling(),
-      installId: store.installId()
-    }
-  },
-
-  dictionariesChanged (store) {
+  dictionariesChanged = (store) => {
     this.setState({
       isInstalling: store.isInstalling(),
       installId: store.installId()
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     return (
       <Dialog
         modal
@@ -57,4 +53,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

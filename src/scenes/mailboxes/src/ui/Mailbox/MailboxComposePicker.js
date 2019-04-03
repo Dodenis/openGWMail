@@ -2,49 +2,44 @@ const React = require('react')
 const { Dialog, RaisedButton, List, ListItem, Avatar } = require('material-ui')
 const { composeStore, composeActions } = require('../../stores/compose')
 const { mailboxStore, mailboxActions } = require('../../stores/mailbox')
-const shallowCompare = require('react-addons-shallow-compare')
 
-module.exports = React.createClass({
+module.exports = class MailboxComposePicker extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'MailboxComposePicker',
+  constructor(props) {
+    super(props);
+    const mailboxState = mailboxStore.getState()
+    const composeState = composeStore.getState()
+
+    this.state = {
+      mailboxes: mailboxState.allMailboxes(),
+      composing: composeState.composing
+    };
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     composeStore.listen(this.composeChanged)
     mailboxStore.listen(this.mailboxChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     composeStore.unlisten(this.composeChanged)
     mailboxStore.unlisten(this.mailboxChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const mailboxState = mailboxStore.getState()
-    const composeState = composeStore.getState()
-    return {
-      mailboxes: mailboxState.allMailboxes(),
-      composing: composeState.composing
-    }
-  },
-
-  composeChanged (composeState) {
+  composeChanged = (composeState) => {
     this.setState({ composing: composeState.composing })
-  },
+  };
 
-  mailboxChanged (mailboxesState) {
+  mailboxChanged = (mailboxesState) => {
     this.setState({ mailboxes: mailboxesState.allMailboxes() })
-  },
+  };
 
   /* **************************************************************************/
   // Data utils
@@ -55,9 +50,9 @@ module.exports = React.createClass({
   * @param state=this.state: the state to calc from
   * @return true if the dialog should be open, false otherwise
   */
-  isOpen (state = this.state) {
+  isOpen = (state = this.state) => {
     return state.composing && state.mailboxes.length > 1
-  },
+  };
 
   /* **************************************************************************/
   // UI Events
@@ -67,35 +62,35 @@ module.exports = React.createClass({
   * Dismisses the compose actions
   * @param evt: the event that fired
   */
-  handleCancel (evt) {
+  handleCancel = (evt) => {
     composeActions.clearCompose()
-  },
+  };
 
   /**
   * Handles selecting the target mailbox
   * @param evt: the event that fired
   * @param mailboxId: the id of the mailbox
   */
-  handleSelectMailbox (evt, mailboxId) {
+  handleSelectMailbox = (evt, mailboxId) => {
     mailboxActions.changeActive(mailboxId)
     composeActions.setTargetMailbox(mailboxId)
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     const prevOpen = this.isOpen(this.state)
     const nextOpen = this.isOpen(nextState)
 
     if (prevOpen !== nextOpen) { return true }
     if (nextOpen === false) { return false }
 
-    return shallowCompare(this, nextProps, nextState)
-  },
+    return super.shouldComponentUpdate(nextProps, nextState)
+  }
 
-  render () {
+  render() {
     const { mailboxes } = this.state
     const mailboxState = mailboxStore.getState()
     const actions = (
@@ -133,4 +128,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

@@ -1,7 +1,6 @@
 const React = require('react')
 const { Dialog, RaisedButton, Avatar } = require('material-ui')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
-const shallowCompare = require('react-addons-shallow-compare')
 
 const styles = {
   mailboxRow: {
@@ -21,51 +20,43 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class AddMailboxWizardDialog extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AddMailboxWizardDialog',
+  constructor(props) {
+    super(props);
+    const wizardState = mailboxWizardStore.getState()
+
+    this.state = {
+      isOpen: wizardState.addMailboxOpen
+    };
+  }
 
   /* **************************************************************************/
   // Component Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxWizardStore.listen(this.wizardChanged)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxWizardStore.unlisten(this.wizardChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const wizardState = mailboxWizardStore.getState()
-    return {
-      isOpen: wizardState.addMailboxOpen
-    }
-  },
-
-  wizardChanged (wizardState) {
+  wizardChanged = (wizardState) => {
     this.setState({
       isOpen: wizardState.addMailboxOpen
     })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isOpen } = this.state
     const actions = (
       <RaisedButton label='Cancel' onClick={() => mailboxWizardActions.cancelAddMailbox()} />
@@ -107,4 +98,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

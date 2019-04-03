@@ -1,67 +1,64 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Badge, FontIcon } = require('material-ui')
 const { navigationDispatch } = require('../../../Dispatch')
 const { mailboxStore, mailboxActions } = require('../../../stores/mailbox')
-const shallowCompare = require('react-addons-shallow-compare')
 const ReactTooltip = require('react-tooltip')
 const styles = require('../SidelistStyles')
 const SidelistItemMailboxPopover = require('./SidelistItemMailboxPopover')
 const SidelistItemMailboxAvatar = require('./SidelistItemMailboxAvatar')
 const SidelistItemMailboxServices = require('./SidelistItemMailboxServices')
 
-module.exports = React.createClass({
+module.exports = class SidelistItemMailbox extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'SidelistItemMailbox',
-  propTypes: {
-    mailboxId: React.PropTypes.string.isRequired,
-    index: React.PropTypes.number.isRequired,
-    isFirst: React.PropTypes.bool.isRequired,
-    isLast: React.PropTypes.bool.isRequired
-  },
+  static propTypes = {
+    mailboxId: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+    isFirst: PropTypes.bool.isRequired,
+    isLast: PropTypes.bool.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    const mailboxState = mailboxStore.getState()
+    const mailbox = mailboxState.getMailbox(props.mailboxId)
+
+    this.state = {
+      mailbox: mailbox,
+      isActive: mailboxState.activeMailboxId() === props.mailboxId,
+      activeService: mailboxState.activeMailboxService(),
+      popover: false,
+      popoverAnchor: null,
+      hovering: false
+    };
+  }
 
   /* **************************************************************************/
   // Lifecycle
   /* **************************************************************************/
 
-  componentDidMount () {
+  componentDidMount() {
     mailboxStore.listen(this.mailboxesChanged)
     // Adding new items can cause the popover not to come up. Rebuild the tooltip
     // after a little time. Bad but seems to fix
     setTimeout(() => ReactTooltip.rebuild(), 1000)
-  },
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     mailboxStore.unlisten(this.mailboxesChanged)
-  },
+  }
 
-  /* **************************************************************************/
-  // Data lifecycle
-  /* **************************************************************************/
-
-  getInitialState () {
-    const mailboxState = mailboxStore.getState()
-    const mailbox = mailboxState.getMailbox(this.props.mailboxId)
-    return {
-      mailbox: mailbox,
-      isActive: mailboxState.activeMailboxId() === this.props.mailboxId,
-      activeService: mailboxState.activeMailboxService(),
-      popover: false,
-      popoverAnchor: null,
-      hovering: false
-    }
-  },
-
-  mailboxesChanged (mailboxState) {
+  mailboxesChanged = (mailboxState) => {
     const mailbox = mailboxState.getMailbox(this.props.mailboxId)
     this.setState({
       mailbox: mailbox,
       isActive: mailboxState.activeMailboxId() === this.props.mailboxId,
       activeService: mailboxState.activeMailboxService()
     })
-  },
+  };
 
   /* **************************************************************************/
   // User Interaction
@@ -71,47 +68,43 @@ module.exports = React.createClass({
   * Handles the item being clicked on
   * @param evt: the event that fired
   */
-  handleClick (evt) {
+  handleClick = (evt) => {
     evt.preventDefault()
     if (evt.metaKey) {
       navigationDispatch.openMailboxSettings(this.props.mailboxId)
     } else {
       mailboxActions.changeActive(this.props.mailboxId)
     }
-  },
+  };
 
   /**
   * Handles opening a service
   * @param evt: the event that fired
   * @param service: the service to open
   */
-  handleOpenService (evt, service) {
+  handleOpenService = (evt, service) => {
     evt.preventDefault()
     mailboxActions.changeActive(this.props.mailboxId, service)
-  },
+  };
 
   /**
   * Opens the popover
   */
-  handleOpenPopover (evt) {
+  handleOpenPopover = (evt) => {
     evt.preventDefault()
     this.setState({ popover: true, popoverAnchor: evt.currentTarget })
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
 
   /**
   * Renders the badge element
   * @param mailbox: the mailbox to render for
   * @return jsx
   */
-  renderBadge (mailbox) {
+  renderBadge = (mailbox) => {
     if (mailbox.google.authHasGrantError) {
       return (
         <Badge
@@ -134,7 +127,7 @@ module.exports = React.createClass({
     } else {
       return undefined
     }
-  },
+  };
 
   /**
   * Renders the active indicator
@@ -142,7 +135,7 @@ module.exports = React.createClass({
   * @param isActive: true if the mailbox is active
   * @return jsx
   */
-  renderActiveIndicator (mailbox, isActive) {
+  renderActiveIndicator = (mailbox, isActive) => {
     if (isActive) {
       return (
         <div
@@ -152,14 +145,14 @@ module.exports = React.createClass({
     } else {
       return undefined
     }
-  },
+  };
 
   /**
   * Renders the content for the tooltip
   * @param mailbox: the mailbox to render for
   * @return jsx
   */
-  renderTooltipContent (mailbox) {
+  renderTooltipContent = (mailbox) => {
     if (!mailbox.email && !mailbox.unread) { return undefined }
     const hr = '<hr style="height: 1px; border: 0; background-image: linear-gradient(to right, #bcbcbc, #fff, #bcbcbc);" />'
     const hasError = mailbox.google.authHasGrantError
@@ -172,9 +165,9 @@ module.exports = React.createClass({
         ${hasError ? '<span style="color:red;">Authentication Error. Right click to reauthenticate</span>' : ''}
       </div>
     `
-  },
+  };
 
-  render () {
+  render() {
     if (!this.state.mailbox) { return null }
     const { mailbox, isActive, activeService, popover, popoverAnchor, hovering } = this.state
     const { index, isFirst, isLast, style, ...passProps } = this.props
@@ -219,4 +212,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

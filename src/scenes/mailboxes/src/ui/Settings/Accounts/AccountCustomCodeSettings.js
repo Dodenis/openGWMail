@@ -1,9 +1,9 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper, RaisedButton, FontIcon } = require('material-ui')
 const CustomCodeEditingModal = require('./CustomCodeEditingModal')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
-const shallowCompare = require('react-addons-shallow-compare')
 const {mailboxDispatch} = require('../../../Dispatch')
 const { USER_SCRIPTS_WEB_URL } = require('shared/constants')
 const AppTheme = require('../../appTheme')
@@ -11,32 +11,29 @@ const {
   remote: {shell}
 } = window.nativeRequire('electron')
 
-module.exports = React.createClass({
+module.exports = class AccountCustomCodeSettings extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AccountCustomCodeSettings',
-  propTypes: {
-    mailbox: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    mailbox: PropTypes.object.isRequired
+  };
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      editingCSS: false,
-      editingJS: false
-    }
-  },
+  state = {
+    editingCSS: false,
+    editingJS: false
+  };
 
   /* **************************************************************************/
   // User Interaction
   /* **************************************************************************/
 
-  handleSave (evt, code) {
+  handleSave = (evt, code) => {
     if (this.state.editingCSS) {
       mailboxActions.setCustomCSS(this.props.mailbox.id, code)
     } else if (this.state.editingJS) {
@@ -45,17 +42,13 @@ module.exports = React.createClass({
 
     this.setState({ editingJS: false, editingCSS: false })
     mailboxDispatch.reloadAllServices(this.props.mailbox.id)
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { mailbox, ...passProps } = this.props
     let editingCode
     let editingTitle
@@ -97,4 +90,4 @@ module.exports = React.createClass({
       </Paper>
     )
   }
-})
+}

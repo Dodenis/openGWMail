@@ -1,6 +1,6 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { RaisedButton, Paper } = require('material-ui')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Configurations } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
 const Colors = require('material-ui/styles/colors')
@@ -45,39 +45,33 @@ const styles = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'ConfigureGinboxMailboxWizard',
-  propTypes: {
-    onPickedConfiguration: React.PropTypes.func.isRequired
-  },
-  statics: {
-    /**
-    * Renders the title element
-    * @return jsx
-    */
-    renderTitle () {
-      return (
-        <div style={styles.introduction}>
-          Pick the way that you normally use Google Inbox to configure openGWMail
-          notifications and unread counters
-        </div>
-      )
-    }
-  },
+  static propTypes = {
+    onPickedConfiguration: PropTypes.func.isRequired
+  };
+
+  /**
+  * Renders the title element
+  * @return jsx
+  */
+  static renderTitle() {
+    return (
+      <div style={styles.introduction}>
+        Pick the way that you normally use Google Inbox to configure openGWMail
+        notifications and unread counters
+      </div>
+    )
+  }
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { onPickedConfiguration } = this.props
 
     return (
@@ -120,4 +114,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

@@ -1,5 +1,6 @@
 const React = require('react')
-const shallowCompare = require('react-addons-shallow-compare')
+const reactMixin = require('react-mixin');
+const toUnsafe = require('react-mixin/toUnsafe');
 const TimerMixin = require('react-timer-mixin')
 const compareVersion = require('compare-version')
 const { UPDATE_CHECK_URL, UPDATE_CHECK_INTERVAL, UPDATE_DOWNLOAD_URL } = require('shared/constants')
@@ -11,33 +12,28 @@ const {
   remote: {shell}
 } = window.nativeRequire('electron')
 
-module.exports = React.createClass({
+class UpdateCheckDialog extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'UpdateCheckDialog',
-  mixins: [TimerMixin],
-
-  /* **************************************************************************/
-  // Component Lifecycle
-  /* **************************************************************************/
-
-  componentDidMount () {
-    this.recheckTO = null
-    this.checkNow()
-  },
 
   /* **************************************************************************/
   // Data Lifecycle
   /* **************************************************************************/
 
-  getInitialState () {
-    return {
-      newerVersion: null,
-      recheckRestart: false
-    }
-  },
+  state = {
+    newerVersion: null,
+    recheckRestart: false
+  };
+
+  /* **************************************************************************/
+  // Component Lifecycle
+  /* **************************************************************************/
+
+  componentDidMount() {
+    this.recheckTO = null
+    this.checkNow()
+  }
 
   /* **************************************************************************/
   // Checking
@@ -46,7 +42,7 @@ module.exports = React.createClass({
   /**
   * Checks with the server for an update
   */
-  checkNow () {
+  checkNow = () => {
     Promise.resolve()
       .then(() => window.fetch(`${UPDATE_CHECK_URL}?_=${new Date().getTime()}`))
       .then((res) => res.ok ? Promise.resolve(res) : Promise.reject(res))
@@ -91,54 +87,50 @@ module.exports = React.createClass({
           this.scheduleNextCheck()
         }
       })
-  },
+  };
 
   /**
   * Schedules the next check
   */
-  scheduleNextCheck () {
+  scheduleNextCheck = () => {
     this.clearTimeout(this.recheckTO)
     this.recheckTO = this.setTimeout(() => {
       this.checkNow()
     }, UPDATE_CHECK_INTERVAL)
-  },
+  };
 
   /**
   * Dismisses the modal an waits for the next check
   */
-  recheckLater () {
+  recheckLater = () => {
     this.setState({ newerVersion: null })
     this.scheduleNextCheck()
-  },
+  };
 
   /**
   * Cancels the recheck and rechecks after reboot
   */
-  recheckRestart () {
+  recheckRestart = () => {
     this.setState({
       newerVersion: null,
       recheckRestart: true
     })
     this.recheckLater()
-  },
+  };
 
   /**
   * Opens the download link
   */
-  downloadNow () {
+  downloadNow = () => {
     shell.openExternal(UPDATE_DOWNLOAD_URL)
     this.recheckLater()
-  },
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const buttons = [
       (<FlatButton
         key='restart'
@@ -172,4 +164,10 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}
+
+let fixedTimerMixin = toUnsafe(TimerMixin)
+
+reactMixin(UpdateCheckDialog.prototype, fixedTimerMixin)
+
+module.exports = UpdateCheckDialog

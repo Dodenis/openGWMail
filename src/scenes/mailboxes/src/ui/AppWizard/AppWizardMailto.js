@@ -1,28 +1,23 @@
+const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { platformActions } = require('../../stores/platform')
-const shallowCompare = require('react-addons-shallow-compare')
 const { Dialog, RaisedButton } = require('material-ui')
 
-module.exports = React.createClass({
+module.exports = class AppWizardMailto extends React.PureComponent {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
 
-  displayName: 'AppWizardMailto',
-  propTypes: {
-    isOpen: React.PropTypes.bool.isRequired
-  },
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired
+  };
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState)
-  },
-
-  render () {
+  render() {
     const { isOpen } = this.props
     const actions = (
       <div>
@@ -62,4 +57,4 @@ module.exports = React.createClass({
       </Dialog>
     )
   }
-})
+}

@@ -5,19 +5,16 @@ const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
 
-module.exports = React.createClass({
-
+module.exports = class SidelistItemAddMailbox extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'SidelistItemAddMailbox',
 
   /* **************************************************************************/
   // Rendering
   /* **************************************************************************/
 
-  render () {
+  render() {
     const { style, ...passProps } = this.props
     return (
       <div
@@ -39,4 +36,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

@@ -5,13 +5,10 @@ const {navigationDispatch} = require('../../Dispatch')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
 
-module.exports = React.createClass({
-
+module.exports = class SidelistItemSettings extends React.Component {
   /* **************************************************************************/
   // Class
   /* **************************************************************************/
-
-  displayName: 'SidelistItemSettings',
 
   /* **************************************************************************/
   // Rendering
@@ -20,7 +17,7 @@ module.exports = React.createClass({
   /**
   * Renders the app
   */
-  render () {
+  render() {
     const { style, ...passProps } = this.props
     return (
       <div
@@ -42,4 +39,4 @@ module.exports = React.createClass({
       </div>
     )
   }
-})
+}

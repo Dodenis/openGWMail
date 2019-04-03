@@ -21,9 +21,6 @@ const AppBadge = require('./AppBadge')
 const appTheme = require('./appTheme')
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 
-const injectTapEventPlugin = require('react-tap-event-plugin')
-injectTapEventPlugin()
-
 navigationDispatch.bindIPCListeners()
 
 class App extends React.PureComponent {

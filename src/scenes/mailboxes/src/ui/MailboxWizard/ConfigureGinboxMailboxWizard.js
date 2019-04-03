@@ -1,9 +1,9 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { RaisedButton, Paper } = require('material-ui')
+const { Button, Paper } = require('@material-ui/core')
 const { Configurations } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
-const Colors = require('material-ui/styles/colors')
+const Colors = require('@material-ui/core/colors')
 
 const styles = {
   introduction: {
@@ -40,7 +40,7 @@ const styles = {
     backgroundRepeat: 'no-repeat'
   },
   configurationTechInfo: {
-    color: Colors.grey500,
+    color: Colors.grey,
     fontSize: '85%'
   }
 }
@@ -81,7 +81,7 @@ module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent 
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GINBOX].DEFAULT_INBOX)}>
             <div>
-              <RaisedButton primary label='Unread Bundled Messages (Default)' style={styles.configurationButton} />
+              <Button variant='contained' primary label='Unread Bundled Messages (Default)' style={styles.configurationButton} />
               <div style={Object.assign({
                 backgroundImage: `url("../../images/ginbox_mode_unreadunbundled.png")`
               }, styles.configurationImage)} />
@@ -98,7 +98,7 @@ module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent 
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GINBOX].UNREAD_INBOX)}>
             <div>
-              <RaisedButton primary label='All Unread Messages' style={styles.configurationButton} />
+              <Button variant='contained' primary label='All Unread Messages' style={styles.configurationButton} />
               <div style={Object.assign({
                 backgroundImage: `url("../../images/ginbox_mode_inbox.png")`
               }, styles.configurationImage)} />

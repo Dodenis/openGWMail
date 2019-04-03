@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Toggle, Paper, SelectField, MenuItem } = require('material-ui')
+const { Switch, Paper, SelectField, MenuItem } = require('@material-ui/core')
 const platformActions = require('../../../stores/platform/platformActions')
 const styles = require('../settingStyles')
 
@@ -64,11 +64,11 @@ module.exports = class PlatformSettingsSection extends React.PureComponent {
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Platform</h1>
         {mailtoLinkHandlerSupported ? (
-          <Toggle
-            toggled={isMailtoLinkHandler}
+          <Switch
+            checked={isMailtoLinkHandler}
             labelPosition='right'
             label='Handle mailto links'
-            onToggle={(evt, toggled) => platformActions.changeMailtoLinkHandler(toggled)} />
+            onChange={(evt, toggled) => platformActions.changeMailtoLinkHandler(toggled)} />
         ) : undefined}
         {openAtLoginSupported ? (
           <SelectField
@@ -76,9 +76,9 @@ module.exports = class PlatformSettingsSection extends React.PureComponent {
             floatingLabelText='Open at Login'
             onChange={this.handleOpenAtLoginChanged}
             value={`${openAtLogin}|${openAsHiddenAtLogin}`}>
-            <MenuItem value={LOGIN_OPEN_MODES.OFF} primaryText={'Don\'t open at login'} />
-            <MenuItem value={LOGIN_OPEN_MODES.ON} primaryText='Open at login' />
-            <MenuItem value={LOGIN_OPEN_MODES.ON_BACKGROUND} primaryText='Open at login (in background)' />
+            <MenuItem value={LOGIN_OPEN_MODES.OFF}>{'Don\'t open at login'}</MenuItem>
+            <MenuItem value={LOGIN_OPEN_MODES.ON}>Open at login</MenuItem>
+            <MenuItem value={LOGIN_OPEN_MODES.ON_BACKGROUND}>Open at login (in background)</MenuItem>
           </SelectField>
         ) : undefined}
       </Paper>

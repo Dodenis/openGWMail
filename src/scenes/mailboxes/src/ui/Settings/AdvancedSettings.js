@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Toggle, TextField, Paper } = require('material-ui')
+const { Switch, TextField, Paper } = require('@material-ui/core')
 const { Container, Row, Col } = require('../../Components/Grid')
 const flux = {
   settings: require('../../stores/settings')
@@ -81,11 +81,11 @@ module.exports = class AdvancedSettings extends React.PureComponent {
       <div {...passProps}>
         <Paper zDepth={1} style={styles.paper}>
           <h1 style={styles.subheading}>Proxy Server</h1>
-          <Toggle
+          <Switch
             name='proxyEnabled'
-            defaultToggled={proxyEnabled}
+            defaultChecked={proxyEnabled}
             label='Enable Proxy Server'
-            onToggle={this.handleProxyToggle} />
+            onChange={this.handleProxyToggle} />
           <small>You also need to set the proxy settings on your OS to ensure all requests use the server</small>
           <Container fluid>
             <Row>
@@ -111,35 +111,35 @@ module.exports = class AdvancedSettings extends React.PureComponent {
           </Container>
         </Paper>
         <Paper zDepth={1} style={styles.paper}>
-          <Toggle
-            toggled={app.ignoreGPUBlacklist}
+          <Switch
+            checked={app.ignoreGPUBlacklist}
             label='Ignore GPU Blacklist (Requires Restart)'
             labelPosition='right'
-            onToggle={(evt, toggled) => {
+            onChange={(evt, toggled) => {
               showRestart()
               flux.settings.A.ignoreGPUBlacklist(toggled)
             }} />
-          <Toggle
-            toggled={app.enableUseZoomForDSF}
+          <Switch
+            checked={app.enableUseZoomForDSF}
             label='Use Zoom For DSF (Requires Restart)'
             labelPosition='right'
-            onToggle={(evt, toggled) => {
+            onChange={(evt, toggled) => {
               showRestart()
               flux.settings.A.enableUseZoomForDSF(toggled)
             }} />
-          <Toggle
-            toggled={app.disableSmoothScrolling}
+          <Switch
+            checked={app.disableSmoothScrolling}
             label='Disable Smooth Scrolling (Requires Restart)'
             labelPosition='right'
-            onToggle={(evt, toggled) => {
+            onChange={(evt, toggled) => {
               showRestart()
               flux.settings.A.disableSmoothScrolling(toggled)
             }} />
-          <Toggle
-            toggled={app.checkForUpdates}
+          <Switch
+            checked={app.checkForUpdates}
             label='Check for updates'
             labelPosition='right'
-            onToggle={(evt, toggled) => {
+            onChange={(evt, toggled) => {
               showRestart()
               flux.settings.A.checkForUpdates(toggled)
             }} />

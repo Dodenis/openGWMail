@@ -4,7 +4,7 @@ const toUnsafe = require('react-mixin/toUnsafe');
 const TimerMixin = require('react-timer-mixin')
 const compareVersion = require('compare-version')
 const { UPDATE_CHECK_URL, UPDATE_CHECK_INTERVAL, UPDATE_DOWNLOAD_URL } = require('shared/constants')
-const { FlatButton, RaisedButton, Dialog } = require('material-ui')
+const { Button, Dialog } = require('@material-ui/core')
 const settingsStore = require('../stores/settings/settingsStore')
 const settingsActions = require('../stores/settings/settingsActions')
 const pkg = window.appPackage()
@@ -132,17 +132,18 @@ class UpdateCheckDialog extends React.PureComponent {
 
   render() {
     const buttons = [
-      (<FlatButton
+      (<Button
         key='restart'
         label='After Restart'
         style={{ marginRight: 16 }}
         onClick={this.recheckRestart} />),
-      (<FlatButton
+      (<Button
         key='later'
         label='Later'
         style={{ marginRight: 16 }}
         onClick={this.recheckLater} />),
-      (<RaisedButton
+      (<Button
+        variant='contained'
         key='now'
         primary
         label='Download Now'

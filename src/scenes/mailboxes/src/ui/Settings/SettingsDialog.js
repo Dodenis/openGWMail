@@ -1,9 +1,9 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const {
-  Dialog, RaisedButton,
+  Dialog, Button,
   Tabs, Tab
-} = require('material-ui')
+} = require('@material-ui/core')
 const GeneralSettings = require('./GeneralSettings')
 const AccountSettings = require('./AccountSettings')
 const AdvancedSettings = require('./AdvancedSettings')
@@ -82,12 +82,12 @@ module.exports = class SettingsDialog extends React.Component {
 
     const buttons = showRestart ? (
       <div style={{ textAlign: 'right' }}>
-        <RaisedButton label='Close' style={{ marginRight: 16 }} onClick={onRequestClose} />
-        <RaisedButton label='Restart' primary onClick={() => ipcRenderer.send('relaunch-app', { })} />
+        <Button variant='contained' label='Close' style={{ marginRight: 16 }} onClick={onRequestClose} />
+        <Button variant='contained' label='Restart' primary onClick={() => ipcRenderer.send('relaunch-app', { })} />
       </div>
     ) : (
       <div style={{ textAlign: 'right' }}>
-        <RaisedButton label='Close' primary onClick={onRequestClose} />
+        <Button variant='contained' label='Close' primary onClick={onRequestClose} />
       </div>
     )
 

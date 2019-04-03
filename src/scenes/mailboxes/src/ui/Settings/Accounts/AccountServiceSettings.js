@@ -1,12 +1,12 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const {
-  Paper, IconButton, FontIcon, FlatButton, Popover, Menu, MenuItem, Checkbox, Toggle,
+  Paper, IconButton, Icon, Button, Popover, Menu, MenuItem, Checkbox, Switch,
   Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn
-} = require('material-ui')
+} = require('@material-ui/core')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
-const Colors = require('material-ui/styles/colors')
+const Colors = require('@material-ui/core/colors')
 
 const settingStyles = require('../settingStyles')
 const serviceStyles = {
@@ -28,7 +28,7 @@ const serviceStyles = {
   disabled: {
     textAlign: 'center',
     fontSize: '85%',
-    color: Colors.grey300
+    color: Colors.grey['300']
   }
 }
 
@@ -148,19 +148,19 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
                     <IconButton
                       onClick={() => mailboxActions.moveServiceUp(mailbox.id, service)}
                       disabled={index === 0}>
-                      <FontIcon className='material-icons'>arrow_upwards</FontIcon>
+                      <Icon className='material-icons'>arrow_upwards</Icon>
                     </IconButton>
                   </TableRowColumn>
                   <TableRowColumn style={serviceStyles.actionCell}>
                     <IconButton
                       onClick={() => mailboxActions.moveServiceDown(mailbox.id, service)}
                       disabled={index === arr.length - 1}>
-                      <FontIcon className='material-icons'>arrow_downwards</FontIcon>
+                      <Icon className='material-icons'>arrow_downwards</Icon>
                     </IconButton>
                   </TableRowColumn>
                   <TableRowColumn style={serviceStyles.actionCell}>
                     <IconButton onClick={() => mailboxActions.removeService(mailbox.id, service)}>
-                      <FontIcon className='material-icons'>delete</FontIcon>
+                      <Icon className='material-icons'>delete</Icon>
                     </IconButton>
                   </TableRowColumn>
                 </TableRow>
@@ -195,7 +195,7 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
       const { addPopoverOpen, addPopoverAnchor } = this.state
       return (
         <div style={{ textAlign: 'right' }}>
-          <FlatButton
+          <Button
             label='Add Service'
             onClick={(evt) => this.setState({ addPopoverOpen: true, addPopoverAnchor: evt.currentTarget })} />
           <Popover
@@ -212,8 +212,9 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
                     onClick={() => {
                       this.setState({ addPopoverOpen: false })
                       mailboxActions.addService(mailbox.id, service)
-                    }}
-                    primaryText={this.getServiceName(mailbox.type, service)} />)
+                    }}>
+                    {this.getServiceName(mailbox.type, service)}
+                  </MenuItem>)
               })}
             </Menu>
           </Popover>
@@ -236,11 +237,11 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
         <h1 style={settingStyles.subheading}>Services</h1>
         {this.renderServices(mailbox, mailbox.enabledServies, mailbox.sleepableServices)}
         {this.renderAddPopover(mailbox, disabledServices)}
-        <Toggle
-          toggled={mailbox.compactServicesUI}
+        <Switch
+          checked={mailbox.compactServicesUI}
           label='Compact Services UI'
           labelPosition='right'
-          onToggle={(evt, toggled) => mailboxActions.setCompactServicesUI(mailbox.id, toggled)} />
+          onChange={(evt, toggled) => mailboxActions.setCompactServicesUI(mailbox.id, toggled)} />
       </Paper>
     )
   }

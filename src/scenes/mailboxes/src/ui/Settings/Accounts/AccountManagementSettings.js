@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const Colors = require('material-ui/styles/colors')
-const { Paper, FlatButton, FontIcon } = require('material-ui')
+const Colors = require('@material-ui/core/colors')
+const { Paper, Button, Icon } = require('@material-ui/core')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
 const TimerMixin = require('react-timer-mixin')
@@ -68,10 +68,10 @@ class AccountManagementSettings extends React.PureComponent {
 
     return (
       <Paper zDepth={1} style={styles.paper} {...passProps}>
-        <FlatButton
+        <Button
           label={this.state.confirmingDelete ? 'Click again to confirm' : 'Delete Account'}
-          icon={<FontIcon color={Colors.red600} className='material-icons'>delete</FontIcon>}
-          labelStyle={{color: Colors.red600}}
+          icon={<Icon color={Colors.red} className='material-icons'>delete</Icon>}
+          labelStyle={{color: Colors.red}}
           onTouchTap={this.handleDeleteTapped} />
       </Paper>
     )

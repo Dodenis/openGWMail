@@ -1,8 +1,8 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
-const { Dialog, RaisedButton, FontIcon, Avatar } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { Dialog, Button, Icon, Avatar } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 
 module.exports = class AppWizardStart extends React.PureComponent {
   /* **************************************************************************/
@@ -21,14 +21,17 @@ module.exports = class AppWizardStart extends React.PureComponent {
     const { isOpen } = this.props
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Not interested'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.discardWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Later'
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Setup'
           style={{ marginLeft: 8 }}
           primary
@@ -45,9 +48,9 @@ module.exports = class AppWizardStart extends React.PureComponent {
         onRequestClose={() => appWizardActions.cancelWizard()}>
         <div style={{ textAlign: 'center' }}>
           <Avatar
-            color={Colors.yellow600}
-            backgroundColor={Colors.blueGrey900}
-            icon={(<FontIcon className='fa fa-fw fa-magic' />)}
+            color={Colors.yellow}
+            backgroundColor={Colors.blueGrey}
+            icon={(<Icon className='fa fa-fw fa-magic' />)}
             size={80} />
           <h3>openGWMail Setup</h3>
           <p>

@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Popover, Menu, MenuItem, Divider, FontIcon } = require('material-ui')
+const { Popover, Menu, MenuItem, Divider, Icon } = require('@material-ui/core')
 const { mailboxDispatch, navigationDispatch } = require('../../../Dispatch')
 const { mailboxActions } = require('../../../stores/mailbox')
 const { mailboxWizardActions } = require('../../../stores/mailboxWizard')
@@ -111,19 +111,21 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
       mailbox.email ? (
         <MenuItem
           key='info'
-          primaryText={mailbox.email}
-          disabled />) : undefined,
+          disabled >
+          {mailbox.email}
+        </MenuItem>) : undefined,
 
       mailbox.google.authHasGrantError ? (
         <MenuItem
           key='autherr'
-          primaryText='Reauthenticate Account'
           style={{ color: 'red' }}
           onClick={() => {
             mailboxWizardActions.reauthenticateGoogleMailbox(mailbox.id)
             this.handleClosePopover()
           }}
-          leftIcon={<FontIcon className='material-icons' style={{ color: 'red' }}>error_outline</FontIcon>} />
+          leftIcon={<Icon className='material-icons' style={{ color: 'red' }}>error_outline</Icon>} >
+          Reauthenticate Account
+        </MenuItem>
       ) : undefined,
       mailbox.google.authHasGrantError ? (<Divider key='div-err' />) : undefined,
 
@@ -131,47 +133,54 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
       isFirst ? undefined : (
         <MenuItem
           key='moveup'
-          primaryText='Move Up'
           onClick={this.handleMoveUp}
-          leftIcon={<FontIcon className='material-icons'>arrow_upward</FontIcon>} />),
+          leftIcon={<Icon className='material-icons'>arrow_upward</Icon>}>
+          Move Up
+        </MenuItem>),
       isLast ? undefined : (
         <MenuItem
           key='movedown'
-          primaryText='Move Down'
           onClick={this.handleMoveDown}
-          leftIcon={<FontIcon className='material-icons'>arrow_downward</FontIcon>} />),
+          leftIcon={<Icon className='material-icons'>arrow_downward</Icon>}>
+          Move Down
+        </MenuItem>),
       isFirst && isLast ? undefined : (<Divider key='div-0' />),
 
       // Account Actions
       (<MenuItem
         key='delete'
-        primaryText='Delete'
         onClick={this.handleDelete}
-        leftIcon={<FontIcon className='material-icons'>delete</FontIcon>} />),
+        leftIcon={<Icon className='material-icons'>delete</Icon>}>
+        Delete
+      </MenuItem>),
       (<MenuItem
         key='settings'
-        primaryText='Account Settings'
         onClick={this.handleAccountSettings}
-        leftIcon={<FontIcon className='material-icons'>settings</FontIcon>} />),
+        leftIcon={<Icon className='material-icons'>settings</Icon>}>
+        Account Settings
+      </MenuItem>),
       !mailbox.artificiallyPersistCookies ? undefined : (
         <MenuItem
           key='reauthenticate'
-          primaryText='Re-Authenticate'
           onClick={this.handeReAuthenticate}
-          leftIcon={<FontIcon className='material-icons'>lock_outline</FontIcon>} />),
+          leftIcon={<Icon className='material-icons'>lock_outline</Icon>}>
+          Re-Authenticate
+        </MenuItem>),
       (<Divider key='div-1' />),
 
       // Advanced Actions
       (<MenuItem
         key='reload'
-        primaryText='Reload'
         onClick={this.handleReload}
-        leftIcon={<FontIcon className='material-icons'>refresh</FontIcon>} />),
+        leftIcon={<Icon className='material-icons'>refresh</Icon>}>
+        Reload
+      </MenuItem>),
       (<MenuItem
         key='inspect'
-        primaryText='Inspect'
         onClick={this.handleInspect}
-        leftIcon={<FontIcon className='material-icons'>bug_report</FontIcon>} />)
+        leftIcon={<Icon className='material-icons'>bug_report</Icon>}>
+        Inspect
+      </MenuItem>)
     ].filter((item) => !!item)
 
     return menuItems

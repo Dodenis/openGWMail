@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Toggle, Paper } = require('material-ui')
+const { Switch, Paper } = require('@material-ui/core')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
 
@@ -32,49 +32,49 @@ module.exports = class UISettingsSection extends React.PureComponent {
         <Paper zDepth={1} style={styles.paper}>
           <h1 style={styles.subheading}>User Interface</h1>
           {process.platform !== 'darwin' ? undefined : (
-            <Toggle
+            <Switch
               labelPosition='right'
-              toggled={ui.showTitlebar}
+              checked={ui.showTitlebar}
               label='Show titlebar (Requires Restart)'
-              onToggle={(evt, toggled) => {
+              onChange={(evt, toggled) => {
                 showRestart()
                 settingsActions.setShowTitlebar(toggled)
               }} />
             )}
           {process.platform === 'darwin' ? undefined : (
-            <Toggle
+            <Switch
               labelPosition='right'
-              toggled={ui.showAppMenu}
+              checked={ui.showAppMenu}
               label='Show App Menu (Ctrl+\)'
-              onToggle={(evt, toggled) => settingsActions.setShowAppMenu(toggled)} />
+              onChange={(evt, toggled) => settingsActions.setShowAppMenu(toggled)} />
           )}
-          <Toggle
-            toggled={ui.sidebarEnabled}
+          <Switch
+            checked={ui.sidebarEnabled}
             label={`Show Sidebar (${process.platform === 'darwin' ? 'Ctrl+cmd+S' : 'Ctrl+shift+S'})`}
             labelPosition='right'
-            onToggle={(evt, toggled) => settingsActions.setEnableSidebar(toggled)} />
-          <Toggle
-            toggled={ui.showAppBadge}
+            onChange={(evt, toggled) => settingsActions.setEnableSidebar(toggled)} />
+          <Switch
+            checked={ui.showAppBadge}
             label='Show app unread badge'
             labelPosition='right'
-            onToggle={(evt, toggled) => settingsActions.setShowAppBadge(toggled)} />
-          <Toggle
-            toggled={ui.showTitlebarCount}
+            onChange={(evt, toggled) => settingsActions.setShowAppBadge(toggled)} />
+          <Switch
+            checked={ui.showTitlebarCount}
             label='Show titlebar unread count'
             labelPosition='right'
-            onToggle={(evt, toggled) => settingsActions.setShowTitlebarUnreadCount(toggled)} />
+            onChange={(evt, toggled) => settingsActions.setShowTitlebarUnreadCount(toggled)} />
           {process.platform === 'darwin' ? (
-            <Toggle
-              toggled={os.openLinksInBackground}
+            <Switch
+              checked={os.openLinksInBackground}
               label='Open links in background'
               labelPosition='right'
-              onToggle={(evt, toggled) => settingsActions.setOpenLinksInBackground(toggled)} />
+              onChange={(evt, toggled) => settingsActions.setOpenLinksInBackground(toggled)} />
             ) : undefined}
-          <Toggle
-            toggled={ui.openHidden}
+          <Switch
+            checked={ui.openHidden}
             label='Always Start minimized'
             labelPosition='right'
-            onToggle={(evt, toggled) => settingsActions.setOpenHidden(toggled)} />
+            onChange={(evt, toggled) => settingsActions.setOpenHidden(toggled)} />
         </Paper>
       </div>
     )

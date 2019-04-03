@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types')
 const React = require('react')
-const { RaisedButton, Popover } = require('material-ui')
+const { Button, Popover } = require('@material-ui/core')
 const { ChromePicker } = require('react-color')
 
 module.exports = class ColorPickerButton extends React.Component {
@@ -42,7 +42,8 @@ module.exports = class ColorPickerButton extends React.Component {
     const { label, disabled, onChange, anchorOrigin, targetOrigin, icon, ...passProps } = this.props
     return (
       <div {...passProps}>
-        <RaisedButton
+        <Button
+          variant='contained'
           icon={icon}
           label={label}
           disabled={disabled}

@@ -2,7 +2,7 @@ const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { platformActions } = require('../../stores/platform')
-const { Dialog, RaisedButton } = require('material-ui')
+const { Dialog, Button } = require('@material-ui/core')
 
 module.exports = class AppWizardMailto extends React.PureComponent {
   /* **************************************************************************/
@@ -21,14 +21,17 @@ module.exports = class AppWizardMailto extends React.PureComponent {
     const { isOpen } = this.props
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Cancel'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Later'
           onClick={() => appWizardActions.progressNextStep()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Make default mail client'
           style={{ marginLeft: 8 }}
           primary

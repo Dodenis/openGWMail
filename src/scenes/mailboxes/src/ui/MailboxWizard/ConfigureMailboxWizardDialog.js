@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, RaisedButton } = require('material-ui')
+const { Dialog, Button } = require('@material-ui/core')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
 
@@ -86,7 +86,8 @@ module.exports = class ConfigureMailboxWizardDialog extends React.PureComponent 
   renderActions = () => {
     return (
       <div style={{ textAlign: 'left' }}>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Skip'
           onClick={() => mailboxWizardActions.configureMailbox({})} />
       </div>

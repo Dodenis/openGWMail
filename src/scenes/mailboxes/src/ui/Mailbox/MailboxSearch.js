@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Paper, TextField, IconButton } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { Paper, TextField, IconButton } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 
 module.exports = class MailboxSearch extends React.Component {
   /* **************************************************************************/
@@ -113,14 +113,14 @@ module.exports = class MailboxSearch extends React.Component {
         <IconButton
           iconClassName='material-icons'
           style={{ bottom: -7 }}
-          iconStyle={{ color: Colors.grey600 }}
+          iconStyle={{ color: Colors.grey }}
           onClick={this.handleFindNext}>
           search
         </IconButton>
         <IconButton
           iconClassName='material-icons'
           style={{ bottom: -7, zIndex: 1 }}
-          iconStyle={{ color: Colors.grey600 }}
+          iconStyle={{ color: Colors.grey }}
           onClick={this.handleStopSearch}>
           close
         </IconButton>

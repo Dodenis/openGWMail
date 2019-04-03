@@ -19,7 +19,7 @@ const UnreadNotifications = require('../Notifications/UnreadNotifications')
 const Tray = require('./Tray')
 const AppBadge = require('./AppBadge')
 const appTheme = require('./appTheme')
-const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
+const MuiThemeProvider = require('@material-ui/core/styles/MuiThemeProvider').default
 
 navigationDispatch.bindIPCListeners()
 
@@ -161,7 +161,7 @@ class App extends React.PureComponent {
 
     return (
       <div>
-        <MuiThemeProvider muiTheme={appTheme}>
+        <MuiThemeProvider theme={appTheme}>
           <AppContent />
         </MuiThemeProvider>
         {!traySettings.show ? undefined : (

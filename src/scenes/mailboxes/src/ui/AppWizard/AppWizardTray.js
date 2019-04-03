@@ -2,7 +2,7 @@ const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { settingsStore } = require('../../stores/settings')
-const { Dialog, RaisedButton } = require('material-ui')
+const { Dialog, Button } = require('@material-ui/core')
 const { TrayIconEditor } = require('../../Components')
 
 module.exports = class AppWizardTray extends React.PureComponent {
@@ -48,11 +48,13 @@ module.exports = class AppWizardTray extends React.PureComponent {
 
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Cancel'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Next'
           primary
           onClick={() => appWizardActions.progressNextStep()} />

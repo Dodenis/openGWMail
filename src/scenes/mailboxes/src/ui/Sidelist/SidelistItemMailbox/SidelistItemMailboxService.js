@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const { Mailbox } = require('shared/Models/Mailbox')
-const { Avatar } = require('material-ui')
+const { Avatar } = require('@material-ui/core')
 const styles = require('../SidelistStyles')
 
 module.exports = class SidelistItemMailboxServices extends React.PureComponent {

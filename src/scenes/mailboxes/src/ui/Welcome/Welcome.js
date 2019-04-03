@@ -1,8 +1,8 @@
 const React = require('react')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
-const { RaisedButton, FontIcon } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
-const colorManipulator = require('material-ui/utils/colorManipulator')
+const { Button, Icon } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
+const colorManipulator = require('@material-ui/core/styles/colorManipulator')
 const AppTheme = require('../appTheme')
 
 const styles = {
@@ -22,7 +22,7 @@ const styles = {
     overflow: 'auto'
   },
   heading: {
-    backgroundColor: colorManipulator.lighten(AppTheme.palette.primary1Color, 0.3),
+    backgroundColor: colorManipulator.lighten(AppTheme.palette.primary.main, 0.3),
     color: 'white',
     paddingTop: 40,
     paddingBottom: 20
@@ -41,7 +41,7 @@ const styles = {
   },
   setupItemExtended: {
     fontSize: '85%',
-    color: Colors.grey600
+    color: Colors.grey['600']
   }
 }
 
@@ -63,9 +63,10 @@ module.exports = class Welcome extends React.Component {
           <h2 style={styles.headingSubtitle}>...the free and open-source desktop client for Gmail and Google Inbox</h2>
         </div>
         <div style={styles.setupItem}>
-          <RaisedButton
+          <Button
+            variant='contained'
             label='Add your first mailbox'
-            icon={(<FontIcon className='material-icons'>mail_outline</FontIcon>)}
+            icon={(<Icon className='material-icons'>mail_outline</Icon>)}
             primary
             onClick={() => mailboxWizardActions.openAddMailbox()} />
           <p style={styles.setupItemExtended}>

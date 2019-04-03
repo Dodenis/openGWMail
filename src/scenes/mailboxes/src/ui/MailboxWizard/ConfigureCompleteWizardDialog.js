@@ -1,6 +1,6 @@
 const React = require('react')
-const { FontIcon, Dialog, RaisedButton } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { Icon, Dialog, Button } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { appWizardActions } = require('../../stores/appWizard')
 const { settingsStore } = require('../../stores/settings')
@@ -10,7 +10,7 @@ const styles = {
     textAlign: 'center'
   },
   tick: {
-    color: Colors.green600,
+    color: Colors.green,
     fontSize: '80px'
   },
   instruction: {
@@ -61,7 +61,8 @@ module.exports = class ConfigureCompleteWizardDialog extends React.Component {
   render() {
     const { isOpen, hasSeenAppWizard } = this.state
     const actions = (
-      <RaisedButton
+      <Button
+        variant='contained'
         label='Finish'
         primary
         onClick={() => {
@@ -82,7 +83,7 @@ module.exports = class ConfigureCompleteWizardDialog extends React.Component {
         open={isOpen}
         autoScrollBodyContent>
         <div style={styles.container}>
-          <FontIcon className='material-icons' style={styles.tick}>check_circle</FontIcon>
+          <Icon className='material-icons' style={styles.tick}>check_circle</Icon>
           <h3>All Done!</h3>
           <p style={styles.instruction}>
             You can change your mailbox settings at any time in the settings

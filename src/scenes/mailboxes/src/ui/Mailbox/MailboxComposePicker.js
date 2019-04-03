@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, RaisedButton, List, ListItem, Avatar } = require('material-ui')
+const { Dialog, Button, List, ListItem, Avatar } = require('@material-ui/core')
 const { composeStore, composeActions } = require('../../stores/compose')
 const { mailboxStore, mailboxActions } = require('../../stores/mailbox')
 
@@ -80,21 +80,11 @@ module.exports = class MailboxComposePicker extends React.PureComponent {
   // Rendering
   /* **************************************************************************/
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const prevOpen = this.isOpen(this.state)
-    const nextOpen = this.isOpen(nextState)
-
-    if (prevOpen !== nextOpen) { return true }
-    if (nextOpen === false) { return false }
-
-    return super.shouldComponentUpdate(nextProps, nextState)
-  }
-
   render() {
     const { mailboxes } = this.state
     const mailboxState = mailboxStore.getState()
     const actions = (
-      <RaisedButton label='Cancel' onClick={this.handleCancel} />
+      <Button variant='contained' label='Cancel' onClick={this.handleCancel} />
     )
 
     return (

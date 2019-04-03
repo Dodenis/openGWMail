@@ -3,15 +3,15 @@ const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { mailboxStore } = require('../../stores/mailbox')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
-const { Dialog, RaisedButton, FontIcon } = require('material-ui')
-const Colors = require('material-ui/styles/colors')
+const { Dialog, Button, Icon } = require('@material-ui/core')
+const Colors = require('@material-ui/core/colors')
 
 const styles = {
   container: {
     textAlign: 'center'
   },
   tick: {
-    color: Colors.green600,
+    color: Colors.green,
     fontSize: '80px'
   }
 }
@@ -60,16 +60,19 @@ module.exports = class AppWizardComplete extends React.PureComponent {
     const { mailboxCount } = this.state
     const actions = (
       <div>
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Cancel'
           style={{ float: 'left' }}
           onClick={() => appWizardActions.cancelWizard()} />
-        <RaisedButton
+        <Button
+          variant='contained'
           label='Finish'
           primary={mailboxCount !== 0}
           onClick={() => appWizardActions.progressNextStep()} />
         {mailboxCount === 0 ? (
-          <RaisedButton
+          <Button
+            variant='contained'
             label='Add First Mailbox'
             style={{marginLeft: 8}}
             primary
@@ -89,7 +92,7 @@ module.exports = class AppWizardComplete extends React.PureComponent {
         autoScrollBodyContent
         onRequestClose={() => appWizardActions.cancelWizard()}>
         <div style={styles.container}>
-          <FontIcon className='material-icons' style={styles.tick}>check_circle</FontIcon>
+          <Icon className='material-icons' style={styles.tick}>check_circle</Icon>
           <h3>All Done!</h3>
           <p>
             You can go to settings at any time to update your preferences

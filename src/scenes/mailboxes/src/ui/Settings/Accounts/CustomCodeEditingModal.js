@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { RaisedButton, FlatButton, Dialog, TextField } = require('material-ui')
+const { Button, Dialog, TextField } = require('@material-ui/core')
 const uuid = require('uuid')
 
 module.exports = class CustomCodeEditingModal extends React.PureComponent {
@@ -40,12 +40,13 @@ module.exports = class CustomCodeEditingModal extends React.PureComponent {
 
   render() {
     const actions = [
-      (<FlatButton
+      (<Button
         key='cancel'
         label='Cancel'
         style={{ marginRight: 8 }}
         onTouchTap={(evt) => this.props.onCancel(evt)} />),
-      (<RaisedButton
+      (<Button
+        variant='contained'
         key='save'
         label='Save'
         primary

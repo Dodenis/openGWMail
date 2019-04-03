@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Paper } = require('material-ui')
+const { Paper } = require('@material-ui/core')
 
 module.exports = class MailboxTargetUrl extends React.Component {
   /* **************************************************************************/

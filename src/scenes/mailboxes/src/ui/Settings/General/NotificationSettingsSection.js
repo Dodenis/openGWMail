@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Toggle, Paper } = require('material-ui')
+const { Switch, Paper } = require('@material-ui/core')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
 
@@ -23,17 +23,17 @@ module.exports = class NotificationSettingsSection extends React.PureComponent {
     return (
       <Paper zDepth={1} style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Notifications</h1>
-        <Toggle
-          toggled={os.notificationsEnabled}
+        <Switch
+          checked={os.notificationsEnabled}
           labelPosition='right'
           label='Show new mail notifications'
-          onToggle={(evt, toggled) => settingsActions.setNotificationsEnabled(toggled)} />
-        <Toggle
-          toggled={!os.notificationsSilent}
+          onChange={(evt, toggled) => settingsActions.setNotificationsEnabled(toggled)} />
+        <Switch
+          checked={!os.notificationsSilent}
           label='Play notification sound'
           labelPosition='right'
           disabled={!os.notificationsEnabled}
-          onToggle={(evt, toggled) => settingsActions.setNotificationsSilent(!toggled)} />
+          onChange={(evt, toggled) => settingsActions.setNotificationsSilent(!toggled)} />
       </Paper>
     )
   }

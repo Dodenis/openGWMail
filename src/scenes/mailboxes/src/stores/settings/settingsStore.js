@@ -31,29 +31,29 @@ class SettingsStore {
   static generateTrayThemedDefaults () {
     if (process.platform === 'darwin') {
       return {
-        readColor: AppTheme.palette.primary1Color,
-        readBackgroundColor: AppTheme.palette.alternateTextColor,
-        unreadColor: AppTheme.palette.alternateTextColor,
-        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        readColor: AppTheme.palette.primary.main,
+        readBackgroundColor: AppTheme.palette.primary.contrastText,
+        unreadColor: AppTheme.palette.primary.contrastText,
+        unreadBackgroundColor: AppTheme.palette.primary.main,
         unreadRadius: 1,
         readRadius: 1
       }
     } else if (process.platform === 'win32') {
       // Windows is predominantely dark themed, but with no way to check assume it is
       return {
-        readColor: AppTheme.palette.primary1Color,
-        readBackgroundColor: AppTheme.palette.alternateTextColor,
-        unreadColor: AppTheme.palette.alternateTextColor,
-        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        readColor: AppTheme.palette.primary.main,
+        readBackgroundColor: AppTheme.palette.primary.contrastText,
+        unreadColor: AppTheme.palette.primary.contrastText,
+        unreadBackgroundColor: AppTheme.palette.primary.main,
         unreadRadius: 1,
         readRadius: 1
       }
     } else if (process.platform === 'linux') {
       return {
-        readColor: AppTheme.palette.primary1Color,
-        readBackgroundColor: AppTheme.palette.alternateTextColor,
-        unreadColor: AppTheme.palette.alternateTextColor,
-        unreadBackgroundColor: AppTheme.palette.primary1Color,
+        readColor: AppTheme.palette.primary.main,
+        readBackgroundColor: AppTheme.palette.primary.contrastText,
+        unreadColor: AppTheme.palette.primary.contrastText,
+        unreadBackgroundColor: AppTheme.palette.primary.main,
         unreadRadius: 1,
         readRadius: 1
       }
@@ -61,10 +61,10 @@ class SettingsStore {
 
     // Catch all
     return {
-      readColor: AppTheme.palette.primary1Color,
-      readBackgroundColor: AppTheme.palette.alternateTextColor,
-      unreadColor: AppTheme.palette.alternateTextColor,
-      unreadBackgroundColor: AppTheme.palette.primary1Color,
+      readColor: AppTheme.palette.primary.main,
+      readBackgroundColor: AppTheme.palette.primary.contrastText,
+      unreadColor: AppTheme.palette.primary.contrastText,
+      unreadBackgroundColor: AppTheme.palette.primary.main,
       unreadRadius: 1,
       readRadius: 1
     }

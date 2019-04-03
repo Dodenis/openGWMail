@@ -1,9 +1,9 @@
 const React = require('react')
 const {
   Stepper, Step, StepLabel, StepContent,
-  RaisedButton, FlatButton, LinearProgress,
+  Button, LinearProgress,
   SelectField, MenuItem
-} = require('material-ui')
+} = require('@material-ui/core')
 const dictionariesStore = require('../../stores/dictionaries/dictionariesStore')
 const dictionariesActions = require('../../stores/dictionaries/dictionariesActions')
 const {
@@ -125,13 +125,13 @@ module.exports = class DictionaryInstallStepper extends React.Component {
               onChange={this.handlePickLanguage}>
               {[null].concat(uninstallDictionaries).map((info) => {
                 if (info === null) {
-                  return (<MenuItem key='null' value={null} primaryText='' />)
+                  return (<MenuItem key='null' value={null} />)
                 } else {
-                  return (<MenuItem key={info.lang} value={info.lang} primaryText={info.name} />)
+                  return (<MenuItem key={info.lang} value={info.lang}>{info.name}</MenuItem>)
                 }
               })}
             </SelectField>
-            <FlatButton
+            <Button
               label='Cancel'
               disableTouchRipple
               disableFocusRipple
@@ -146,14 +146,15 @@ module.exports = class DictionaryInstallStepper extends React.Component {
               <a href={(installLanguageInfo || {}).license} onClick={(evt) => { evt.preventDefault(); shell.openExternal(installLanguageInfo.license) }}>license</a>
               <span> of the <strong>{(installLanguageInfo || {}).name}</strong> dictionary</span>
             </p>
-            <RaisedButton
+            <Button
+              variant='contained'
               label='Next'
               disableTouchRipple
               disableFocusRipple
               primary
               onTouchTap={this.handleAgreeLicense}
               style={{marginRight: 12}} />
-            <FlatButton
+            <Button
               label='Cancel'
               disableTouchRipple
               disableFocusRipple
@@ -175,7 +176,8 @@ module.exports = class DictionaryInstallStepper extends React.Component {
               <strong>{(installLanguageInfo || {}).name}</strong>
               <span> dictionary has been downloaded and installed.</span>
             </p>
-            <RaisedButton
+            <Button
+              variant='contained'
               label='Done'
               disableTouchRipple
               disableFocusRipple

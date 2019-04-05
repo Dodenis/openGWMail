@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, Button, List, ListItem, Avatar } = require('@material-ui/core')
+const { Dialog, DialogTitle, DialogContent, DialogActions, Button, List, ListItem, Avatar } = require('@material-ui/core')
 const { composeStore, composeActions } = require('../../stores/compose')
 const { mailboxStore, mailboxActions } = require('../../stores/mailbox')
 
@@ -84,37 +84,41 @@ module.exports = class MailboxComposePicker extends React.PureComponent {
     const { mailboxes } = this.state
     const mailboxState = mailboxStore.getState()
     const actions = (
-      <Button variant='contained' label='Cancel' onClick={this.handleCancel} />
+      <Button variant='contained' onClick={this.handleCancel} >
+        Cancel
+      </Button>
     )
 
     return (
       <Dialog
-        modal={false}
-        title='Compose New Message'
-        titleStyle={{ lineHeight: '22px' }}
-        actions={actions}
         open={this.isOpen()}
-        contentStyle={{ maxWidth: 'none', width: 300 }}
-        bodyStyle={{ padding: 0 }}
-        autoScrollBodyContent
-        onRequestClose={this.handleCancel}>
-        <List>
-          {mailboxes.map((mailbox) => {
-            let avatarSrc = ''
-            if (mailbox.hasCustomAvatar) {
-              avatarSrc = mailboxState.getAvatar(mailbox.customAvatarId)
-            } else if (mailbox.avatarURL) {
-              avatarSrc = mailbox.avatarURL
-            }
+        onClose={this.handleCancel}
+      >
+        <DialogTitle>
+          Compose New Message
+        </DialogTitle>
+        <DialogContent style={{ maxWidth: 'none', width: 300 }}>
+          <List>
+            {mailboxes.map((mailbox) => {
+              let avatarSrc = ''
+              if (mailbox.hasCustomAvatar) {
+                avatarSrc = mailboxState.getAvatar(mailbox.customAvatarId)
+              } else if (mailbox.avatarURL) {
+                avatarSrc = mailbox.avatarURL
+              }
 
-            return (
-              <ListItem
-                leftAvatar={<Avatar src={avatarSrc} backgroundColor='white' />}
-                primaryText={(mailbox.email || mailbox.name || mailbox.id)}
-                onClick={(evt) => this.handleSelectMailbox(evt, mailbox.id)}
-                key={mailbox.id} />)
-          })}
-        </List>
+              return (
+                <ListItem
+                  leftAvatar={<Avatar src={avatarSrc} style={"background-color: white;"}/>}
+                  primaryText={(mailbox.email || mailbox.name || mailbox.id)}
+                  onClick={(evt) => this.handleSelectMailbox(evt, mailbox.id)}
+                  key={mailbox.id} />)
+            })}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

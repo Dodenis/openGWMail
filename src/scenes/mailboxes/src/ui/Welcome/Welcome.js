@@ -1,6 +1,7 @@
 const React = require('react')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { Button, Icon } = require('@material-ui/core')
+const { MailOutline } = require('@material-ui/icons')
 const Colors = require('@material-ui/core/colors')
 const colorManipulator = require('@material-ui/core/styles/colorManipulator')
 const AppTheme = require('../appTheme')
@@ -65,10 +66,12 @@ module.exports = class Welcome extends React.Component {
         <div style={styles.setupItem}>
           <Button
             variant='contained'
-            label='Add your first mailbox'
-            icon={(<Icon className='material-icons'>mail_outline</Icon>)}
-            primary
-            onClick={() => mailboxWizardActions.openAddMailbox()} />
+            color='primary'
+            onClick={() => mailboxWizardActions.openAddMailbox()}
+          >
+            <MailOutline />
+            Add your first mailbox
+          </Button>
           <p style={styles.setupItemExtended}>
             Get started by adding your first Gmail or Google Inbox accout
           </p>

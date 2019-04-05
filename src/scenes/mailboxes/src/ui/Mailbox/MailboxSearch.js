@@ -2,6 +2,7 @@ const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper, TextField, IconButton } = require('@material-ui/core')
 const Colors = require('@material-ui/core/colors')
+const { Search, Close } = require('@material-ui/icons')
 
 module.exports = class MailboxSearch extends React.Component {
   /* **************************************************************************/
@@ -103,26 +104,20 @@ module.exports = class MailboxSearch extends React.Component {
     return (
       <Paper {...passProps} className={className}>
         <TextField
-          ref='textField'
-          hintText='Search'
-          style={{ marginLeft: 15 }}
-          inputStyle={{ width: 200 }}
+          placeholder='Search'
+          style={{ marginLeft: 15, width: 200 }}
           value={this.state.searchQuery}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress} />
         <IconButton
-          iconClassName='material-icons'
-          style={{ bottom: -7 }}
-          iconStyle={{ color: Colors.grey }}
+          style={{ bottom: -7, color: Colors.grey }}
           onClick={this.handleFindNext}>
-          search
+          <Search />
         </IconButton>
         <IconButton
-          iconClassName='material-icons'
-          style={{ bottom: -7, zIndex: 1 }}
-          iconStyle={{ color: Colors.grey }}
+          style={{ bottom: -7, zIndex: 1, color: Colors.grey }}
           onClick={this.handleStopSearch}>
-          close
+          <Close />
         </IconButton>
       </Paper>
     )

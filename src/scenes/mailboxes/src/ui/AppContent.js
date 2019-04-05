@@ -83,7 +83,7 @@ module.exports = class AppContent extends React.PureComponent {
         </div>
         <SettingsDialog
           open={this.state.settingsDialog}
-          onRequestClose={this.handleCloseSettings}
+          onClose={this.handleCloseSettings}
           initialRoute={this.state.settingsRoute} />
         <DictionaryInstallHandler />
         <AppWizard />

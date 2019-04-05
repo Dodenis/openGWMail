@@ -1,8 +1,9 @@
 const React = require('react')
 const {
-  Dialog, Button, Checkbox, Switch,
-  Table, TableBody, TableRow, TableRowColumn
+  Dialog, Button, FormControlLabel,
+  TableBody, TableRow, TableCell, DialogContent, DialogActions, DialogTitle
 } = require('@material-ui/core')
+const { Switch, Checkbox, Table } = require('../../Components/Mui')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
 
@@ -147,54 +148,61 @@ module.exports = class ConfigureMailboxServicesDialog extends React.Component {
     const actions = (
       <Button
         variant='contained'
-        label='Next'
-        primary
+        color="primary"
         onClick={() => {
           mailboxWizardActions.configureMailboxServices(Array.from(enabledServices), compactServices)
-        }} />
+        }}
+      >
+        Next
+      </Button>
     )
 
     return (
       <Dialog
-        bodyClassName='ReactComponent-MaterialUI-Dialog-Body-Scrollbars'
-        modal
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent>
-        <div style={styles.introduction}>
-          openGWMail also gives you access to the other services you use. Pick which
+      >
+        <DialogTitle style={{textAlign: 'center'}}>
+          OpenGWMail also gives you access to the other services you use. Pick which
           services you would like to enable for this account
-        </div>
+        </DialogTitle>
+        <DialogContent>
+          <Table>
+            <TableBody>
+              {availableServices.map((service) => {
+                return (
+                  <TableRow key={service}>
+                    <TableCell style={styles.actionCell}>
+                      <img
+                        style={styles.avatar}
+                        src={this.getServiceIconUrl(mailboxType, service)} />
+                    </TableCell>
+                    <TableCell style={styles.titleCell}>
+                      {this.getServiceName(mailboxType, service)}
+                    </TableCell>
+                    <TableCell style={styles.actionCell}>
+                      <Checkbox
+                        onChange={(evt, checked) => this.handleToggleService(service, checked)}
+                        checked={enabledServices.has(service)} />
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
 
-        <Table selectable={false}>
-          <TableBody displayRowCheckbox={false}>
-            {availableServices.map((service) => {
-              return (
-                <TableRow key={service}>
-                  <TableRowColumn style={styles.actionCell}>
-                    <img
-                      style={styles.avatar}
-                      src={this.getServiceIconUrl(mailboxType, service)} />
-                  </TableRowColumn>
-                  <TableRowColumn style={styles.titleCell}>
-                    {this.getServiceName(mailboxType, service)}
-                  </TableRowColumn>
-                  <TableRowColumn style={styles.actionCell}>
-                    <Checkbox
-                      onCheck={(evt, checked) => this.handleToggleService(service, checked)}
-                      checked={enabledServices.has(service)} />
-                  </TableRowColumn>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-
-        <Switch
-          checked={compactServices}
-          label='Show sidebar services in compact mode'
-          labelPosition='right'
-          onChange={(evt, toggled) => this.setState({ compactServices: toggled })} />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={compactServices}
+                onChange={(evt, toggled) => this.setState({ compactServices: toggled })}
+              />
+            }
+            label='Show sidebar services in compact mode'
+          />
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, Button } = require('@material-ui/core')
+const { Dialog, Button, DialogContent, DialogActions, DialogTitle } = require('@material-ui/core')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { Mailbox } = require('shared/Models/Mailbox')
 
@@ -88,8 +88,10 @@ module.exports = class ConfigureMailboxWizardDialog extends React.PureComponent 
       <div style={{ textAlign: 'left' }}>
         <Button
           variant='contained'
-          label='Skip'
-          onClick={() => mailboxWizardActions.configureMailbox({})} />
+          onClick={() => mailboxWizardActions.configureMailbox({})}
+        >
+          Skip
+        </Button>
       </div>
     )
   };
@@ -99,15 +101,18 @@ module.exports = class ConfigureMailboxWizardDialog extends React.PureComponent 
 
     return (
       <Dialog
-        bodyClassName='ReactComponent-MaterialUI-Dialog-Body-Scrollbars'
-        contentStyle={{ width: '90%', maxWidth: 1200 }}
-        modal={false}
-        title={this.renderMailboxConfiguratorTitle(mailboxType)}
-        actions={this.renderActions()}
         open={isOpen}
-        onRequestClose={() => mailboxWizardActions.cancelAddMailbox()}
-        autoScrollBodyContent>
-        {this.renderMailboxConfigurator(mailboxType)}
+        onClose={() => mailboxWizardActions.cancelAddMailbox()}
+      >
+        <DialogTitle style={{textAlign: 'center'}}>
+          {this.renderMailboxConfiguratorTitle(mailboxType)}
+        </DialogTitle>
+        <DialogContent>
+          {this.renderMailboxConfigurator(mailboxType)}
+        </DialogContent>
+        <DialogActions>
+          {this.renderActions()}
+        </DialogActions>
       </Dialog>
     )
   }

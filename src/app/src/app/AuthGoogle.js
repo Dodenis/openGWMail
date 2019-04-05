@@ -1,5 +1,5 @@
 const {ipcMain, BrowserWindow} = require('electron')
-const googleapis = require('googleapis')
+const { google } = require('googleapis')
 const credentials = require('../shared/credentials')
 
 const APP_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
@@ -24,7 +24,7 @@ class AuthGoogle {
   * @return the url that can be used to authenticate with goog
   */
   generateAuthenticationURL () {
-    const oauth2Client = new googleapis.auth.OAuth2(
+    const oauth2Client = new google.auth.OAuth2(
       credentials.GOOGLE_CLIENT_ID,
       credentials.GOOGLE_CLIENT_SECRET,
       APP_REDIRECT_URI

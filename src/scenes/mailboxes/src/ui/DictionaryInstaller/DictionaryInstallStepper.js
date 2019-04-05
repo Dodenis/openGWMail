@@ -2,8 +2,9 @@ const React = require('react')
 const {
   Stepper, Step, StepLabel, StepContent,
   Button, LinearProgress,
-  SelectField, MenuItem
+  MenuItem, InputLabel, Select
 } = require('@material-ui/core')
+const { FormControlFullWidth } = require('../../Components/Mui')
 const dictionariesStore = require('../../stores/dictionaries/dictionariesStore')
 const dictionariesActions = require('../../stores/dictionaries/dictionariesActions')
 const {
@@ -87,9 +88,9 @@ module.exports = class DictionaryInstallStepper extends React.Component {
   /**
   * Progress the user when they pick their language
   */
-  handlePickLanguage = (evt, index, value) => {
-    if (value !== null) {
-      dictionariesActions.pickDictionaryInstallLanguage(this.state.installId, value)
+  handlePickLanguage = (event) => {
+    if (event.target.value !== null) {
+      dictionariesActions.pickDictionaryInstallLanguage(this.state.installId, event.target.value)
     }
   };
 
@@ -119,23 +120,31 @@ module.exports = class DictionaryInstallStepper extends React.Component {
         <Step>
           <StepLabel>Pick Language</StepLabel>
           <StepContent>
-            <SelectField
-              floatingLabelText='Pick the dictionary to install'
-              fullWidth
-              onChange={this.handlePickLanguage}>
-              {[null].concat(uninstallDictionaries).map((info) => {
-                if (info === null) {
-                  return (<MenuItem key='null' value={null} />)
-                } else {
-                  return (<MenuItem key={info.lang} value={info.lang}>{info.name}</MenuItem>)
-                }
-              })}
-            </SelectField>
+            <FormControlFullWidth>
+              <InputLabel htmlFor="pick-the-dictionary-to-install">Pick the dictionary to install</InputLabel>
+              <Select
+                value=""
+                style={{width: '100%'}}
+                inputProps={{
+                  id: 'pick-the-dictionary-to-install',
+                }}
+                onChange={this.handlePickLanguage}>
+                {[null].concat(uninstallDictionaries).map((info) => {
+                  if (info === null) {
+                    return (<MenuItem key='null' value={null} />)
+                  } else {
+                    return (<MenuItem key={info.lang} value={info.lang}>{info.name}</MenuItem>)
+                  }
+                })}
+              </Select>
+            </FormControlFullWidth>
             <Button
-              label='Cancel'
               disableTouchRipple
               disableFocusRipple
-              onTouchTap={this.handleCancel} />
+              onClick={this.handleCancel}
+            >
+              Cancel
+            </Button>
           </StepContent>
         </Step>
         <Step>
@@ -148,17 +157,21 @@ module.exports = class DictionaryInstallStepper extends React.Component {
             </p>
             <Button
               variant='contained'
-              label='Next'
               disableTouchRipple
               disableFocusRipple
-              primary
-              onTouchTap={this.handleAgreeLicense}
-              style={{marginRight: 12}} />
+              color="primary"
+              onClick={this.handleAgreeLicense}
+              style={{marginRight: 12}}
+            >
+              Next
+            </Button>
             <Button
-              label='Cancel'
               disableTouchRipple
               disableFocusRipple
-              onTouchTap={this.handleCancel} />
+              onClick={this.handleCancel}
+            >
+              Cancel
+            </Button>
           </StepContent>
         </Step>
         <Step>
@@ -178,11 +191,13 @@ module.exports = class DictionaryInstallStepper extends React.Component {
             </p>
             <Button
               variant='contained'
-              label='Done'
               disableTouchRipple
               disableFocusRipple
-              primary
-              onTouchTap={this.handleCancel} />
+              color="primary"
+              onClick={this.handleCancel}
+            >
+              Done
+            </Button>
           </StepContent>
         </Step>
       </Stepper>

@@ -1,10 +1,20 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Icon, Slider } = require('@material-ui/core')
+const { Icon } = require('@material-ui/core')
+const { Slider } = require('@material-ui/lab')
 const {Row, Col} = require('./Grid')
 const ColorPickerButton = require('./ColorPickerButton')
 const TrayPreview = require('./TrayPreview')
 const settingsActions = require('../stores/settings/settingsActions')
+const { withStyles } = require('@material-ui/core/styles')
+
+const sliderStyles = {
+  root: {
+    padding: '22px 0px',
+  },
+};
+
+const SliderStyled = withStyles(sliderStyles)(Slider)
 
 const styles = {
   subheading: {
@@ -51,7 +61,7 @@ module.exports = class TrayIconEditor extends React.PureComponent {
                 label='Border'
                 icon={<Icon className='material-icons'>border_color</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                transformOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
                 value={tray.readColor}
                 onChange={(col) => settingsActions.setTrayReadColor(col.rgbaStr)} />
@@ -61,19 +71,21 @@ module.exports = class TrayIconEditor extends React.PureComponent {
                 label='Background'
                 icon={<Icon className='material-icons'>format_color_fill</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                transformOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
                 value={tray.readBackgroundColor}
                 onChange={(col) => settingsActions.setTrayReadBackgroundColor(col.rgbaStr)} />
             </div>
             <div>
-                <Slider
+                <SliderStyled
                   max={5}
                   min={0}
                   value={trayRadius.read}
                   step={1}
-                  onChange={(event, value) => trayRadius.read = value}
-                  onDragStop={(event) => settingsActions.setTrayReadRadius(trayRadius.read)}
+                  onChange={(event, value) => {
+                    trayRadius.read = value
+                    settingsActions.setTrayReadRadius(value)
+                  }}
                   />
             </div>
             <TrayPreview size={100} style={trayPreviewStyles} config={{
@@ -96,7 +108,7 @@ module.exports = class TrayIconEditor extends React.PureComponent {
                 label='Border'
                 icon={<Icon className='material-icons'>border_color</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                transformOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
                 value={tray.unreadColor}
                 onChange={(col) => settingsActions.setTrayUnreadColor(col.rgbaStr)} />
@@ -106,19 +118,21 @@ module.exports = class TrayIconEditor extends React.PureComponent {
                 label='Background'
                 icon={<Icon className='material-icons'>format_color_fill</Icon>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                transformOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 disabled={!tray.show}
                 value={tray.unreadBackgroundColor}
                 onChange={(col) => settingsActions.setTrayUnreadBackgroundColor(col.rgbaStr)} />
             </div>
             <div>
-              <Slider
+              <SliderStyled
                 max={5}
                 min={0}
                 value={trayRadius.unread}
                 step={1}
-                onChange={(event, value) => trayRadius.unread = value}
-                onDragStop={(event) => settingsActions.setTrayUnreadRadius(trayRadius.unread)}
+                onChange={(event, value) => {
+                  trayRadius.unread = value
+                  settingsActions.setTrayUnreadRadius(value)
+                }}
               />
             </div>
             <TrayPreview size={100} style={trayPreviewStyles} config={{

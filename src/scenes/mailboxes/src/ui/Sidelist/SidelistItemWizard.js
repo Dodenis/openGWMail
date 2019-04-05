@@ -4,6 +4,7 @@ const Colors = require('@material-ui/core/colors')
 const { appWizardActions } = require('../../stores/appWizard')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
+const { FlashOn } = require('@material-ui/icons')
 
 module.exports = class SidelistItemWizard extends React.Component {
   /* **************************************************************************/
@@ -26,9 +27,10 @@ module.exports = class SidelistItemWizard extends React.Component {
         data-tip='Setup Wizard'
         data-for='ReactComponent-Sidelist-Item-Wizard'>
         <IconButton
-          iconClassName='fa fa-fw fa-magic'
           onClick={() => appWizardActions.startWizard()}
-          iconStyle={{ color: Colors.yellow }} />
+          style={{ color: Colors.yellow }} >
+          <FlashOn />
+        </IconButton>
         <ReactTooltip
           id='ReactComponent-Sidelist-Item-Wizard'
           place='right'

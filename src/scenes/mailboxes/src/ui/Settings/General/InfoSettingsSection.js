@@ -53,7 +53,7 @@ module.exports = class InfoSettingsSection extends React.PureComponent {
 
   render() {
     return (
-      <Paper zDepth={1} style={styles.paper} {...this.props}>
+      <Paper style={styles.paper} {...this.props}>
         <a
           style={{color: AppTheme.palette.linkColor, fontSize: '85%', marginBottom: 10, display: 'block'}}
           onClick={(evt) => { evt.preventDefault(); shell.openExternal(WEB_URL) }}

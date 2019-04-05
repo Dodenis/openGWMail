@@ -4,6 +4,7 @@ const { Paper, Button, Icon } = require('@material-ui/core')
 const { ColorPickerButton } = require('../../../Components')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
+const { InsertEmoticon, NotInterested } = require('@material-ui/icons')
 
 module.exports = class AccountAvatarSettings extends React.PureComponent {
   /* **************************************************************************/
@@ -55,28 +56,35 @@ module.exports = class AccountAvatarSettings extends React.PureComponent {
     const { mailbox, ...passProps } = this.props
 
     return (
-      <Paper zDepth={1} style={styles.paper} {...passProps}>
+      <Paper style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Icon</h1>
         <div style={styles.button}>
-          <Button
-            variant='contained'
-            label='Change Account Icon'
-            containerElement='label'
-            icon={<Icon className='material-icons'>insert_emoticon</Icon>}
-            style={styles.fileInputButton}>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={this.handleCustomAvatarChange}
-              style={styles.fileInput} />
-          </Button>
+          <input
+            type='file'
+            accept='image/*'
+            onChange={this.handleCustomAvatarChange}
+            style={styles.fileInput}
+            id="change-account-icon-button"
+          />
+          <label htmlFor="change-account-icon-button">
+            <Button
+              fullWidth
+              variant='contained'
+              component='span'
+              style={styles.fileInputButton}>
+              <InsertEmoticon />
+              Change Account Icon
+            </Button>
+          </label>
         </div>
         <div style={styles.button}>
           <Button
+            fullWidth
             variant='contained'
-            icon={<Icon className='material-icons'>not_interested</Icon>}
-            onClick={() => mailboxActions.setCustomAvatar(mailbox.id, undefined)}
-            label='Reset Account Icon' />
+            onClick={() => mailboxActions.setCustomAvatar(mailbox.id, undefined)}>
+            <NotInterested />
+            Reset Account Icon
+          </Button>
         </div>
         <div style={styles.button}>
           <ColorPickerButton

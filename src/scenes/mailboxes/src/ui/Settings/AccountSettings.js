@@ -1,9 +1,10 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const {SelectField, MenuItem, Avatar, Paper} = require('@material-ui/core')
+const { MenuItem, Avatar, Paper, InputLabel, Select } = require('@material-ui/core')
 const {
   Grid: { Container, Row, Col }
 } = require('../../Components')
+const { FormControlFullWidth } = require('../../Components/Mui')
 const mailboxStore = require('../../stores/mailbox/mailboxStore')
 const styles = require('./settingStyles')
 
@@ -70,8 +71,8 @@ module.exports = class AccountSettings extends React.Component {
   // User Interaction
   /* **************************************************************************/
 
-  handleAccountChange = (evt, index, mailboxId) => {
-    this.setState({ selected: mailboxStore.getState().getMailbox(mailboxId) })
+  handleAccountChange = (event) => {
+    this.setState({ selected: mailboxStore.getState().getMailbox(event.target.value) })
   };
 
   /* **************************************************************************/
@@ -85,7 +86,7 @@ module.exports = class AccountSettings extends React.Component {
 
     return (
       <div {...passProps}>
-        <Paper zDepth={1} style={styles.paper}>
+        <Paper style={styles.paper}>
           <small>No accounts available</small>
         </Paper>
       </div>
@@ -109,28 +110,30 @@ module.exports = class AccountSettings extends React.Component {
         <div style={styles.accountPicker}>
           <Avatar
             src={avatarSrc}
-            size={60}
-            backgroundColor='white'
             style={styles.accountPickerAvatar} />
           <div style={styles.accountPickerContainer}>
-            <SelectField
-              value={selected.id}
-              style={{marginTop: -14}}
-              floatingLabelText='Pick your account'
-              fullWidth
-              onChange={this.handleAccountChange}>
-              {
-                this.state.mailboxes.map((m) => {
-                  return (
-                    <MenuItem
-                      value={m.id}
-                      key={m.id}>
-                      {(m.email || m.name || m.id) + ' (' + m.typeName + ')'}
-                    </MenuItem>
-                  )
-                })
-              }
-            </SelectField>
+            <FormControlFullWidth>
+              <InputLabel htmlFor="pick-your-account">Pick your account</InputLabel>
+              <Select
+                value={selected.id}
+                style={{width: '100%'}}
+                inputProps={{
+                  id: 'pick-your-account',
+                }}
+                onChange={this.handleAccountChange}>
+                {
+                  this.state.mailboxes.map((m) => {
+                    return (
+                      <MenuItem
+                        value={m.id}
+                        key={m.id}>
+                        {(m.email || m.name || m.id) + ' (' + m.typeName + ')'}
+                      </MenuItem>
+                    )
+                  })
+                }
+              </Select>
+            </FormControlFullWidth>
           </div>
         </div>
         <Container fluid>

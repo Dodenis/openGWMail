@@ -4,5 +4,8 @@ module.exports = {
   TrayIconEditor: require('./TrayIconEditor'),
   TrayPreview: require('./TrayPreview'),
   TrayRenderer: require('./TrayRenderer'),
-  WebView: require('./WebView')
+  WebView: require('./WebView'),
+  Switch: require('./Switch'),
+  Badge: require('./Badge'),
+  Mui: require('./Mui')
 }

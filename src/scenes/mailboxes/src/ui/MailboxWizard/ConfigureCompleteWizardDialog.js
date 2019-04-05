@@ -1,5 +1,6 @@
 const React = require('react')
-const { Icon, Dialog, Button } = require('@material-ui/core')
+const { Dialog, Button, DialogContent, DialogActions } = require('@material-ui/core')
+const { CheckCircle } = require('@material-ui/icons')
 const Colors = require('@material-ui/core/colors')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 const { appWizardActions } = require('../../stores/appWizard')
@@ -10,8 +11,8 @@ const styles = {
     textAlign: 'center'
   },
   tick: {
-    color: Colors.green,
-    fontSize: '80px'
+    fontSize: 80,
+    color: Colors.green
   },
   instruction: {
     textAlign: 'center'
@@ -63,8 +64,7 @@ module.exports = class ConfigureCompleteWizardDialog extends React.Component {
     const actions = (
       <Button
         variant='contained'
-        label='Finish'
-        primary
+        color="primary"
         onClick={() => {
           mailboxWizardActions.configurationComplete()
           if (!hasSeenAppWizard) {
@@ -72,23 +72,28 @@ module.exports = class ConfigureCompleteWizardDialog extends React.Component {
               appWizardActions.startWizard()
             }, 500) // Feels more natural after a delay
           }
-        }} />
+        }}
+      >
+        Finish
+      </Button>
     )
 
     return (
       <Dialog
-        bodyClassName='ReactComponent-MaterialUI-Dialog-Body-Scrollbars'
-        modal
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent>
-        <div style={styles.container}>
-          <Icon className='material-icons' style={styles.tick}>check_circle</Icon>
-          <h3>All Done!</h3>
-          <p style={styles.instruction}>
-            You can change your mailbox settings at any time in the settings
-          </p>
-        </div>
+      >
+        <DialogContent>
+          <div style={styles.container}>
+            <CheckCircle style={styles.tick} />
+            <h3>All Done!</h3>
+            <p style={styles.instruction}>
+              You can change your mailbox settings at any time in the settings
+            </p>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

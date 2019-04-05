@@ -2,7 +2,7 @@ const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { platformActions } = require('../../stores/platform')
-const { Dialog, Button } = require('@material-ui/core')
+const { Dialog, Button, DialogTitle, DialogContent, DialogActions } = require('@material-ui/core')
 
 module.exports = class AppWizardMailto extends React.PureComponent {
   /* **************************************************************************/
@@ -23,40 +23,50 @@ module.exports = class AppWizardMailto extends React.PureComponent {
       <div>
         <Button
           variant='contained'
-          label='Cancel'
           style={{ float: 'left' }}
-          onClick={() => appWizardActions.cancelWizard()} />
+          onClick={() => appWizardActions.cancelWizard()}
+        >
+          Cancel
+        </Button>
         <Button
           variant='contained'
-          label='Later'
-          onClick={() => appWizardActions.progressNextStep()} />
+          onClick={() => appWizardActions.progressNextStep()}
+        >
+          Later
+        </Button>
         <Button
           variant='contained'
-          label='Make default mail client'
           style={{ marginLeft: 8 }}
-          primary
+          color="primary"
           onClick={() => {
             platformActions.changeMailtoLinkHandler(true)
             appWizardActions.progressNextStep()
-          }} />
+          }}
+        >
+          Make default mail client
+        </Button>
       </div>
     )
 
     return (
       <Dialog
-        modal={false}
-        title='Default Mail Client'
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent
-        onRequestClose={() => appWizardActions.cancelWizard()}>
-        <div style={{textAlign: 'center'}}>
-          <p>
-            Would you like to make openGWMail your default mail client?
-            <br />
-            <small>You can always change this later</small>
-          </p>
-        </div>
+        onClose={() => appWizardActions.cancelWizard()}>
+        <DialogTitle>
+          Default Mail Client
+        </DialogTitle>
+        <DialogContent>
+          <div style={{textAlign: 'center'}}>
+            <p>
+              Would you like to make openGWMail your default mail client?
+              <br />
+              <small>You can always change this later</small>
+            </p>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

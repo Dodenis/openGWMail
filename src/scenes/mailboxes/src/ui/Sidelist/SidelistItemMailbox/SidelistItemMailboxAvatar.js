@@ -1,8 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Avatar } = require('@material-ui/core')
+const { AvatarAccount } = require('../../../Components/Mui')
 const { mailboxStore } = require('../../../stores/mailbox')
-const styles = require('../SidelistStyles')
 
 module.exports = class SidelistItemMailboxAvatar extends React.PureComponent {
   /* **************************************************************************/
@@ -40,16 +39,13 @@ module.exports = class SidelistItemMailboxAvatar extends React.PureComponent {
     }
 
     return (
-      <Avatar
+      <AvatarAccount
         {...passProps}
         src={url}
-        size={50}
-        backgroundColor={backgroundColor}
         color='white'
-        draggable={false}
-        style={Object.assign({ borderColor: borderColor }, styles.mailboxAvatar)}>
+        style={{ borderColor: borderColor, backgroundColor: backgroundColor }}>
         {children}
-      </Avatar>
+      </AvatarAccount>
     )
   }
 }

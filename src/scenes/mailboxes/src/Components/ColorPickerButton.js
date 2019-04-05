@@ -13,7 +13,7 @@ module.exports = class ColorPickerButton extends React.Component {
     label: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
     anchorOrigin: PropTypes.object.isRequired,
-    targetOrigin: PropTypes.object.isRequired,
+    transformOrigin: PropTypes.object.isRequired,
     icon: PropTypes.node,
     onChange: PropTypes.func
   };
@@ -22,7 +22,7 @@ module.exports = class ColorPickerButton extends React.Component {
     label: 'Pick Colour',
     disabled: false,
     anchorOrigin: {horizontal: 'left', vertical: 'bottom'},
-    targetOrigin: {horizontal: 'left', vertical: 'top'}
+    transformOrigin: {horizontal: 'left', vertical: 'top'}
   };
 
   /* **************************************************************************/
@@ -39,21 +39,24 @@ module.exports = class ColorPickerButton extends React.Component {
   /* **************************************************************************/
 
   render() {
-    const { label, disabled, onChange, anchorOrigin, targetOrigin, icon, ...passProps } = this.props
+    const { label, disabled, onChange, anchorOrigin, transformOrigin, icon, ...passProps } = this.props
     return (
       <div {...passProps}>
         <Button
           variant='contained'
-          icon={icon}
-          label={label}
           disabled={disabled}
-          onClick={(evt) => this.setState({ open: true, anchor: evt.target })} />
+          onClick={(evt) => this.setState({ open: true, anchor: evt.target })}
+          fullWidth
+        >
+          {icon}
+          {label}
+        </Button>
         <Popover
           anchorOrigin={anchorOrigin}
-          targetOrigin={targetOrigin}
+          transformOrigin={transformOrigin}
           anchorEl={this.state.anchor}
           open={this.state.open}
-          onRequestClose={() => this.setState({open: false})}>
+          onClose={() => this.setState({open: false})}>
           <ChromePicker
             color={this.props.value}
             onChangeComplete={(col) => {

@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Switch, Paper, SelectField, MenuItem } = require('@material-ui/core')
+const { Select, Paper, MenuItem, FormControlLabel, InputLabel } = require('@material-ui/core')
+const { Switch, FormControlFullWidth } = require('../../../Components/Mui')
 const platformActions = require('../../../stores/platform/platformActions')
 const styles = require('../settingStyles')
 
@@ -30,8 +31,8 @@ module.exports = class PlatformSettingsSection extends React.PureComponent {
   /**
   * Handles the open at login state chaning
   */
-  handleOpenAtLoginChanged = (evt, index, value) => {
-    switch (value) {
+  handleOpenAtLoginChanged = (event) => {
+    switch (event.target.value) {
       case LOGIN_OPEN_MODES.OFF:
         platformActions.changeLoginPref(false, false)
         break
@@ -61,25 +62,34 @@ module.exports = class PlatformSettingsSection extends React.PureComponent {
     if (!mailtoLinkHandlerSupported && !openAtLoginSupported) { return null }
 
     return (
-      <Paper zDepth={1} style={styles.paper} {...passProps}>
+      <Paper style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Platform</h1>
         {mailtoLinkHandlerSupported ? (
-          <Switch
-            checked={isMailtoLinkHandler}
-            labelPosition='right'
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isMailtoLinkHandler}
+                onChange={(evt, toggled) => platformActions.changeMailtoLinkHandler(toggled)}/>
+            }
             label='Handle mailto links'
-            onChange={(evt, toggled) => platformActions.changeMailtoLinkHandler(toggled)} />
+          />
         ) : undefined}
         {openAtLoginSupported ? (
-          <SelectField
-            fullWidth
-            floatingLabelText='Open at Login'
-            onChange={this.handleOpenAtLoginChanged}
-            value={`${openAtLogin}|${openAsHiddenAtLogin}`}>
-            <MenuItem value={LOGIN_OPEN_MODES.OFF}>{'Don\'t open at login'}</MenuItem>
-            <MenuItem value={LOGIN_OPEN_MODES.ON}>Open at login</MenuItem>
-            <MenuItem value={LOGIN_OPEN_MODES.ON_BACKGROUND}>Open at login (in background)</MenuItem>
-          </SelectField>
+          <FormControlFullWidth>
+            <InputLabel shrink htmlFor="open-at-login">Open at Login</InputLabel>
+            <Select
+              style={{width: '100%'}}
+              inputProps={{
+                id: 'open-at-login',
+              }}
+              onChange={this.handleOpenAtLoginChanged}
+              value={`${openAtLogin}|${openAsHiddenAtLogin}`}
+            >
+              <MenuItem value={LOGIN_OPEN_MODES.OFF}>{'Don\'t open at login'}</MenuItem>
+              <MenuItem value={LOGIN_OPEN_MODES.ON}>Open at login</MenuItem>
+              <MenuItem value={LOGIN_OPEN_MODES.ON_BACKGROUND}>Open at login (in background)</MenuItem>
+            </Select>
+          </FormControlFullWidth>
         ) : undefined}
       </Paper>
     )

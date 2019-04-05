@@ -1,7 +1,8 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Switch, TextField, Paper } = require('@material-ui/core')
+const { TextField, Paper, FormControlLabel, FormControl, FormGroup } = require('@material-ui/core')
 const { Container, Row, Col } = require('../../Components/Grid')
+const { FormControlFullWidth, Switch } = require('../../Components/Mui')
 const flux = {
   settings: require('../../stores/settings')
 }
@@ -79,21 +80,27 @@ module.exports = class AdvancedSettings extends React.PureComponent {
 
     return (
       <div {...passProps}>
-        <Paper zDepth={1} style={styles.paper}>
+        <Paper style={styles.paper}>
           <h1 style={styles.subheading}>Proxy Server</h1>
-          <Switch
-            name='proxyEnabled'
-            defaultChecked={proxyEnabled}
-            label='Enable Proxy Server'
-            onChange={this.handleProxyToggle} />
+          <FormControlFullWidth>
+            <FormControlLabel
+              control={
+                <Switch
+                  name='proxyEnabled'
+                  defaultChecked={proxyEnabled}
+                  onChange={this.handleProxyToggle}/>
+              }
+              label="Enable Proxy Server"
+            />
+          </FormControlFullWidth>
           <small>You also need to set the proxy settings on your OS to ensure all requests use the server</small>
           <Container fluid>
             <Row>
               <Col xs={6}>
                 <TextField
                   ref='proxy_host'
-                  hintText='http://192.168.1.1'
-                  floatingLabelText='Proxy Server Host'
+                  placeholder='http://192.168.1.1'
+                  label='Proxy Server Host'
                   defaultValue={proxyHost}
                   onChange={this.handleProxyValueChanged}
                   disabled={!proxyEnabled} />
@@ -101,8 +108,8 @@ module.exports = class AdvancedSettings extends React.PureComponent {
               <Col xs={6}>
                 <TextField
                   ref='proxy_port'
-                  hintText='8080'
-                  floatingLabelText='Proxy Server Port'
+                  placeholder='8080'
+                  label='Proxy Server Port'
                   defaultValue={proxyPort}
                   onChange={this.handleProxyValueChanged}
                   disabled={!proxyEnabled} />
@@ -110,39 +117,53 @@ module.exports = class AdvancedSettings extends React.PureComponent {
             </Row>
           </Container>
         </Paper>
-        <Paper zDepth={1} style={styles.paper}>
-          <Switch
-            checked={app.ignoreGPUBlacklist}
-            label='Ignore GPU Blacklist (Requires Restart)'
-            labelPosition='right'
-            onChange={(evt, toggled) => {
-              showRestart()
-              flux.settings.A.ignoreGPUBlacklist(toggled)
-            }} />
-          <Switch
-            checked={app.enableUseZoomForDSF}
-            label='Use Zoom For DSF (Requires Restart)'
-            labelPosition='right'
-            onChange={(evt, toggled) => {
-              showRestart()
-              flux.settings.A.enableUseZoomForDSF(toggled)
-            }} />
-          <Switch
-            checked={app.disableSmoothScrolling}
-            label='Disable Smooth Scrolling (Requires Restart)'
-            labelPosition='right'
-            onChange={(evt, toggled) => {
-              showRestart()
-              flux.settings.A.disableSmoothScrolling(toggled)
-            }} />
-          <Switch
-            checked={app.checkForUpdates}
-            label='Check for updates'
-            labelPosition='right'
-            onChange={(evt, toggled) => {
-              showRestart()
-              flux.settings.A.checkForUpdates(toggled)
-            }} />
+        <Paper style={styles.paper}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={app.ignoreGPUBlacklist}
+                  onChange={(evt, toggled) => {
+                    showRestart()
+                    flux.settings.A.ignoreGPUBlacklist(toggled)
+                  }}/>
+              }
+              label='Ignore GPU Blacklist (Requires Restart)'
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={app.enableUseZoomForDSF}
+                  onChange={(evt, toggled) => {
+                    showRestart()
+                    flux.settings.A.enableUseZoomForDSF(toggled)
+                  }}/>
+              }
+              label='Use Zoom For DSF (Requires Restart)'
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={app.disableSmoothScrolling}
+                  onChange={(evt, toggled) => {
+                    showRestart()
+                    flux.settings.A.disableSmoothScrolling(toggled)
+                  }}/>
+              }
+              label='Disable Smooth Scrolling (Requires Restart)'
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={app.checkForUpdates}
+                  onChange={(evt, toggled) => {
+                    showRestart()
+                    flux.settings.A.checkForUpdates(toggled)
+                  }}/>
+              }
+              label='Check for updates'
+            />
+          </FormGroup>
         </Paper>
       </div>
     )

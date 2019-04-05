@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Popover, Menu, MenuItem, Divider, Icon } = require('@material-ui/core')
+const { Menu, MenuItem, Divider, ListItemIcon, ListItemText } = require('@material-ui/core')
+const { ErrorOutline, ArrowUpward, ArrowDownward, Delete, Settings, LockOutlined, Refresh, BugReport } = require('@material-ui/icons')
 const { mailboxDispatch, navigationDispatch } = require('../../../Dispatch')
 const { mailboxActions } = require('../../../stores/mailbox')
 const { mailboxWizardActions } = require('../../../stores/mailboxWizard')
@@ -16,7 +17,7 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
     isLast: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool.isRequired,
     anchor: PropTypes.any,
-    onRequestClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired
   };
 
   /* **************************************************************************/
@@ -28,7 +29,7 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
   * @param evtOrFn: the fired event or a function to call on closed
   */
   handleClosePopover = (evtOrFn) => {
-    this.props.onRequestClose()
+    this.props.onClose()
     if (typeof (evtOrFn) === 'function') {
       setTimeout(() => { evtOrFn() }, 200)
     }
@@ -123,8 +124,13 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
             mailboxWizardActions.reauthenticateGoogleMailbox(mailbox.id)
             this.handleClosePopover()
           }}
-          leftIcon={<Icon className='material-icons' style={{ color: 'red' }}>error_outline</Icon>} >
-          Reauthenticate Account
+        >
+          <ListItemIcon style={{ color: 'red' }}>
+            <ErrorOutline />
+          </ListItemIcon>
+          <ListItemText style={{ color: 'red' }}>
+            Reauthenticate Account
+          </ListItemText>
         </MenuItem>
       ) : undefined,
       mailbox.google.authHasGrantError ? (<Divider key='div-err' />) : undefined,
@@ -134,15 +140,25 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
         <MenuItem
           key='moveup'
           onClick={this.handleMoveUp}
-          leftIcon={<Icon className='material-icons'>arrow_upward</Icon>}>
-          Move Up
+        >
+          <ListItemIcon>
+            <ArrowUpward />
+          </ListItemIcon>
+          <ListItemText>
+            Move Up
+          </ListItemText>
         </MenuItem>),
       isLast ? undefined : (
         <MenuItem
           key='movedown'
           onClick={this.handleMoveDown}
-          leftIcon={<Icon className='material-icons'>arrow_downward</Icon>}>
-          Move Down
+        >
+          <ListItemIcon>
+            <ArrowDownward />
+          </ListItemIcon>
+          <ListItemText>
+            Move Down
+          </ListItemText>
         </MenuItem>),
       isFirst && isLast ? undefined : (<Divider key='div-0' />),
 
@@ -150,21 +166,36 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
       (<MenuItem
         key='delete'
         onClick={this.handleDelete}
-        leftIcon={<Icon className='material-icons'>delete</Icon>}>
-        Delete
+      >
+        <ListItemIcon>
+          <Delete />
+        </ListItemIcon>
+        <ListItemText>
+          Delete
+        </ListItemText>
       </MenuItem>),
       (<MenuItem
         key='settings'
         onClick={this.handleAccountSettings}
-        leftIcon={<Icon className='material-icons'>settings</Icon>}>
-        Account Settings
+      >
+        <ListItemIcon>
+          <Settings />
+        </ListItemIcon>
+        <ListItemText>
+          Account Settings
+        </ListItemText>
       </MenuItem>),
       !mailbox.artificiallyPersistCookies ? undefined : (
         <MenuItem
           key='reauthenticate'
           onClick={this.handeReAuthenticate}
-          leftIcon={<Icon className='material-icons'>lock_outline</Icon>}>
-          Re-Authenticate
+        >
+          <ListItemIcon>
+            <LockOutlined />
+          </ListItemIcon>
+          <ListItemText>
+            Re-Authenticate
+          </ListItemText>
         </MenuItem>),
       (<Divider key='div-1' />),
 
@@ -172,14 +203,24 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
       (<MenuItem
         key='reload'
         onClick={this.handleReload}
-        leftIcon={<Icon className='material-icons'>refresh</Icon>}>
-        Reload
+      >
+        <ListItemIcon>
+          <Refresh />
+        </ListItemIcon>
+        <ListItemText>
+          Reload
+        </ListItemText>
       </MenuItem>),
       (<MenuItem
         key='inspect'
         onClick={this.handleInspect}
-        leftIcon={<Icon className='material-icons'>bug_report</Icon>}>
-        Inspect
+      >
+        <ListItemIcon>
+          <BugReport />
+        </ListItemIcon>
+        <ListItemText>
+          Inspect
+        </ListItemText>
       </MenuItem>)
     ].filter((item) => !!item)
 
@@ -190,16 +231,12 @@ module.exports = class SidelistItemMailboxPopover extends React.PureComponent {
     const { mailbox, isFirst, isLast, isOpen, anchor } = this.props
 
     return (
-      <Popover
-        open={isOpen}
-        anchorEl={anchor}
-        anchorOrigin={{ horizontal: 'middle', vertical: 'center' }}
-        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-        onRequestClose={this.handleClosePopover}>
-        <Menu desktop onEscKeyDown={this.handleClosePopover}>
+      <Menu
+          open={isOpen}
+          anchorEl={anchor}
+          onClose={this.handleClosePopover}>
           {this.renderMenuItems(mailbox, isFirst, isLast)}
-        </Menu>
-      </Popover>
+      </Menu>
     )
   }
 }

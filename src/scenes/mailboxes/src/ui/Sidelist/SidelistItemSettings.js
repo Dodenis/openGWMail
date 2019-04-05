@@ -4,6 +4,7 @@ const Colors = require('@material-ui/core/colors')
 const {navigationDispatch} = require('../../Dispatch')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
+const { Settings } = require('@material-ui/icons')
 
 module.exports = class SidelistItemSettings extends React.Component {
   /* **************************************************************************/
@@ -26,10 +27,9 @@ module.exports = class SidelistItemSettings extends React.Component {
         data-tip='Settings'
         data-for='ReactComponent-Sidelist-Item-Settings'>
         <IconButton
-          iconClassName='material-icons'
           onClick={() => navigationDispatch.openSettings()}
-          iconStyle={{ color: Colors.blueGrey['400'] }}>
-          settings
+          style={{ color: Colors.blueGrey['400'] }}>
+          <Settings />
         </IconButton>
         <ReactTooltip
           id='ReactComponent-Sidelist-Item-Settings'

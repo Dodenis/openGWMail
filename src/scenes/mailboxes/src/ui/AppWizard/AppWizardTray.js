@@ -2,7 +2,7 @@ const PropTypes = require('prop-types');
 const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { settingsStore } = require('../../stores/settings')
-const { Dialog, Button } = require('@material-ui/core')
+const { Dialog, Button, DialogTitle, DialogContent, DialogActions } = require('@material-ui/core')
 const { TrayIconEditor } = require('../../Components')
 
 module.exports = class AppWizardTray extends React.PureComponent {
@@ -50,34 +50,43 @@ module.exports = class AppWizardTray extends React.PureComponent {
       <div>
         <Button
           variant='contained'
-          label='Cancel'
           style={{ float: 'left' }}
-          onClick={() => appWizardActions.cancelWizard()} />
+          onClick={() => appWizardActions.cancelWizard()}
+        >
+          Cancel
+        </Button>
         <Button
           variant='contained'
-          label='Next'
           primary
-          onClick={() => appWizardActions.progressNextStep()} />
+          onClick={() => appWizardActions.progressNextStep()}
+        >
+          Next
+        </Button>
       </div>
     )
 
     return (
       <Dialog
-        modal={false}
-        title='Tray Icon'
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent
-        onRequestClose={() => appWizardActions.cancelWizard()}>
-        <p style={{ textAlign: 'center' }}>
-          Customise the tray icon so that it fits in with the other icons in
-          your taskbar. You can change the way the icon appears when you have unread
-          mail and when you have no unread mail
-        </p>
-        <TrayIconEditor
-          tray={tray}
-          style={{ textAlign: 'center' }}
-          trayPreviewStyles={{ margin: '0px auto' }} />
+        onClose={() => appWizardActions.cancelWizard()}
+      >
+        <DialogTitle>
+          Tray Icon
+        </DialogTitle>
+        <DialogContent>
+          <p style={{ textAlign: 'center' }}>
+            Customise the tray icon so that it fits in with the other icons in
+            your taskbar. You can change the way the icon appears when you have unread
+            mail and when you have no unread mail
+          </p>
+          <TrayIconEditor
+            tray={tray}
+            style={{ textAlign: 'center' }}
+            trayPreviewStyles={{ margin: '0px auto' }} />
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

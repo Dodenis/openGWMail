@@ -4,6 +4,7 @@ const Colors = require('@material-ui/core/colors')
 const styles = require('./SidelistStyles')
 const ReactTooltip = require('react-tooltip')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
+const { AddCircle } = require('@material-ui/icons')
 
 module.exports = class SidelistItemAddMailbox extends React.Component {
   /* **************************************************************************/
@@ -14,6 +15,9 @@ module.exports = class SidelistItemAddMailbox extends React.Component {
   // Rendering
   /* **************************************************************************/
 
+  /**
+  * Renders the app
+  */
   render() {
     const { style, ...passProps } = this.props
     return (
@@ -23,13 +27,12 @@ module.exports = class SidelistItemAddMailbox extends React.Component {
         data-tip='Add Mailbox'
         data-for='ReactComponent-Sidelist-Item-Add-Mailbox'>
         <IconButton
-          iconClassName='material-icons'
           onClick={() => mailboxWizardActions.openAddMailbox()}
-          iconStyle={{ color: Colors.blueGrey['400'] }}>
-          add_circle
+          style={{ color: Colors.blueGrey['400'] }}>
+          <AddCircle />
         </IconButton>
         <ReactTooltip
-          data-for='ReactComponent-Sidelist-Item-Add-Mailbox'
+          id='ReactComponent-Sidelist-Item-Add-Mailbox'
           place='right'
           type='dark'
           effect='solid' />

@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const {Paper, Switch, SelectField, MenuItem} = require('@material-ui/core')
+const { Select, Paper, MenuItem, FormControlLabel, FormControl, InputLabel, FormGroup } = require('@material-ui/core')
+const { Switch, FormControlFullWidth } = require('../../../Components/Mui')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
 const Google = require('shared/Models/Mailbox/Google')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
@@ -24,88 +25,112 @@ module.exports = class AccountUnreadSettings extends React.PureComponent {
     const { mailbox, ...passProps } = this.props
 
     return (
-      <Paper zDepth={1} style={styles.paper} {...passProps}>
+      <Paper style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Unread &amp; Notifications</h1>
-        <Switch
-          defaultChecked={mailbox.showUnreadBadge}
+        <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={mailbox.showUnreadBadge}
+              onChange={(evt, toggled) => mailboxActions.setShowUnreadBage(mailbox.id, toggled)}/>
+          }
           label='Show unread badge'
-          labelPosition='right'
-          onChange={(evt, toggled) => mailboxActions.setShowUnreadBage(mailbox.id, toggled)} />
-        <Switch
-          defaultChecked={mailbox.unreadCountsTowardsAppUnread}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={mailbox.unreadCountsTowardsAppUnread}
+              onChange={(evt, toggled) => mailboxActions.setUnreadCountsTowardsAppUnread(mailbox.id, toggled)} />
+          }
           label='Add unread messages to app unread count'
-          labelPosition='right'
-          onChange={(evt, toggled) => mailboxActions.setUnreadCountsTowardsAppUnread(mailbox.id, toggled)} />
-        <Switch
-          defaultChecked={mailbox.showNotifications}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={mailbox.showNotifications}
+              onChange={(evt, toggled) => mailboxActions.setShowNotifications(mailbox.id, toggled)}/>
+          }
           label='Show notifications'
-          labelPosition='right'
-          onChange={(evt, toggled) => mailboxActions.setShowNotifications(mailbox.id, toggled)} />
+        />
+        </FormGroup>
         {mailbox.type === Mailbox.TYPE_GINBOX ? (
-          <SelectField
-            fullWidth
-            value={mailbox.google.unreadMode}
-            onChange={(evt, index, unreadMode) => {
-              mailboxActions.updateGoogleConfig(mailbox.id, { unreadMode: unreadMode })
-            }}
-            floatingLabelText='Unread Mode'>
-            <MenuItem
-              key={Google.UNREAD_MODES.GINBOX_DEFAULT}
-              value={Google.UNREAD_MODES.GINBOX_DEFAULT}>
-              All Unread Unbundled Messages
-            </MenuItem>
-            <MenuItem
-              key={Google.UNREAD_MODES.INBOX_UNREAD}
-              value={Google.UNREAD_MODES.INBOX_UNREAD}>
-              All Unread Messages
-            </MenuItem>
-            <MenuItem
-              key={Google.UNREAD_MODES.INBOX}
-              value={Google.UNREAD_MODES.INBOX}>
-              All Messages in inbox
-            </MenuItem>
-          </SelectField>
+          <FormControlFullWidth>
+            <InputLabel shrink htmlFor="unread-mode">Unread Mode</InputLabel>
+            <Select
+              style={{width: '100%'}}
+              inputProps={{
+                id: 'unread-mode',
+              }}
+              value={mailbox.google.unreadMode}
+              onChange={(event) => {
+                mailboxActions.updateGoogleConfig(mailbox.id, { unreadMode: event.target.value })
+              }}>
+              <MenuItem
+                key={Google.UNREAD_MODES.GINBOX_DEFAULT}
+                value={Google.UNREAD_MODES.GINBOX_DEFAULT}>
+                All Unread Unbundled Messages
+              </MenuItem>
+              <MenuItem
+                key={Google.UNREAD_MODES.INBOX_UNREAD}
+                value={Google.UNREAD_MODES.INBOX_UNREAD}>
+                All Unread Messages
+              </MenuItem>
+              <MenuItem
+                key={Google.UNREAD_MODES.INBOX}
+                value={Google.UNREAD_MODES.INBOX}>
+                All Messages in inbox
+              </MenuItem>
+            </Select>
+          </FormControlFullWidth>
         ) : undefined}
         {mailbox.type === Mailbox.TYPE_GMAIL ? (
-          <SelectField
-            fullWidth
-            value={mailbox.google.unreadMode}
-            onChange={(evt, index, unreadMode) => {
-              mailboxActions.updateGoogleConfig(mailbox.id, { unreadMode: unreadMode })
-            }}
-            floatingLabelText='Unread Mode'>
-            <MenuItem
-              key={Google.UNREAD_MODES.INBOX_UNREAD}
-              value={Google.UNREAD_MODES.INBOX_UNREAD}>
-              All Unread Messages
-            </MenuItem>
-            <MenuItem
-              key={Google.UNREAD_MODES.PRIMARY_INBOX_UNREAD}
-              value={Google.UNREAD_MODES.PRIMARY_INBOX_UNREAD}>
-              Unread Messages in Primary Category
-            </MenuItem>
-            <MenuItem
-              key={Google.UNREAD_MODES.INBOX_UNREAD_IMPORTANT}
-              value={Google.UNREAD_MODES.INBOX_UNREAD_IMPORTANT}>
-              Unread Important Messages
-            </MenuItem>
-            <MenuItem
-              key={Google.UNREAD_MODES.INBOX}
-              value={Google.UNREAD_MODES.INBOX}>
-              All Messages in inbox
-            </MenuItem>
-          </SelectField>
+          <FormControlFullWidth>
+            <InputLabel shrink htmlFor="unread-mode">Unread Mode</InputLabel>
+            <Select
+              style={{width: '100%'}}
+              inputProps={{
+                id: 'unread-mode',
+              }}
+              value={mailbox.google.unreadMode}
+              onChange={(event) => {
+                mailboxActions.updateGoogleConfig(mailbox.id, { unreadMode: event.target.value })
+              }}>
+              <MenuItem
+                key={Google.UNREAD_MODES.INBOX_UNREAD}
+                value={Google.UNREAD_MODES.INBOX_UNREAD}>
+                All Unread Messages
+              </MenuItem>
+              <MenuItem
+                key={Google.UNREAD_MODES.PRIMARY_INBOX_UNREAD}
+                value={Google.UNREAD_MODES.PRIMARY_INBOX_UNREAD}>
+                Unread Messages in Primary Category
+              </MenuItem>
+              <MenuItem
+                key={Google.UNREAD_MODES.INBOX_UNREAD_IMPORTANT}
+                value={Google.UNREAD_MODES.INBOX_UNREAD_IMPORTANT}>
+                Unread Important Messages
+              </MenuItem>
+              <MenuItem
+                key={Google.UNREAD_MODES.INBOX}
+                value={Google.UNREAD_MODES.INBOX}>
+                All Messages in inbox
+              </MenuItem>
+            </Select>
+          </FormControlFullWidth>
         ) : undefined}
         {mailbox.type === Mailbox.TYPE_GMAIL ? (
           <div>
-            <Switch
-              defaultChecked={mailbox.google.takeLabelCountFromUI}
+            <FormControlLabel
+              control={
+                <Switch
+                  defaultChecked={mailbox.google.takeLabelCountFromUI}
+                  disabled={!mailbox.google.canChangeTakeLabelCountFromUI}
+                  onChange={(evt, toggled) => {
+                    mailboxActions.updateGoogleConfig(mailbox.id, { takeLabelCountFromUI: toggled })
+                  }}/>
+              }
               label='Scrape unread count directly from UI'
-              labelPosition='right'
-              disabled={!mailbox.google.canChangeTakeLabelCountFromUI}
-              onChange={(evt, toggled) => {
-                mailboxActions.updateGoogleConfig(mailbox.id, { takeLabelCountFromUI: toggled })
-              }} />
+            />
             <div style={{color: Colors.grey['500']}}>
               <small>This will take the unread count directly from the Gmail user interface. This can improve unread count accuracy</small>
             </div>

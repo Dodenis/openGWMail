@@ -3,7 +3,8 @@ const React = require('react')
 const { appWizardActions } = require('../../stores/appWizard')
 const { mailboxStore } = require('../../stores/mailbox')
 const { mailboxWizardActions } = require('../../stores/mailboxWizard')
-const { Dialog, Button, Icon } = require('@material-ui/core')
+const { Dialog, Button, Icon, DialogContent, DialogActions } = require('@material-ui/core')
+const { CheckCircle } = require('@material-ui/icons')
 const Colors = require('@material-ui/core/colors')
 
 const styles = {
@@ -62,42 +63,51 @@ module.exports = class AppWizardComplete extends React.PureComponent {
       <div>
         <Button
           variant='contained'
-          label='Cancel'
           style={{ float: 'left' }}
-          onClick={() => appWizardActions.cancelWizard()} />
+          onClick={() => appWizardActions.cancelWizard()}
+        >
+          Cancel
+        </Button>
         <Button
           variant='contained'
-          label='Finish'
-          primary={mailboxCount !== 0}
-          onClick={() => appWizardActions.progressNextStep()} />
+          color={mailboxCount !== 0 ? "primary" : "default"}
+          onClick={() => appWizardActions.progressNextStep()}
+        >
+          Finish
+        </Button>
         {mailboxCount === 0 ? (
           <Button
             variant='contained'
-            label='Add First Mailbox'
             style={{marginLeft: 8}}
-            primary
+            color="primary"
             onClick={() => {
               appWizardActions.progressNextStep()
               mailboxWizardActions.openAddMailbox()
-            }} />
+            }}
+          >
+            Add First Mailbox
+          </Button>
         ) : undefined}
       </div>
     )
 
     return (
       <Dialog
-        modal={false}
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent
-        onRequestClose={() => appWizardActions.cancelWizard()}>
-        <div style={styles.container}>
-          <Icon className='material-icons' style={styles.tick}>check_circle</Icon>
-          <h3>All Done!</h3>
-          <p>
-            You can go to settings at any time to update your preferences
-          </p>
-        </div>
+        onClose={() => appWizardActions.cancelWizard()}
+      >
+        <DialogContent>
+          <div style={styles.container}>
+            <CheckCircle style={styles.tick} />
+            <h3>All Done!</h3>
+            <p>
+              You can go to settings at any time to update your preferences
+            </p>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

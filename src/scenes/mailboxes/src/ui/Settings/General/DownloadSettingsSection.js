@@ -1,8 +1,10 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const ReactDOM = require('react-dom')
-const { Switch, Paper, Button, Icon } = require('@material-ui/core')
+const { Paper, Button, Icon, FormControlLabel } = require('@material-ui/core')
+const { Folder } = require('@material-ui/icons')
 const settingsActions = require('../../../stores/settings/settingsActions')
+const Switch = require('../../../Components/Switch')
 const styles = require('../settingStyles')
 
 module.exports = class DownloadSettingsSection extends React.PureComponent {
@@ -34,30 +36,38 @@ module.exports = class DownloadSettingsSection extends React.PureComponent {
     const {os, ...passProps} = this.props
 
     return (
-      <Paper zDepth={1} style={styles.paper} {...passProps}>
+      <Paper style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Downloads</h1>
         <div>
-          <Switch
-            checked={os.alwaysAskDownloadLocation}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={os.alwaysAskDownloadLocation}
+                onChange={(evt, toggled) => settingsActions.setAlwaysAskDownloadLocation(toggled)}/>
+            }
             label='Always ask download location'
-            labelPosition='right'
-            onChange={(evt, toggled) => settingsActions.setAlwaysAskDownloadLocation(toggled)} />
+          />
         </div>
         <div style={Object.assign({}, styles.button, { display: 'flex', alignItems: 'center' })}>
-          <Button
-            variant='contained'
-            label='Select location'
-            icon={<Icon className='material-icons'>folder</Icon>}
-            containerElement='label'
+          <input
+            type='file'
+            style={styles.fileInput}
+            ref='defaultDownloadInput'
             disabled={os.alwaysAskDownloadLocation}
-            style={styles.fileInputButton}>
-            <input
-              type='file'
-              style={styles.fileInput}
-              ref='defaultDownloadInput'
+            onChange={(evt) => settingsActions.setDefaultDownloadLocation(evt.target.files[0].path)}
+            id="select-location-button"
+          />
+          <label htmlFor="select-location-button">
+            <Button
+              variant='contained'
+              component='span'
               disabled={os.alwaysAskDownloadLocation}
-              onChange={(evt) => settingsActions.setDefaultDownloadLocation(evt.target.files[0].path)} />
-          </Button>
+              style={styles.fileInputButton}
+            >
+              <Folder />
+              Select location
+            </Button>
+          </label>
           {os.alwaysAskDownloadLocation ? undefined : <small>{os.defaultDownloadLocation}</small>}
         </div>
       </Paper>

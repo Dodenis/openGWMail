@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Badge, Icon } = require('@material-ui/core')
+const { Icon } = require('@material-ui/core')
+const { BadgeAvatar } = require('../../../Components/Mui')
 const { navigationDispatch } = require('../../../Dispatch')
 const { mailboxStore, mailboxActions } = require('../../../stores/mailbox')
 const ReactTooltip = require('react-tooltip')
@@ -105,28 +106,33 @@ module.exports = class SidelistItemMailbox extends React.PureComponent {
   * @return jsx
   */
   renderBadge = (mailbox) => {
+    const { isActive, hovering } = this.state
+    const { index } = this.props
+
+    let badgeContent = ""
     if (mailbox.google.authHasGrantError) {
-      return (
-        <Badge
-          onContextMenu={this.handleOpenPopover}
-          onClick={this.handleClick}
-          badgeContent={(<Icon className='fa fa-exclamation' style={{ color: 'white', fontSize: 16 }} />)}
-          badgeStyle={styles.mailboxBadge}
-          style={styles.mailboxBadgeContainer} />
-      )
+      badgeContent = (<Icon className='fa fa-exclamation' style={{ color: 'white', fontSize: 16 }} />)
     } else if (mailbox.showUnreadBadge && mailbox.unread) {
-      const badgeContent = mailbox.unread >= 1000 ? Math.floor(mailbox.unread / 1000) + 'K+' : mailbox.unread
-      return (
-        <Badge
-          onContextMenu={this.handleOpenPopover}
-          onClick={this.handleClick}
-          badgeContent={badgeContent}
-          badgeStyle={styles.mailboxBadge}
-          style={styles.mailboxBadgeContainer} />
-      )
+      badgeContent = mailbox.unread >= 1000 ? Math.floor(mailbox.unread / 1000) + 'K+' : mailbox.unread
     } else {
       return undefined
     }
+
+    return (
+      <BadgeAvatar
+        onContextMenu={this.handleOpenPopover}
+        onClick={this.handleClick}
+        badgeContent={badgeContent}
+        color="secondary" >
+        <SidelistItemMailboxAvatar
+          onContextMenu={this.handleOpenPopover}
+          isActive={isActive}
+          isHovering={hovering}
+          mailbox={mailbox}
+          index={index}
+          onClick={this.handleClick} />
+      </BadgeAvatar>
+    )
   };
 
   /**
@@ -187,20 +193,13 @@ module.exports = class SidelistItemMailbox extends React.PureComponent {
           place='right'
           type='dark'
           effect='solid' />
-        <SidelistItemMailboxAvatar
-          onContextMenu={this.handleOpenPopover}
-          isActive={isActive}
-          isHovering={hovering}
-          mailbox={mailbox}
-          index={index}
-          onClick={this.handleClick} />
+        {this.renderBadge(mailbox)}
         <SidelistItemMailboxServices
           onContextMenu={this.handleOpenPopover}
           mailbox={mailbox}
           isActiveMailbox={isActive}
           activeService={activeService}
           onOpenService={this.handleOpenService} />
-        {this.renderBadge(mailbox)}
         {this.renderActiveIndicator(mailbox, isActive)}
         <SidelistItemMailboxPopover
           mailbox={mailbox}
@@ -208,7 +207,7 @@ module.exports = class SidelistItemMailbox extends React.PureComponent {
           isLast={isLast}
           isOpen={popover}
           anchor={popoverAnchor}
-          onRequestClose={() => this.setState({ popover: false })} />
+          onClose={() => this.setState({ popover: false })} />
       </div>
     )
   }

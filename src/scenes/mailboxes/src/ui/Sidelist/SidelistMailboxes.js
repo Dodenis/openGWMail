@@ -46,7 +46,10 @@ module.exports = class SidelistMailboxes extends React.Component {
     const { styles, ...passProps } = this.props
     const { mailboxIds } = this.state
     return (
-      <div style={Object.assign({}, styles)} {...passProps}>
+      <div
+        style={Object.assign({}, styles)}
+        {...passProps}
+      >
         {mailboxIds.map((mailboxId, index, arr) => {
           return (
             <SidelistItemMailbox

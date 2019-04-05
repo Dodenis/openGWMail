@@ -60,7 +60,7 @@ module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent 
   */
   static renderTitle() {
     return (
-      <div style={styles.introduction}>
+      <div>
         Pick the way that you normally use Google Inbox to configure openGWMail
         notifications and unread counters
       </div>
@@ -81,7 +81,13 @@ module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent 
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GINBOX].DEFAULT_INBOX)}>
             <div>
-              <Button variant='contained' primary label='Unread Bundled Messages (Default)' style={styles.configurationButton} />
+              <Button
+                variant='contained'
+                color="primary"
+                style={styles.configurationButton}
+              >
+                Unread Bundled Messages (Default)
+              </Button>
               <div style={Object.assign({
                 backgroundImage: `url("../../images/ginbox_mode_unreadunbundled.png")`
               }, styles.configurationImage)} />
@@ -98,7 +104,13 @@ module.exports = class ConfigureGinboxMailboxWizard extends React.PureComponent 
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GINBOX].UNREAD_INBOX)}>
             <div>
-              <Button variant='contained' primary label='All Unread Messages' style={styles.configurationButton} />
+              <Button
+                variant='contained'
+                color="primary"
+                style={styles.configurationButton}
+              >
+                All Unread Messages
+              </Button>
               <div style={Object.assign({
                 backgroundImage: `url("../../images/ginbox_mode_inbox.png")`
               }, styles.configurationImage)} />

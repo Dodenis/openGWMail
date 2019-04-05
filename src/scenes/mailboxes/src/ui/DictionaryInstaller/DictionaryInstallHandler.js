@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog } = require('@material-ui/core')
+const { Dialog, DialogTitle, DialogContent } = require('@material-ui/core')
 const dictionariesStore = require('../../stores/dictionaries/dictionariesStore')
 const DictionaryInstallStepper = require('./DictionaryInstallStepper')
 
@@ -44,12 +44,18 @@ module.exports = class DictionaryInstallHandler extends React.Component {
   render() {
     return (
       <Dialog
-        modal
-        title={`Install Dictionary`}
-        open={this.state.isInstalling}>
-        {!this.state.isInstalling ? undefined : (
-          <DictionaryInstallStepper key={this.state.installId} />
-        )}
+        open={this.state.isInstalling}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>
+          {`Install Dictionary`}
+        </DialogTitle>
+        <DialogContent>
+          {!this.state.isInstalling ? (<div />) : (
+            <DictionaryInstallStepper key={this.state.installId} />
+          )}
+        </DialogContent>
       </Dialog>
     )
   }

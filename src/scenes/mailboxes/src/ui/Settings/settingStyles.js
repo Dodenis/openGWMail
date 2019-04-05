@@ -25,7 +25,8 @@ module.exports = {
   paper: {
     padding: 15,
     marginBottom: 5,
-    marginTop: 5
+    marginTop: 5,
+    overflow: 'hidden'
   },
   subheading: {
     marginTop: 0,
@@ -40,14 +41,7 @@ module.exports = {
     overflow: 'hidden'
   },
   fileInput: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    opacity: 0,
-    width: '100%',
-    cursor: 'pointer'
+    display: 'none'
   },
   button: {
     marginTop: 5,
@@ -59,19 +53,18 @@ module.exports = {
   /* **************************************************************************/
 
   accountPicker: {
-    position: 'relative',
-    height: 100
+    margin: '10px 0',
+    display: 'flex',
+    flexDirection: 'row'
   },
   accountPickerAvatar: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
+    backgroundColor: 'white',
+    width: 80,
+    height: 80,
     boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px' // copied from paper
   },
   accountPickerContainer: {
-    position: 'absolute',
-    top: 25,
-    left: 100,
-    right: 0
+    flexGrow: 1,
+    paddingLeft: 10
   }
 }

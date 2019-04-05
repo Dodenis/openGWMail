@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const { Paper, Button, Icon } = require('@material-ui/core')
+const { Code } = require('@material-ui/icons')
 const CustomCodeEditingModal = require('./CustomCodeEditingModal')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const styles = require('../settingStyles')
@@ -61,21 +62,27 @@ module.exports = class AccountCustomCodeSettings extends React.PureComponent {
     }
 
     return (
-      <Paper zDepth={1} style={styles.paper} {...passProps}>
+      <Paper style={styles.paper} {...passProps}>
         <h1 style={styles.subheading}>Custom Code</h1>
         <div style={styles.button}>
           <Button
+            fullWidth
             variant='contained'
-            label='Custom CSS'
-            icon={<Icon className='material-icons'>code</Icon>}
-            onTouchTap={() => this.setState({ editingCSS: true, editingJS: false })} />
+            onClick={() => this.setState({ editingCSS: true, editingJS: false })}
+          >
+            <Code />
+            Custom CSS
+          </Button>
         </div>
         <div style={styles.button}>
           <Button
+            fullWidth
             variant='contained'
-            label='Custom JavaScript'
-            icon={<Icon className='material-icons'>code</Icon>}
-            onTouchTap={() => this.setState({ editingCSS: false, editingJS: true })} />
+            onClick={() => this.setState({ editingCSS: false, editingJS: true })}
+          >
+            <Code />
+            Custom JavaScript
+          </Button>
         </div>
         <div style={styles.button}>
           <a

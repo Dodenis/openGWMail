@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const { Mailbox } = require('shared/Models/Mailbox')
-const { Avatar } = require('@material-ui/core')
+const { AvatarService } = require('../../../Components/Mui')
 const styles = require('../SidelistStyles')
 
 module.exports = class SidelistItemMailboxServices extends React.PureComponent {
@@ -53,35 +53,19 @@ module.exports = class SidelistItemMailboxServices extends React.PureComponent {
     const { mailbox, isActiveMailbox, isActiveService, service, onOpenService, ...passProps } = this.props
     const { isHovering } = this.state
     const isActive = isActiveMailbox && isActiveService
+    const borderColor = isActive || isHovering ? mailbox.color : 'white'
 
-    if (mailbox.compactServicesUI) {
-      return (
-        <div
-          {...passProps}
-          onMouseEnter={() => this.setState({ isHovering: true })}
-          onMouseLeave={() => this.setState({ isHovering: false })}
-          style={styles.mailboxServiceIconCompact}
-          onClick={(evt) => onOpenService(evt, service)}>
-          <img
-            src={this.getServiceIconUrl(mailbox.type, service)}
-            style={isActive || isHovering ? styles.mailboxServiceIconImageActiveCompact : styles.mailboxServiceIconImageCompact} />
-        </div>
-      )
-    } else {
-      const borderColor = isActive || isHovering ? mailbox.color : 'white'
-      const baseStyle = isActive || isHovering ? styles.mailboxServiceIconImageFullActive : styles.mailboxServiceIconImageFull
-      return (
-        <Avatar
-          {...passProps}
-          src={this.getServiceIconUrl(mailbox.type, service)}
-          onMouseEnter={() => this.setState({ isHovering: true })}
-          onMouseLeave={() => this.setState({ isHovering: false })}
-          size={35}
-          backgroundColor='white'
-          draggable={false}
-          onClick={(evt) => onOpenService(evt, service)}
-          style={Object.assign({ borderColor: borderColor }, baseStyle)} />
-      )
-    }
+    const style = mailbox.compactServicesUI ? {} : { borderColor: borderColor, backgroundColor: 'white' }
+    return (
+      <AvatarService
+        {...passProps}
+        src={this.getServiceIconUrl(mailbox.type, service)}
+        onMouseEnter={() => this.setState({ isHovering: true })}
+        onMouseLeave={() => this.setState({ isHovering: false })}
+        onClick={(evt) => onOpenService(evt, service)}
+        active={isActive || isHovering}
+        compact={mailbox.compactServicesUI}
+        style={style} />
+    )
   }
 }

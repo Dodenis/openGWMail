@@ -1,9 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const {
-  Dialog, Button,
-  Tabs, Tab
-} = require('@material-ui/core')
+const { AppBar, Dialog, DialogTitle, DialogActions, DialogContent, Button, Tabs, Tab, TabContainer } = require('@material-ui/core')
 const GeneralSettings = require('./GeneralSettings')
 const AccountSettings = require('./AccountSettings')
 const AdvancedSettings = require('./AdvancedSettings')
@@ -17,7 +14,7 @@ module.exports = class SettingsDialog extends React.Component {
 
   static propTypes = {
     open: PropTypes.bool.isRequired,
-    onRequestClose: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     initialRoute: PropTypes.object
   };
 
@@ -51,7 +48,7 @@ module.exports = class SettingsDialog extends React.Component {
   /**
   * Changes the tab
   */
-  handleTabChange = (value) => {
+  handleTabChange = (event, value) => {
     if (typeof (value) === 'string') {
       this.setState({ currentTab: value })
     }
@@ -78,16 +75,22 @@ module.exports = class SettingsDialog extends React.Component {
 
   render() {
     const { showRestart, currentTab } = this.state
-    const { onRequestClose, initialRoute, open } = this.props
+    const { onClose, initialRoute, open } = this.props
 
     const buttons = showRestart ? (
       <div style={{ textAlign: 'right' }}>
-        <Button variant='contained' label='Close' style={{ marginRight: 16 }} onClick={onRequestClose} />
-        <Button variant='contained' label='Restart' primary onClick={() => ipcRenderer.send('relaunch-app', { })} />
+        <Button variant='contained' style={{ marginRight: 16 }} onClick={onClose}>
+          Close
+        </Button>
+        <Button variant='contained' color="primary" onClick={() => ipcRenderer.send('relaunch-app', { })}>
+          Restart
+        </Button>
       </div>
     ) : (
       <div style={{ textAlign: 'right' }}>
-        <Button variant='contained' label='Close' primary onClick={onRequestClose} />
+        <Button variant='contained' color="primary" onClick={onClose}>
+          Close
+        </Button>
       </div>
     )
 
@@ -97,39 +100,38 @@ module.exports = class SettingsDialog extends React.Component {
 
     return (
       <Dialog
-        modal={false}
-        contentStyle={styles.dialog}
-        title={heading}
-        actions={buttons}
         open={open}
-        bodyStyle={{ padding: 0 }}
-        titleStyle={{ padding: 0 }}
-        autoScrollBodyContent
-        onRequestClose={onRequestClose}>
-        <Tabs
-          tabItemContainerStyle={{ position: 'absolute', top: 0, zIndex: 10 }}
-          inkBarStyle={{ position: 'absolute', top: 48, zIndex: 15 }}
-          value={currentTab}
-          onChange={this.handleTabChange}
-          contentContainerStyle={{ padding: 24 }}>
-          <Tab label='General' value='general'>
-            {currentTab !== 'general' ? undefined : (
-              <GeneralSettings showRestart={this.handleShowRestart} />
-            )}
-          </Tab>
-          <Tab label='Accounts' value='accounts'>
-            {currentTab !== 'accounts' ? undefined : (
-              <AccountSettings
-                showRestart={this.handleShowRestart}
-                initialMailboxId={(initialRoute || {}).mailboxId} />
-            )}
-          </Tab>
-          <Tab label='Advanced' value='advanced'>
-            {currentTab !== 'advanced' ? undefined : (
-              <AdvancedSettings showRestart={this.handleShowRestart} />
-            )}
-          </Tab>
-        </Tabs>
+        onClose={onClose}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle style={{padding: 0}}>
+          <AppBar position="static">
+            <Tabs
+              variant="fullWidth"
+              // tabItemContainerStyle={{ position: 'absolute', top: 0, zIndex: 10 }}
+              // inkBarStyle={{ position: 'absolute', top: 48, zIndex: 15 }}
+              value={currentTab}
+              onChange={this.handleTabChange}
+              // contentContainerStyle={{ padding: 24 }}>
+            >
+              <Tab label='General' value='general' />
+              <Tab label='Accounts' value='accounts' />
+              <Tab label='Advanced' value='advanced' />
+            </Tabs>
+          </AppBar>
+        </DialogTitle>
+        <DialogContent>
+          {currentTab === 'general' && <GeneralSettings showRestart={this.handleShowRestart} />}
+          {currentTab === 'accounts' && <AccountSettings
+              showRestart={this.handleShowRestart}
+              initialMailboxId={(initialRoute || {}).mailboxId} />
+          }
+          {currentTab === 'advanced' && <AdvancedSettings showRestart={this.handleShowRestart} />}
+        </DialogContent>
+        <DialogActions>
+          {buttons}
+        </DialogActions>
       </Dialog>
     )
   }

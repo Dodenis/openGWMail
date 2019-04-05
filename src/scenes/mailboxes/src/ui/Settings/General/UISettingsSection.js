@@ -1,6 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Switch, Paper } = require('@material-ui/core')
+const { Paper, FormControlLabel, FormGroup } = require('@material-ui/core')
+const Switch = require('../../../Components/Switch')
 const settingsActions = require('../../../stores/settings/settingsActions')
 const styles = require('../settingStyles')
 
@@ -29,52 +30,75 @@ module.exports = class UISettingsSection extends React.PureComponent {
 
     return (
       <div {...passProps}>
-        <Paper zDepth={1} style={styles.paper}>
+        <Paper style={styles.paper}>
           <h1 style={styles.subheading}>User Interface</h1>
+          <FormGroup>
           {process.platform !== 'darwin' ? undefined : (
-            <Switch
-              labelPosition='right'
-              checked={ui.showTitlebar}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={ui.showTitlebar}
+                  onChange={(evt, toggled) => {
+                    showRestart()
+                    settingsActions.setShowTitlebar(toggled)
+                  }}/>
+              }
               label='Show titlebar (Requires Restart)'
-              onChange={(evt, toggled) => {
-                showRestart()
-                settingsActions.setShowTitlebar(toggled)
-              }} />
+            />
             )}
           {process.platform === 'darwin' ? undefined : (
-            <Switch
-              labelPosition='right'
-              checked={ui.showAppMenu}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={ui.showAppMenu}
+                  onChange={(evt, toggled) => settingsActions.setShowAppMenu(toggled)}/>
+              }
               label='Show App Menu (Ctrl+\)'
-              onChange={(evt, toggled) => settingsActions.setShowAppMenu(toggled)} />
+            />
           )}
-          <Switch
-            checked={ui.sidebarEnabled}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ui.sidebarEnabled}
+                onChange={(evt, toggled) => settingsActions.setEnableSidebar(toggled)}/>
+            }
             label={`Show Sidebar (${process.platform === 'darwin' ? 'Ctrl+cmd+S' : 'Ctrl+shift+S'})`}
-            labelPosition='right'
-            onChange={(evt, toggled) => settingsActions.setEnableSidebar(toggled)} />
-          <Switch
-            checked={ui.showAppBadge}
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ui.showAppBadge}
+                onChange={(evt, toggled) => settingsActions.setShowAppBadge(toggled)}/>
+            }
             label='Show app unread badge'
-            labelPosition='right'
-            onChange={(evt, toggled) => settingsActions.setShowAppBadge(toggled)} />
-          <Switch
-            checked={ui.showTitlebarCount}
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ui.showTitlebarCount}
+                onChange={(evt, toggled) => settingsActions.setShowTitlebarUnreadCount(toggled)}/>
+            }
             label='Show titlebar unread count'
-            labelPosition='right'
-            onChange={(evt, toggled) => settingsActions.setShowTitlebarUnreadCount(toggled)} />
+          />
           {process.platform === 'darwin' ? (
-            <Switch
-              checked={os.openLinksInBackground}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={os.openLinksInBackground}
+                  onChange={(evt, toggled) => settingsActions.setOpenLinksInBackground(toggled)}/>
+              }
               label='Open links in background'
-              labelPosition='right'
-              onChange={(evt, toggled) => settingsActions.setOpenLinksInBackground(toggled)} />
+            />
             ) : undefined}
-          <Switch
-            checked={ui.openHidden}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={ui.openHidden}
+                onChange={(evt, toggled) => settingsActions.setOpenHidden(toggled)}/>
+            }
             label='Always Start minimized'
-            labelPosition='right'
-            onChange={(evt, toggled) => settingsActions.setOpenHidden(toggled)} />
+          />
+          </FormGroup>
         </Paper>
       </div>
     )

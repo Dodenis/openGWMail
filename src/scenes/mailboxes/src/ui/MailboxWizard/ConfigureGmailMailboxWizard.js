@@ -60,7 +60,7 @@ module.exports = class ConfigureGmailMailboxWizard extends React.PureComponent {
   */
   static renderTitle() {
     return (
-      <div style={styles.introduction}>
+      <div>
         Pick the type of inbox that you use in Gmail to configure openGWMail
         notifications and unread counters
       </div>
@@ -81,7 +81,13 @@ module.exports = class ConfigureGmailMailboxWizard extends React.PureComponent {
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].DEFAULT_INBOX)}>
             <div>
-              <Button variant='contained' primary label='Categories Inbox' style={styles.configurationButton} />
+              <Button
+                variant='contained'
+                color="primary"
+                style={styles.configurationButton}
+              >
+                Categories Inbox
+              </Button>
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_categories_small.png")`
               }, styles.configurationImage)} />
@@ -97,7 +103,13 @@ module.exports = class ConfigureGmailMailboxWizard extends React.PureComponent {
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].UNREAD_INBOX)}>
             <div>
-              <Button variant='contained' primary label='Unread Inbox' style={styles.configurationButton} />
+              <Button
+                variant='contained'
+                color="primary"
+                style={styles.configurationButton}
+              >
+                Unread Inbox
+              </Button>
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_unread_small.png")`
               }, styles.configurationImage)} />
@@ -113,7 +125,13 @@ module.exports = class ConfigureGmailMailboxWizard extends React.PureComponent {
             style={styles.configuration}
             onClick={() => onPickedConfiguration(Configurations[Mailbox.TYPE_GMAIL].PRIORIY_INBOX)}>
             <div>
-              <Button variant='contained' primary label='Priority Inbox' style={styles.configurationButton} />
+              <Button
+                variant='contained'
+                color="primary"
+                style={styles.configurationButton}
+              >
+                Priority Inbox
+              </Button>
               <div style={Object.assign({
                 backgroundImage: `url("../../images/gmail_inbox_priority_small.png")`
               }, styles.configurationImage)} />

@@ -4,7 +4,7 @@ const toUnsafe = require('react-mixin/toUnsafe');
 const TimerMixin = require('react-timer-mixin')
 const compareVersion = require('compare-version')
 const { UPDATE_CHECK_URL, UPDATE_CHECK_INTERVAL, UPDATE_DOWNLOAD_URL } = require('shared/constants')
-const { Button, Dialog } = require('@material-ui/core')
+const { Button, Dialog, DialogTitle, DialogContent, DialogActions } = require('@material-ui/core')
 const settingsStore = require('../stores/settings/settingsStore')
 const settingsActions = require('../stores/settings/settingsActions')
 const pkg = window.appPackage()
@@ -134,34 +134,46 @@ class UpdateCheckDialog extends React.PureComponent {
     const buttons = [
       (<Button
         key='restart'
-        label='After Restart'
         style={{ marginRight: 16 }}
-        onClick={this.recheckRestart} />),
+        onClick={this.recheckRestart}
+      >
+        After Restart
+      </Button>),
       (<Button
         key='later'
-        label='Later'
         style={{ marginRight: 16 }}
-        onClick={this.recheckLater} />),
+        onClick={this.recheckLater}
+      >
+        Later
+      </Button>),
       (<Button
         variant='contained'
         key='now'
-        primary
-        label='Download Now'
-        onClick={this.downloadNow} />)
+        color="primary"
+        onClick={this.downloadNow}
+      >
+        Download Now
+      </Button>)
     ]
 
     return (
       <Dialog
-        modal={false}
-        title='Update Available'
-        actions={buttons}
         open={this.state.newerVersion !== null}
-        onRequestClose={this.recheckLater}>
-        <p>
-          <span>Version </span>
-          <span>{this.state.newerVersion}</span>
-          <span> is now available. Do you want to download it now?</span>
-        </p>
+        onClose={this.recheckLater}
+      >
+        <DialogTitle>
+          Update Available
+        </DialogTitle>
+        <DialogContent>
+          <p>
+            <span>Version </span>
+            <span>{this.state.newerVersion}</span>
+            <span> is now available. Do you want to download it now?</span>
+          </p>
+        </DialogContent>
+        <DialogActions>
+          {buttons}
+        </DialogActions>
       </Dialog>
     )
   }

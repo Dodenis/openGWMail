@@ -1,5 +1,5 @@
 const React = require('react')
-const { Dialog, Button, Avatar } = require('@material-ui/core')
+const { Dialog, Button, Avatar, DialogContent, DialogActions } = require('@material-ui/core')
 const { mailboxWizardStore, mailboxWizardActions } = require('../../stores/mailboxWizard')
 
 const styles = {
@@ -16,7 +16,11 @@ const styles = {
     marginRight: 40
   },
   mailboxAvatar: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    width: 80,
+    height: 80,
+    display: 'inline-flex',
+    backgroundColor: 'gray'
   }
 }
 
@@ -59,44 +63,51 @@ module.exports = class AddMailboxWizardDialog extends React.PureComponent {
   render() {
     const { isOpen } = this.state
     const actions = (
-      <Button variant='contained' label='Cancel' onClick={() => mailboxWizardActions.cancelAddMailbox()} />
+      <Button variant='contained' onClick={() => mailboxWizardActions.cancelAddMailbox()}>
+        Cancel
+      </Button>
     )
 
     return (
       <Dialog
-        modal={false}
-        actions={actions}
         open={isOpen}
-        autoScrollBodyContent
-        onRequestClose={() => mailboxWizardActions.cancelAddMailbox()}>
-        <div style={styles.mailboxRow}>
-          <div style={styles.mailboxCell}>
-            <Avatar
-              src='../../images/gmail_icon_512.png'
-              size={80}
-              style={styles.mailboxAvatar}
-              onClick={() => mailboxWizardActions.authenticateGmailMailbox()} />
-            <p>Add your Gmail account</p>
-            <Button
-              variant='contained'
-              label='Add Gmail'
-              primary
-              onClick={() => mailboxWizardActions.authenticateGmailMailbox()} />
+        onClose={() => mailboxWizardActions.cancelAddMailbox()}
+      >
+        <DialogContent>
+          <div style={styles.mailboxRow}>
+            <div style={styles.mailboxCell}>
+              <Avatar
+                src='../../images/gmail_icon_512.png'
+                style={styles.mailboxAvatar}
+                onClick={() => mailboxWizardActions.authenticateGmailMailbox()} />
+              <p>Add your Gmail account</p>
+              <Button
+                variant='contained'
+                color="primary"
+                onClick={() => mailboxWizardActions.authenticateGmailMailbox()}
+              >
+                Add Gmail
+              </Button>
+            </div>
+            <div style={styles.mailboxCell}>
+              <Avatar
+                src='../../images/ginbox_icon_512.png'
+                style={styles.mailboxAvatar}
+                onClick={() => mailboxWizardActions.authenticateGinboxMailbox()} />
+              <p>Add your Google Inbox account</p>
+              <Button
+                variant='contained'
+                color="primary"
+                onClick={() => mailboxWizardActions.authenticateGinboxMailbox()}
+              >
+                Add Google Inbox
+              </Button>
+            </div>
           </div>
-          <div style={styles.mailboxCell}>
-            <Avatar
-              src='../../images/ginbox_icon_512.png'
-              size={80}
-              style={styles.mailboxAvatar}
-              onClick={() => mailboxWizardActions.authenticateGinboxMailbox()} />
-            <p>Add your Google Inbox account</p>
-            <Button
-              variant='contained'
-              label='Add Google Inbox'
-              primary
-              onClick={() => mailboxWizardActions.authenticateGinboxMailbox()} />
-          </div>
-        </div>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

@@ -1,9 +1,11 @@
 const PropTypes = require('prop-types');
 const React = require('react')
 const {
-  Paper, IconButton, Icon, Button, Popover, Menu, MenuItem, Checkbox, Switch,
-  Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn
+  Paper, IconButton, Button, Popover, Menu, MenuItem, FormControlLabel,
+  TableBody, TableRow, TableCell, TableHead, Tooltip
 } = require('@material-ui/core')
+const { ArrowUpward, ArrowDownward, Delete} = require('@material-ui/icons')
+const { Switch, Checkbox, Table } = require('../../../Components/Mui')
 const mailboxActions = require('../../../stores/mailbox/mailboxActions')
 const Mailbox = require('shared/Models/Mailbox/Mailbox')
 const Colors = require('@material-ui/core/colors')
@@ -111,58 +113,59 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
       const sleepableServicesSet = new Set(sleepableServices)
 
       return (
-        <Table selectable={false}>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <Table>
+          <TableHead>
             <TableRow>
-              <TableHeaderColumn style={serviceStyles.actionCell} />
-              <TableHeaderColumn style={serviceStyles.titleCell}>Service</TableHeaderColumn>
-              <TableHeaderColumn
+              <TableCell style={serviceStyles.actionCell} />
+              <TableCell style={serviceStyles.titleCell}>Service</TableCell>
+              <TableCell
                 style={serviceStyles.actionCell}
-                tooltipStyle={{ marginLeft: -100 }}
-                tooltip='Allows services to sleep to reduce memory consumption'>
-                Sleep when not in use
-              </TableHeaderColumn>
-              <TableHeaderColumn style={serviceStyles.actionCell} />
-              <TableHeaderColumn style={serviceStyles.actionCell} />
-              <TableHeaderColumn style={serviceStyles.actionCell} />
+                colSpan={4}
+              >
+                <Tooltip title='Allows services to sleep to reduce memory consumption'>
+                  <div>Sleep when not in use</div>
+                </Tooltip>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
+          </TableHead>
+          <TableBody>
             {services.map((service, index, arr) => {
               return (
                 <TableRow key={service}>
-                  <TableRowColumn style={serviceStyles.actionCell}>
+                  <TableCell style={serviceStyles.actionCell}>
                     <img
                       style={serviceStyles.avatar}
                       src={this.getServiceIconUrl(mailbox.type, service)} />
-                  </TableRowColumn>
-                  <TableRowColumn style={serviceStyles.titleCell}>
+                  </TableCell>
+                  <TableCell style={serviceStyles.titleCell}>
                     {this.getServiceName(mailbox.type, service)}
-                  </TableRowColumn>
-                  <TableRowColumn style={serviceStyles.actionCell}>
+                  </TableCell>
+                  <TableCell style={serviceStyles.actionCell}>
                     <Checkbox
-                      onCheck={(evt, checked) => mailboxActions.toggleServiceSleepable(mailbox.id, service, checked)}
+                      onChange={(evt, checked) => mailboxActions.toggleServiceSleepable(mailbox.id, service, checked)}
                       checked={sleepableServicesSet.has(service)} />
-                  </TableRowColumn>
-                  <TableRowColumn style={serviceStyles.actionCell}>
+                  </TableCell>
+                  <TableCell style={serviceStyles.actionCell}>
                     <IconButton
                       onClick={() => mailboxActions.moveServiceUp(mailbox.id, service)}
-                      disabled={index === 0}>
-                      <Icon className='material-icons'>arrow_upwards</Icon>
+                      disabled={index === 0}
+                    >
+                      <ArrowUpward />
                     </IconButton>
-                  </TableRowColumn>
-                  <TableRowColumn style={serviceStyles.actionCell}>
+                  </TableCell>
+                  <TableCell style={serviceStyles.actionCell}>
                     <IconButton
                       onClick={() => mailboxActions.moveServiceDown(mailbox.id, service)}
-                      disabled={index === arr.length - 1}>
-                      <Icon className='material-icons'>arrow_downwards</Icon>
+                      disabled={index === arr.length - 1}
+                    >
+                      <ArrowDownward />
                     </IconButton>
-                  </TableRowColumn>
-                  <TableRowColumn style={serviceStyles.actionCell}>
+                  </TableCell>
+                  <TableCell style={serviceStyles.actionCell}>
                     <IconButton onClick={() => mailboxActions.removeService(mailbox.id, service)}>
-                      <Icon className='material-icons'>delete</Icon>
+                      <Delete />
                     </IconButton>
-                  </TableRowColumn>
+                  </TableCell>
                 </TableRow>
               )
             })}
@@ -171,12 +174,12 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
       )
     } else {
       return (
-        <Table selectable={false}>
-          <TableBody displayRowCheckbox={false}>
+        <Table>
+          <TableBody>
             <TableRow>
-              <TableRowColumn style={serviceStyles.disabled}>
+              <TableCell style={serviceStyles.disabled}>
                 All Services Disabled
-              </TableRowColumn>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -196,28 +199,27 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
       return (
         <div style={{ textAlign: 'right' }}>
           <Button
-            label='Add Service'
-            onClick={(evt) => this.setState({ addPopoverOpen: true, addPopoverAnchor: evt.currentTarget })} />
-          <Popover
+            onClick={(evt) => this.setState({ addPopoverOpen: true, addPopoverAnchor: evt.currentTarget })}
+          >
+            Add Service
+          </Button>
+          <Menu
             open={addPopoverOpen}
             anchorEl={addPopoverAnchor}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={() => this.setState({ addPopoverOpen: false })}>
-            <Menu>
-              {disabledServices.map((service) => {
-                return (
-                  <MenuItem
-                    key={service}
-                    onClick={() => {
-                      this.setState({ addPopoverOpen: false })
-                      mailboxActions.addService(mailbox.id, service)
-                    }}>
-                    {this.getServiceName(mailbox.type, service)}
-                  </MenuItem>)
-              })}
-            </Menu>
-          </Popover>
+            onClose={() => this.setState({ addPopoverOpen: false })}
+          >
+            {disabledServices.map((service) => {
+              return (
+                <MenuItem
+                  key={service}
+                  onClick={() => {
+                    this.setState({ addPopoverOpen: false })
+                    mailboxActions.addService(mailbox.id, service)
+                  }}>
+                  {this.getServiceName(mailbox.type, service)}
+                </MenuItem>)
+            })}
+          </Menu>
         </div>
       )
     } else {
@@ -233,15 +235,18 @@ module.exports = class AccountServiceSettings extends React.PureComponent {
       .filter((s) => s !== Mailbox.SERVICES.DEFAULT && !enabledServicesSet.has(s))
 
     return (
-      <Paper zDepth={1} style={settingStyles.paper} {...passProps}>
+      <Paper style={settingStyles.paper} {...passProps}>
         <h1 style={settingStyles.subheading}>Services</h1>
         {this.renderServices(mailbox, mailbox.enabledServies, mailbox.sleepableServices)}
         {this.renderAddPopover(mailbox, disabledServices)}
-        <Switch
-          checked={mailbox.compactServicesUI}
+        <FormControlLabel
+          control={
+            <Switch
+              checked={mailbox.compactServicesUI}
+              onChange={(evt, toggled) => mailboxActions.setCompactServicesUI(mailbox.id, toggled)}/>
+          }
           label='Compact Services UI'
-          labelPosition='right'
-          onChange={(evt, toggled) => mailboxActions.setCompactServicesUI(mailbox.id, toggled)} />
+        />
       </Paper>
     )
   }

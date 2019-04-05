@@ -59,6 +59,13 @@ module.exports = {
     borderStyle: 'solid',
     cursor: 'pointer'
   },
+  mailboxAvatarBig: {
+    borderWidth: 4,
+    borderStyle: 'solid',
+    cursor: 'pointer',
+    width: 50,
+    height: 50
+  },
   mailboxBadge: {
     backgroundColor: Colors.red['800'],
     color: Colors.red['50'],
@@ -95,8 +102,8 @@ module.exports = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginLeft: 2,
-    marginRight: 2
+    margin: 2,
+    flexWrap: 'wrap'
   },
   mailboxServiceIconCompact: {
     cursor: 'pointer',

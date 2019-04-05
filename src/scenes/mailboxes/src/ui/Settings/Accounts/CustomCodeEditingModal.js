@@ -1,6 +1,6 @@
 const PropTypes = require('prop-types');
 const React = require('react')
-const { Button, Dialog, TextField } = require('@material-ui/core')
+const { Button, Dialog, TextField, DialogTitle, DialogActions, DialogContent } = require('@material-ui/core')
 const uuid = require('uuid')
 
 module.exports = class CustomCodeEditingModal extends React.PureComponent {
@@ -42,41 +42,51 @@ module.exports = class CustomCodeEditingModal extends React.PureComponent {
     const actions = [
       (<Button
         key='cancel'
-        label='Cancel'
         style={{ marginRight: 8 }}
-        onTouchTap={(evt) => this.props.onCancel(evt)} />),
+        onClick={(evt) => this.props.onCancel(evt)}
+      >
+        Cancel
+      </Button>),
       (<Button
         variant='contained'
         key='save'
-        label='Save'
-        primary
-        onTouchTap={(evt) => this.props.onSave(evt, this.refs.editor.getValue())} />)
+        color="primary"
+        onClick={(evt) => this.props.onSave(evt, this.refs.editor.getValue())}
+      >
+        Save
+      </Button>)
     ]
 
     return (
       <Dialog
-        modal
-        title={this.props.title}
-        actions={actions}
-        open={this.props.open}>
-        <TextField
-          key={this.state.editingKey}
-          ref='editor'
-          name='editor'
-          multiLine
-          defaultValue={this.props.code}
-          rows={10}
-          rowsMax={10}
-          textareaStyle={{
-            margin: 0,
-            fontFamily: 'monospace',
-            fontSize: '12px',
-            lineHeight: '14px',
-            border: '1px solid rgb(224, 224, 224)',
-            borderRadius: 3
-          }}
-          underlineShow={false}
-          fullWidth />
+        open={this.props.open}
+      >
+        <DialogTitle>
+          {this.props.title}
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            key={this.state.editingKey}
+            ref='editor'
+            name='editor'
+            multiLine
+            defaultValue={this.props.code}
+            rows={10}
+            rowsMax={10}
+            textareaStyle={{
+              margin: 0,
+              fontFamily: 'monospace',
+              fontSize: '12px',
+              lineHeight: '14px',
+              border: '1px solid rgb(224, 224, 224)',
+              borderRadius: 3
+            }}
+            underlineShow={false}
+            fullWidth />
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     )
   }

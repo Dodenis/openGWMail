@@ -114,7 +114,7 @@ module.exports = class SidelistItemMailbox extends React.PureComponent {
       badgeContent = (<Icon className='fa fa-exclamation' style={{ color: 'white', fontSize: 16 }} />)
     } else if (mailbox.showUnreadBadge && mailbox.unread) {
       badgeContent = mailbox.unread >= 1000 ? Math.floor(mailbox.unread / 1000) + 'K+' : mailbox.unread
-    } 
+    }
 
     return (
       <BadgeAvatar

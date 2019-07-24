@@ -3,7 +3,7 @@
   "productName": "openGWMail",
   "humanName": "openGWMail",
   "description": "The missing desktop client for Gmail and Google Inbox",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "prerelease": false,
   "scripts": {
     "rebuild:electron": "node tools/rebuildElectron.js",

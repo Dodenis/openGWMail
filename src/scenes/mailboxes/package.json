@@ -13,7 +13,7 @@
     "bootstrap-grid": "2.0.1",
     "camelcase": "4.0.0",
     "compare-version": "0.1.2",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.3",
     "minivents": "^2.2.0",
     "qs": "^6.7.0",
     "querystring": "^0.2.0",

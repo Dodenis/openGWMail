@@ -13,7 +13,7 @@
     "escape-html": "1.0.3",
     "fs-extra": "7.0.1",
     "gmail-js": "0.7.7",
-    "googleapis": "38.0.0",
+    "googleapis": "39.1.0",
     "home-dir": "1.0.0",
     "https-proxy-agent": "2.2.1",
     "jquery": "3.1.1",
